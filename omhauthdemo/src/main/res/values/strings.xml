@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">OMH Auth demo</string>
+    <string name="login">Login</string>
+</resources>
