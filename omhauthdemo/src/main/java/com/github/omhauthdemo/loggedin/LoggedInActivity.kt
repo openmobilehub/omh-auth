@@ -3,20 +3,18 @@ package com.github.omhauthdemo.loggedin
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.github.omhauthdemo.databinding.ActivityLoggedInBinding
 import com.github.omhauthdemo.login.LoginActivity
+import com.github.openmobilehub.auth.OmhAuthClient
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class LoggedInActivity : AppCompatActivity() {
 
-    private val loginLauncher: ActivityResultLauncher<Intent> =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == RESULT_OK) {
-                navigateToLogin()
-            }
-        }
+    @Inject
+    lateinit var omhAuthClient: OmhAuthClient
 
     private val binding: ActivityLoggedInBinding by lazy {
         ActivityLoggedInBinding.inflate(LayoutInflater.from(this))
@@ -28,8 +26,6 @@ class LoggedInActivity : AppCompatActivity() {
 
         binding.btnLogout.setOnClickListener {
             navigateToLogin()
-            // TODO replace with
-            // loginLauncher.launch(OmhAuthClient.getLoginIntent())
         }
     }
 

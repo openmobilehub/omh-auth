@@ -9,12 +9,18 @@ object Libs {
     // KTX
     val coreKtx by lazy { "androidx.core:core-ktx:${Versions.coreKtx}" }
     val lifecycleKtx by lazy { "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycleKtx}" }
+    val viewModelKtx by lazy { "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycleKtx}" }
+    val activityKtx by lazy { "androidx.activity:activity-ktx:${Versions.activityKtx}" }
 
-    //Retrofit
+    // Retrofit
     val retrofit by lazy { "com.squareup.retrofit2:retrofit:${Versions.retrofit}" }
     val retrofitJacksonConverter by lazy { "com.squareup.retrofit2:converter-jackson:${Versions.retrofit}" }
     val okHttp by lazy { "com.squareup.okhttp3:okhttp:${Versions.okhttp}" }
     val okHttpLoggingInterceptor by lazy { "com.squareup.okhttp3:logging-interceptor:${Versions.okhttp}" }
+
+    // Coroutines
+    val coroutinesCore by lazy { "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}" }
+    val coroutinesAndroid by lazy { "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}" }
 
     // Custom Tabs
     val customTabs by lazy { "androidx.browser:browser:${Versions.customTabs}" }
