@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.github.omhauthdemo.BuildConfig
 import com.github.omhauthdemo.databinding.ActivityLoginBinding
 import com.github.omhauthdemo.loggedin.LoggedInActivity
 import com.github.openmobilehub.auth.OmhAuthClient

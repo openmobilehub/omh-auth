@@ -14,10 +14,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <!--        Update with manifest placeholders        -->
                 <data
                     android:path="/oauth2redirect"
-                    android:scheme="com.github.omhauthdemo" />
+                    android:scheme="${applicationId}" />
             </intent-filter>
         </activity>
     </application>

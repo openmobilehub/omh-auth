@@ -29,8 +29,6 @@ android {
     kapt {
         correctErrorTypes = true
     }
-
-    // TODO add manifest placeholder for URI redirects
 }
 
 dependencies {

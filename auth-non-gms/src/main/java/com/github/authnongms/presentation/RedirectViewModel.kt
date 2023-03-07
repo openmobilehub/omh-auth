@@ -19,14 +19,15 @@ internal class RedirectViewModel(
     private val _tokenResponseEvent = MutableLiveData<EventWrapper<Boolean>>()
     val tokenResponseEvent: LiveData<EventWrapper<Boolean>> = _tokenResponseEvent
 
-    fun getLoginUrl(scopes: String): Uri {
-        return loginUseCase.getLoginUrl(scopes)
+    fun getLoginUrl(scopes: String, packageName: String): Uri {
+        return loginUseCase.getLoginUrl(scopes, packageName)
     }
 
     fun requestTokens(
         authCode: String,
+        packageName: String,
     ) = viewModelScope.launch(Dispatchers.IO) {
-        val response = loginUseCase.requestTokens(authCode)
+        val response = loginUseCase.requestTokens(authCode, packageName)
         if (response.isSuccessful && response.body() != null) {
             val clientId = checkNotNull(loginUseCase.clientId)
             profileUseCase.resolveIdToken(response.body()!!.idToken, clientId)

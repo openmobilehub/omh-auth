@@ -53,11 +53,11 @@ internal class RedirectActivity : AppCompatActivity() {
 
     private fun openCustomTabLogin() {
         val scopes = intent.getStringExtra(SCOPES)
-        if (scopes.isNullOrEmpty()) {
+        if (scopes.isNullOrEmpty() || packageName.isNullOrEmpty()) {
             returnResult(Activity.RESULT_CANCELED)
             return
         }
-        val uri = viewModel.getLoginUrl(scopes)
+        val uri = viewModel.getLoginUrl(scopes, packageName)
 
         val builder: CustomTabsIntent.Builder = CustomTabsIntent.Builder()
         val customTabsIntent: CustomTabsIntent = builder.build()
@@ -74,8 +74,7 @@ internal class RedirectActivity : AppCompatActivity() {
             returnResult(RESULT_CANCELED)
             return
         }
-
-        viewModel.requestTokens(authCode)
+        viewModel.requestTokens(authCode, packageName)
     }
 
     private fun returnResult(result: Int) {
