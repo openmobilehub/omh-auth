@@ -32,8 +32,11 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
         binding.btnLogin.setOnClickListener { startLogin() }
+
+        if (omhAuthClient.getUser(this) != null) {
+            navigateToLoggedIn()
+        }
     }
 
     private fun startLogin() {

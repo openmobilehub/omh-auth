@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
+import com.github.omhauthdemo.R
 import com.github.omhauthdemo.databinding.ActivityLoggedInBinding
 import com.github.omhauthdemo.login.LoginActivity
 import com.github.openmobilehub.auth.OmhAuthClient
@@ -27,6 +28,11 @@ class LoggedInActivity : AppCompatActivity() {
         binding.btnLogout.setOnClickListener {
             navigateToLogin()
         }
+
+        val profile = requireNotNull(omhAuthClient.getUser(this))
+        binding.tvEmail.text = getString(R.string.email_placeholder, profile.email)
+        binding.tvName.text = getString(R.string.name_placeholder, profile.name)
+        binding.tvSurname.text = getString(R.string.surname_placeholder, profile.surname)
     }
 
     private fun navigateToLogin() {

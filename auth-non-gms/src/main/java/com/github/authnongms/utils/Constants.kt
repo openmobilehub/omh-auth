@@ -10,11 +10,9 @@ object Constants {
     internal const val SHA256 = "S256"
 
     internal const val SHARED_PREFS_TOKEN = "token_storage"
-    internal const val REFRESH_TOKEN_KEY = "refresh_token"
-    internal const val ACCESS_TOKEN_KEY = "access_token"
     internal const val EMAIL_KEY = "email"
     internal const val NAME_KEY = "given_name"
     internal const val SURNAME_KEY = "family_name"
     internal const val PICTURE_KEY = "picture"
-    internal const val CODE_VERIFIER = "code verifier"
+    internal const val ID_KEY = "id"
 }

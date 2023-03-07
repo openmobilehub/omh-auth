@@ -11,4 +11,6 @@ interface OmhAuthClient {
     }
 
     fun getLoginIntent(context: Context): Intent
+
+    fun getUser(context: Context): OmhUserProfile?
 }
