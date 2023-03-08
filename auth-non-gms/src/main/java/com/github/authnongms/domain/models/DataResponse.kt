@@ -1,4 +1,4 @@
-package com.github.authnongms.domain
+package com.github.authnongms.domain.models
 
 class DataResponse<T>(
     val response: T? = null,

@@ -4,7 +4,7 @@ import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.github.authnongms.domain.user.UserRepository
 import com.github.authnongms.utils.Constants
-import com.github.openmobilehub.auth.OmhUserProfile
+import com.github.openmobilehub.auth.models.OmhUserProfile
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier
 import com.google.api.client.http.javanet.NetHttpTransport

@@ -2,7 +2,7 @@ package com.github.authnongms
 
 import com.github.authnongms.domain.user.ProfileUseCase
 import com.github.authnongms.domain.user.UserRepository
-import com.github.openmobilehub.auth.OmhUserProfile
+import com.github.openmobilehub.auth.models.OmhUserProfile
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals

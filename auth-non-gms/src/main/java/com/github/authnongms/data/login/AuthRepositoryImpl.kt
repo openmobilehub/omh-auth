@@ -1,11 +1,9 @@
 package com.github.authnongms.data.login
 
 import androidx.core.net.toUri
-import com.github.authnongms.domain.DataResponse
+import com.github.authnongms.domain.models.DataResponse
 import com.github.authnongms.domain.auth.AuthRepository
-import com.github.authnongms.domain.auth.LoginUseCase
 import com.github.authnongms.utils.Constants
-import retrofit2.Response
 
 class AuthRepositoryImpl(private val authService: GoogleAuthREST) : AuthRepository {
 

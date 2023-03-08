@@ -1,4 +1,4 @@
-package com.github.authnongms
+package com.github.authnongms.presentation
 
 import com.github.openmobilehub.auth.OmhAuthClient
 
