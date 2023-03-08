@@ -1,43 +1,53 @@
 package com.github.authnongms.domain.auth
 
-import android.net.Uri
-import androidx.core.net.toUri
+import android.util.Base64
 import com.github.authnongms.data.login.AuthTokenResponse
-import com.github.authnongms.utils.Constants
-import com.github.authnongms.utils.generateCodeChallenge
-import com.github.authnongms.utils.generateCodeVerifier
-import retrofit2.Response
+import com.github.authnongms.domain.DataResponse
+import java.security.MessageDigest
+import java.security.SecureRandom
 
 internal class LoginUseCase(private val authRepository: AuthRepository) {
 
     companion object {
         const val REDIRECT_FORMAT = "%s:/oauth2redirect"
-        private const val authUri = "https://accounts.google.com/o/oauth2/auth"
+        private const val SIXTYFOUR_BIT_SIZE = 64
     }
 
-    private var codeVerifier = generateCodeVerifier()
+    private val codeVerifier by lazy { generateCodeVerifier() }
     var clientId: String? = null
 
-    fun getLoginUrl(scopes: String, packageName: String): Uri {
-        return authUri.toUri().buildUpon()
-            .appendQueryParameter(Constants.PARAM_SCOPE, scopes)
-            .appendQueryParameter(Constants.PARAM_RESPONSE_TYPE, "code")
-            .appendQueryParameter(Constants.PARAM_REDIRECT_URI, REDIRECT_FORMAT.format(packageName))
-            .appendQueryParameter(Constants.PARAM_CLIENT_ID, clientId)
-            .appendQueryParameter(Constants.PARAM_CHALLENGE_METHOD, Constants.SHA256)
-            .appendQueryParameter(
-                Constants.PARAM_CODE_CHALLENGE,
-                generateCodeChallenge(codeVerifier)
-            )
-            .build()
+    fun getLoginUrl(scopes: String, packageName: String): String {
+        return authRepository.buildLoginUrl(
+            scopes,
+            checkNotNull(clientId),
+            generateCodeChallenge(codeVerifier),
+            redirectUri = REDIRECT_FORMAT.format(packageName)
+        )
     }
 
-    suspend fun requestTokens(authCode: String, packageName: String): Response<AuthTokenResponse> {
+    suspend fun requestTokens(authCode: String, packageName: String): DataResponse<AuthTokenResponse> {
         return authRepository.requestTokens(
             clientId = checkNotNull(clientId),
             authCode = authCode,
             redirectUri = REDIRECT_FORMAT.format(packageName),
             codeVerifier = codeVerifier
         )
+    }
+
+    private fun getEncoding() = Base64.URL_SAFE or Base64.NO_PADDING or Base64.NO_WRAP
+
+    private fun generateCodeVerifier(): String {
+        val secureRandom = SecureRandom()
+        val bytes = ByteArray(SIXTYFOUR_BIT_SIZE)
+        secureRandom.nextBytes(bytes)
+        return Base64.encodeToString(bytes, getEncoding())
+    }
+
+    private fun generateCodeChallenge(codeVerifier: String): String {
+        val bytes = codeVerifier.toByteArray()
+        val messageDigest = MessageDigest.getInstance("SHA-256")
+        messageDigest.update(bytes)
+        val digest = messageDigest.digest()
+        return Base64.encodeToString(digest, getEncoding())
     }
 }

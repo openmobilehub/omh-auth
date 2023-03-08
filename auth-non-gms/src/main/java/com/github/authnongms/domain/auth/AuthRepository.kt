@@ -1,6 +1,7 @@
 package com.github.authnongms.domain.auth
 
 import com.github.authnongms.data.login.AuthTokenResponse
+import com.github.authnongms.domain.DataResponse
 import retrofit2.Response
 
 internal interface AuthRepository {
@@ -10,5 +11,12 @@ internal interface AuthRepository {
         authCode: String,
         redirectUri: String,
         codeVerifier: String
-    ): Response<AuthTokenResponse>
+    ): DataResponse<AuthTokenResponse>
+
+    fun buildLoginUrl(
+        scopes: String,
+        clientId: String,
+        codeChallenge: String,
+        redirectUri: String
+    ): String
 }

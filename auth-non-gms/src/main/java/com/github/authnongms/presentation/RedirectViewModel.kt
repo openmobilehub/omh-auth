@@ -1,6 +1,7 @@
 package com.github.authnongms.presentation
 
 import android.net.Uri
+import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,7 +21,7 @@ internal class RedirectViewModel(
     val tokenResponseEvent: LiveData<EventWrapper<Boolean>> = _tokenResponseEvent
 
     fun getLoginUrl(scopes: String, packageName: String): Uri {
-        return loginUseCase.getLoginUrl(scopes, packageName)
+        return loginUseCase.getLoginUrl(scopes, packageName).toUri()
     }
 
     fun requestTokens(
@@ -28,9 +29,9 @@ internal class RedirectViewModel(
         packageName: String,
     ) = viewModelScope.launch(Dispatchers.IO) {
         val response = loginUseCase.requestTokens(authCode, packageName)
-        if (response.isSuccessful && response.body() != null) {
+        if (response.isSuccessful) {
             val clientId = checkNotNull(loginUseCase.clientId)
-            profileUseCase.resolveIdToken(response.body()!!.idToken, clientId)
+            profileUseCase.resolveIdToken(response.response!!.idToken, clientId)
         }
         _tokenResponseEvent.postValue(EventWrapper(response.isSuccessful))
     }

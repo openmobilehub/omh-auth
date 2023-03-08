@@ -41,7 +41,7 @@ internal class RedirectActivity : AppCompatActivity() {
         viewModel.tokenResponseEvent.observe(this, this::observeTokenResponse)
     }
 
-    private fun observeTokenResponse(eventWrapper: EventWrapper<Boolean>) {
+    private fun observeTokenResponse(eventWrapper: EventWrapper<Boolean>?) {
         if (eventWrapper.nullOrHandled()) return
         val result = if (eventWrapper.getContentIfHandled() == true) {
             Activity.RESULT_OK
