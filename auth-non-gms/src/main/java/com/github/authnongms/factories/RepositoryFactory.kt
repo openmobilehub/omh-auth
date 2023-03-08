@@ -7,7 +7,7 @@ import com.github.authnongms.data.login.AuthRepositoryImpl
 import com.github.authnongms.data.user.UserRepositoryImpl
 import com.github.authnongms.domain.auth.AuthRepository
 import com.github.authnongms.domain.user.UserRepository
-import com.github.authnongms.utils.getEncryptedSharedPrefs
+import com.github.authnongms.data.utils.getEncryptedSharedPrefs
 
 /**
  * Singleton factory for repositories

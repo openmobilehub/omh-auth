@@ -1,9 +1,10 @@
-package com.github.authnongms.utils
+package com.github.authnongms.data.utils
 
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
+import com.github.authnongms.utils.Constants
 
 internal fun getEncryptedSharedPrefs(context: Context): SharedPreferences {
     val masterKey = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)

@@ -4,6 +4,9 @@ import android.content.Context
 import com.github.authnongms.domain.auth.LoginUseCase
 import com.github.authnongms.domain.user.ProfileUseCase
 
+/**
+ * Factory for the use cases. Creates a new one every time you call the function.
+ */
 internal object UseCaseFactory {
 
     fun createLoginUseCase(): LoginUseCase {

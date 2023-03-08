@@ -6,6 +6,10 @@ import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.AP
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.github.authnongms.presentation.redirect.RedirectViewModel
 
+/**
+ * View model factory for the RedirectViewModel. It's required to pass the application context down
+ * to the factories.
+ */
 @Suppress("UNCHECKED_CAST")
 class ViewModelFactory : ViewModelProvider.Factory {
 

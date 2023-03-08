@@ -14,6 +14,15 @@ import java.util.*
 internal class UserRepositoryImpl(private val sharedPreferences: SharedPreferences) :
     UserRepository {
 
+    /**
+     * Handles the ID token returned from the Google Auth Provider. This uses the googleapis lib
+     * to verify the token and validate it. The operation can't run on the main thread.
+     *
+     * Once it passes the checks, the data is stored in the Encrypted Shared Preferences.
+     *
+     * @param idToken -> token to validate and handle.
+     * @param clientId -> clientId from google console of the Android Application type.
+     */
     override suspend fun handleIdToken(idToken: String, clientId: String) {
         val verifier = GoogleIdTokenVerifier.Builder(
             NetHttpTransport.Builder().build(),
@@ -43,6 +52,10 @@ internal class UserRepositoryImpl(private val sharedPreferences: SharedPreferenc
         }
     }
 
+    /**
+     * Checks if there's any relevant data stored for the user. If any of the required values are
+     * null, then it's assumed that no user is stored and a null object is returned.
+     */
     override fun getProfileData(): OmhUserProfile? {
         val name = sharedPreferences.getString(Constants.NAME_KEY, null)
         val email = sharedPreferences.getString(Constants.EMAIL_KEY, null)
