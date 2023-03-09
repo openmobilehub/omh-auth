@@ -9,11 +9,13 @@ import com.github.authnongms.domain.user.ProfileUseCase
  */
 internal object UseCaseFactory {
 
-    fun createLoginUseCase(): LoginUseCase {
-        return LoginUseCase(RepositoryFactory.authRepository)
+    fun createLoginUseCase(applicationContext: Context): LoginUseCase {
+        val authRepository = RepositoryFactory.getAuthRepository(applicationContext)
+        return LoginUseCase(authRepository)
     }
 
     fun createUserProfileUseCase(applicationContext: Context): ProfileUseCase {
-        return ProfileUseCase(RepositoryFactory.getUserRepository(applicationContext))
+        val userRepository = RepositoryFactory.getUserRepository(applicationContext)
+        return ProfileUseCase(userRepository)
     }
 }

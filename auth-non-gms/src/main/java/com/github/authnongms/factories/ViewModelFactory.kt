@@ -16,7 +16,7 @@ class ViewModelFactory : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
         // Get the Application object from extras
         val application = checkNotNull(extras[APPLICATION_KEY])
-        val loginUseCase = UseCaseFactory.createLoginUseCase()
+        val loginUseCase = UseCaseFactory.createLoginUseCase(application)
         val profileUseCase = UseCaseFactory.createUserProfileUseCase(application)
         return RedirectViewModel(loginUseCase, profileUseCase) as T
     }
