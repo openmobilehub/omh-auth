@@ -8,6 +8,8 @@ import com.github.authnongms.data.login.AuthRepositoryImpl
 import com.github.authnongms.data.login.datasource.GoogleAuthDataSource
 import com.github.authnongms.data.login.GoogleAuthREST
 import com.github.authnongms.data.user.UserRepositoryImpl
+import com.github.authnongms.data.user.datasource.GoogleUserDataSource
+import com.github.authnongms.data.user.datasource.UserDataSource
 import com.github.authnongms.domain.auth.AuthRepository
 import com.github.authnongms.domain.user.UserRepository
 import com.github.authnongms.data.utils.getEncryptedSharedPrefs
@@ -37,7 +39,8 @@ internal object RepositoryFactory {
     fun getUserRepository(context: Context): UserRepository {
         if (userRepository == null) {
             val sharedPreferences: SharedPreferences = getEncryptedSharedPrefs(context)
-            userRepository = UserRepositoryImpl(sharedPreferences)
+            val googleUserDataSource: UserDataSource = GoogleUserDataSource(sharedPreferences)
+            userRepository = UserRepositoryImpl(googleUserDataSource)
         }
         return userRepository!!
     }
