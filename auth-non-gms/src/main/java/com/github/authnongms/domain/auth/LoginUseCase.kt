@@ -1,7 +1,7 @@
 package com.github.authnongms.domain.auth
 
 import android.util.Base64
-import com.github.authnongms.data.login.AuthTokenResponse
+import com.github.authnongms.data.login.models.AuthTokenResponse
 import com.github.authnongms.domain.models.DataResponse
 import java.security.MessageDigest
 import java.security.SecureRandom

@@ -1,7 +1,7 @@
 package com.github.authnongms
 
 import android.util.Base64
-import com.github.authnongms.data.login.AuthTokenResponse
+import com.github.authnongms.data.login.models.AuthTokenResponse
 import com.github.authnongms.domain.models.DataResponse
 import com.github.authnongms.domain.auth.AuthRepository
 import com.github.authnongms.domain.auth.LoginUseCase

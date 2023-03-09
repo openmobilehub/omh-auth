@@ -1,5 +1,6 @@
 package com.github.authnongms.data.login
 
+import com.github.authnongms.data.login.models.AuthTokenResponse
 import retrofit2.Response
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded

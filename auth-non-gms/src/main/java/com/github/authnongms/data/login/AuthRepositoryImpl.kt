@@ -1,9 +1,9 @@
 package com.github.authnongms.data.login
 
 import com.github.authnongms.data.login.datasource.AuthDataSource
+import com.github.authnongms.data.login.models.AuthTokenResponse
 import com.github.authnongms.domain.auth.AuthRepository
 import com.github.authnongms.domain.models.DataResponse
-import com.github.authnongms.utils.Constants
 
 class AuthRepositoryImpl(private val googleAuthDataSource: AuthDataSource) : AuthRepository {
 

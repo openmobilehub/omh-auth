@@ -4,7 +4,7 @@ import android.content.SharedPreferences
 import android.net.Uri
 import androidx.core.content.edit
 import androidx.core.net.toUri
-import com.github.authnongms.data.login.AuthTokenResponse
+import com.github.authnongms.data.login.models.AuthTokenResponse
 import com.github.authnongms.data.login.GoogleAuthREST
 import com.github.authnongms.utils.Constants
 import retrofit2.Response

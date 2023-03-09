@@ -9,7 +9,8 @@ object Constants {
     internal const val PARAM_CHALLENGE_METHOD = "code_challenge_method"
     internal const val SHA256 = "S256"
 
-    internal const val SHARED_PREFS_TOKEN = "token_storage"
+    internal const val SHARED_PREFS_TOKEN_FORMAT = "token_storage_%s"
+    internal const val PROVIDER_GOOGLE = "google"
     internal const val EMAIL_KEY = "email"
     internal const val NAME_KEY = "given_name"
     internal const val SURNAME_KEY = "family_name"

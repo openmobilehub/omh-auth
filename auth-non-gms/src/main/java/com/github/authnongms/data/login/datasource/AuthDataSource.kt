@@ -1,7 +1,7 @@
 package com.github.authnongms.data.login.datasource
 
 import android.net.Uri
-import com.github.authnongms.data.login.AuthTokenResponse
+import com.github.authnongms.data.login.models.AuthTokenResponse
 import retrofit2.Response
 
 interface AuthDataSource {
