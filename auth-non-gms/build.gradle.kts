@@ -44,7 +44,6 @@ dependencies {
     // Test dependencies
     testImplementation(Libs.junit)
     androidTestImplementation(Libs.androidJunit)
-    testImplementation(Libs.mockitoKotlin)
+    testImplementation(Libs.mockk)
     testImplementation(Libs.coroutineTesting)
-    testImplementation("org.mockito:mockito-inline:4.0.0")
 }

@@ -30,6 +30,5 @@ object Versions {
     const val junit = "4.13.2"
     const val androidJunit = "1.1.5"
     const val espresso = "3.5.1"
-    const val mockitoCore = "5.1.1"
-    const val mockitoKotlin = "4.1.0"
+    const val mockk = "1.13.4"
 }
