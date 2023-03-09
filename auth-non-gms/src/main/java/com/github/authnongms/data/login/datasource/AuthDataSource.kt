@@ -2,6 +2,7 @@ package com.github.authnongms.data.login.datasource
 
 import android.net.Uri
 import com.github.authnongms.data.login.models.AuthTokenResponse
+import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
 interface AuthDataSource {
@@ -11,7 +12,7 @@ interface AuthDataSource {
         authCode: String,
         redirectUri: String,
         codeVerifier: String
-    ) : Response<AuthTokenResponse>
+    ) : Flow<AuthTokenResponse>
 
     fun buildLoginUrl(
         scopes: String,

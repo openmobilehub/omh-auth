@@ -4,6 +4,9 @@ import com.github.authnongms.data.login.datasource.AuthDataSource
 import com.github.authnongms.data.login.models.AuthTokenResponse
 import com.github.authnongms.domain.auth.AuthRepository
 import com.github.authnongms.domain.models.DataResponse
+import com.github.authnongms.domain.models.OAuthTokens
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class AuthRepositoryImpl(private val googleAuthDataSource: AuthDataSource) : AuthRepository {
 
@@ -17,23 +20,27 @@ class AuthRepositoryImpl(private val googleAuthDataSource: AuthDataSource) : Aut
         authCode: String,
         redirectUri: String,
         codeVerifier: String
-    ): DataResponse<AuthTokenResponse> {
-        val response = googleAuthDataSource.getToken(clientId, authCode, redirectUri, codeVerifier)
-        // Todo improve error handling
-        if (response.isSuccessful) {
+    ): Flow<OAuthTokens> {
+        return googleAuthDataSource.getToken(
+            clientId = clientId,
+            authCode = authCode,
+            redirectUri = redirectUri,
+            codeVerifier = codeVerifier
+        ).map { response ->
             googleAuthDataSource.storeToken(
                 tokenType = ACCESS_TOKEN,
-                token = checkNotNull(response.body()?.accessToken)
+                token = checkNotNull(response.accessToken)
             )
             googleAuthDataSource.storeToken(
                 tokenType = REFRESH_TOKEN,
-                token = checkNotNull(response.body()?.refreshToken)
+                token = checkNotNull(response.refreshToken)
+            )
+            OAuthTokens(
+                response.accessToken,
+                checkNotNull(response.refreshToken),
+                response.idToken
             )
         }
-        return DataResponse(
-            response = response.body(),
-            errorDetail = response.errorBody()?.string()
-        )
     }
 
     override fun buildLoginUrl(

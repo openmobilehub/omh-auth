@@ -5,12 +5,16 @@ import com.github.authnongms.data.login.models.AuthTokenResponse
 import com.github.authnongms.domain.auth.AuthRepository
 import com.github.authnongms.domain.auth.LoginUseCase
 import com.github.authnongms.domain.models.DataResponse
+import com.github.authnongms.domain.models.OAuthTokens
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.BeforeClass
 import org.junit.Test
@@ -60,8 +64,7 @@ internal class LoginUseCaseTest {
     fun `when given auth code and package name an AuthTokenResponse is returned`() = runTest {
         val authCode = "auth code"
         val packageName = "com.package.name"
-        val mockedResponse: AuthTokenResponse = mockk()
-        val expectedResult = DataResponse(mockedResponse)
+        val mockedResponse: OAuthTokens = mockk()
 
         coEvery {
             authRepository.requestTokens(
@@ -70,10 +73,10 @@ internal class LoginUseCaseTest {
                 redirectUri = any(),
                 codeVerifier = any(),
             )
-        } returns expectedResult
+        } returns flow { emit(mockedResponse) }
 
-        loginUseCase.requestTokens(authCode, packageName)
+        val result = loginUseCase.requestTokens(authCode, packageName).first()
 
-        assertTrue(expectedResult.isSuccessful)
+        assertEquals(mockedResponse, result)
     }
 }

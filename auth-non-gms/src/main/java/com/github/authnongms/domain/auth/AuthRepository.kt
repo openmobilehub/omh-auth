@@ -1,7 +1,7 @@
 package com.github.authnongms.domain.auth
 
-import com.github.authnongms.data.login.models.AuthTokenResponse
-import com.github.authnongms.domain.models.DataResponse
+import com.github.authnongms.domain.models.OAuthTokens
+import kotlinx.coroutines.flow.Flow
 
 internal interface AuthRepository {
 
@@ -10,7 +10,7 @@ internal interface AuthRepository {
         authCode: String,
         redirectUri: String,
         codeVerifier: String
-    ): DataResponse<AuthTokenResponse>
+    ): Flow<OAuthTokens>
 
     fun buildLoginUrl(
         scopes: String,

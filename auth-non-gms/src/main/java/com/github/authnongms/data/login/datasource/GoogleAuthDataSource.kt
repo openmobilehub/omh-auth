@@ -7,6 +7,8 @@ import androidx.core.net.toUri
 import com.github.authnongms.data.login.models.AuthTokenResponse
 import com.github.authnongms.data.login.GoogleAuthREST
 import com.github.authnongms.utils.Constants
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import retrofit2.Response
 
 class GoogleAuthDataSource(
@@ -32,9 +34,14 @@ class GoogleAuthDataSource(
         authCode: String,
         redirectUri: String,
         codeVerifier: String
-    ): Response<AuthTokenResponse> {
-        // Todo improve error handling
-        return authService.getToken(clientId, authCode, redirectUri, codeVerifier)
+    ): Flow<AuthTokenResponse> = flow {
+        val authTokenResponse: AuthTokenResponse = authService.getToken(
+            clientId = clientId,
+            code = authCode,
+            redirectUri = redirectUri,
+            codeVerifier = codeVerifier
+        )
+        emit(authTokenResponse)
     }
 
     /**

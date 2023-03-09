@@ -3,8 +3,11 @@ package com.github.authnongms.domain.auth
 import android.util.Base64
 import com.github.authnongms.data.login.models.AuthTokenResponse
 import com.github.authnongms.domain.models.DataResponse
+import com.github.authnongms.domain.models.OAuthTokens
 import java.security.MessageDigest
 import java.security.SecureRandom
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 
 internal class LoginUseCase(private val authRepository: AuthRepository) {
 
@@ -25,7 +28,7 @@ internal class LoginUseCase(private val authRepository: AuthRepository) {
         )
     }
 
-    suspend fun requestTokens(authCode: String, packageName: String): DataResponse<AuthTokenResponse> {
+    suspend fun requestTokens(authCode: String, packageName: String): Flow<OAuthTokens> {
         return authRepository.requestTokens(
             clientId = checkNotNull(clientId),
             authCode = authCode,

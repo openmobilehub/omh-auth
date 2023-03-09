@@ -1,6 +1,7 @@
 package com.github.authnongms.presentation.redirect
 
 import android.net.Uri
+import android.util.Log
 import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,6 +11,8 @@ import com.github.authnongms.domain.auth.LoginUseCase
 import com.github.authnongms.domain.user.ProfileUseCase
 import com.github.authnongms.utils.EventWrapper
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 internal class RedirectViewModel(
@@ -28,12 +31,17 @@ internal class RedirectViewModel(
         authCode: String,
         packageName: String,
     ) = viewModelScope.launch(Dispatchers.IO) {
-        val response = loginUseCase.requestTokens(authCode, packageName)
-        if (response.isSuccessful) {
-            val clientId = checkNotNull(loginUseCase.clientId)
-            profileUseCase.resolveIdToken(response.response!!.idToken, clientId)
-        }
-        _tokenResponseEvent.postValue(EventWrapper(response.isSuccessful))
+        loginUseCase.requestTokens(authCode, packageName)
+            .catch { exception ->
+                // Handle exceptions
+                Log.e(RedirectViewModel::class.java.name, "$exception", )
+                _tokenResponseEvent.postValue(EventWrapper(false))
+            }
+            .collect { tokens ->
+                val clientId = checkNotNull(loginUseCase.clientId)
+                profileUseCase.resolveIdToken(tokens.idToken, clientId)
+                _tokenResponseEvent.postValue(EventWrapper(true))
+            }
     }
 
     fun setClientId(clientId: String) {
