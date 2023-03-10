@@ -4,31 +4,17 @@ import android.content.SharedPreferences
 import android.net.Uri
 import androidx.core.content.edit
 import androidx.core.net.toUri
-import com.github.authnongms.data.login.models.AuthTokenResponse
 import com.github.authnongms.data.login.GoogleAuthREST
+import com.github.authnongms.data.login.models.AuthTokenResponse
 import com.github.authnongms.utils.Constants
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import retrofit2.Response
 
 class GoogleAuthDataSource(
     private val authService: GoogleAuthREST,
     private val sharedPreferences: SharedPreferences
 ) : AuthDataSource {
 
-    companion object {
-        private const val AUTH_URI = "https://accounts.google.com/o/oauth2/auth"
-        private const val CODE_VALUE = "code"
-    }
-
-    /**
-     * Requests the token from the Google REST services. This can return HTTP errors.
-     *
-     * @param authCode -> the auth code returned from the custom tab login screen.
-     * @param clientId -> clientId from google console of the Android Application type.
-     * @param redirectUri -> the same redirectUri used for the custom tabs
-     * @param codeVerifier -> PKCE implementation against man in the middle attacks.
-     */
     override suspend fun getToken(
         clientId: String,
         authCode: String,
@@ -74,5 +60,10 @@ class GoogleAuthDataSource(
         sharedPreferences.edit {
             putString(tokenType, token)
         }
+    }
+
+    companion object {
+        private const val AUTH_URI = "https://accounts.google.com/o/oauth2/auth"
+        private const val CODE_VALUE = "code"
     }
 }

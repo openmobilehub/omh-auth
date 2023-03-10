@@ -1,5 +1,7 @@
 package com.github.authnongms.domain.user
 
+import android.content.Context
+import com.github.authnongms.data.user.UserRepositoryImpl
 import com.github.openmobilehub.auth.models.OmhUserProfile
 
 class ProfileUseCase(private val userRepository: UserRepository) {
@@ -11,5 +13,13 @@ class ProfileUseCase(private val userRepository: UserRepository) {
 
     fun getProfileData(): OmhUserProfile? {
         return userRepository.getProfileData()
+    }
+
+    companion object {
+
+        fun createUserProfileUseCase(applicationContext: Context): ProfileUseCase {
+            val userRepository = UserRepositoryImpl.getUserRepository(applicationContext)
+            return ProfileUseCase(userRepository)
+        }
     }
 }

@@ -1,5 +1,8 @@
 package com.github.authnongms.utils
 
+import android.media.MediaCodec.CryptoInfo
+import java.security.CryptoPrimitive
+
 object Constants {
     internal const val PARAM_REDIRECT_URI = "redirect_uri"
     internal const val PARAM_CLIENT_ID = "client_id"

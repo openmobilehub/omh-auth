@@ -1,29 +1,24 @@
 package com.github.authnongms.domain.auth
 
-import android.util.Base64
-import com.github.authnongms.data.login.models.AuthTokenResponse
-import com.github.authnongms.domain.models.DataResponse
+import android.content.Context
+import com.github.authnongms.data.login.AuthRepositoryImpl
 import com.github.authnongms.domain.models.OAuthTokens
-import java.security.MessageDigest
-import java.security.SecureRandom
+import com.github.authnongms.domain.utils.Pkce
+import com.github.authnongms.domain.utils.PkceImpl
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
 
-internal class LoginUseCase(private val authRepository: AuthRepository) {
+internal class LoginUseCase(
+    private val authRepository: AuthRepository,
+    private val pkce: Pkce = PkceImpl()
+) {
 
-    companion object {
-        const val REDIRECT_FORMAT = "%s:/oauth2redirect"
-        private const val SIXTYFOUR_BIT_SIZE = 64
-    }
-
-    private val codeVerifier by lazy { generateCodeVerifier() }
     var clientId: String? = null
 
     fun getLoginUrl(scopes: String, packageName: String): String {
         return authRepository.buildLoginUrl(
             scopes,
             checkNotNull(clientId),
-            generateCodeChallenge(codeVerifier),
+            pkce.generateCodeChallenge(),
             redirectUri = REDIRECT_FORMAT.format(packageName)
         )
     }
@@ -33,24 +28,16 @@ internal class LoginUseCase(private val authRepository: AuthRepository) {
             clientId = checkNotNull(clientId),
             authCode = authCode,
             redirectUri = REDIRECT_FORMAT.format(packageName),
-            codeVerifier = codeVerifier
+            codeVerifier = pkce.codeVerifier
         )
     }
 
-    private fun getEncoding() = Base64.URL_SAFE or Base64.NO_PADDING or Base64.NO_WRAP
+    companion object {
+        const val REDIRECT_FORMAT = "%s:/oauth2redirect"
 
-    private fun generateCodeVerifier(): String {
-        val secureRandom = SecureRandom()
-        val bytes = ByteArray(SIXTYFOUR_BIT_SIZE)
-        secureRandom.nextBytes(bytes)
-        return Base64.encodeToString(bytes, getEncoding())
-    }
-
-    private fun generateCodeChallenge(codeVerifier: String): String {
-        val bytes = codeVerifier.toByteArray()
-        val messageDigest = MessageDigest.getInstance("SHA-256")
-        messageDigest.update(bytes)
-        val digest = messageDigest.digest()
-        return Base64.encodeToString(digest, getEncoding())
+        fun createLoginUseCase(applicationContext: Context): LoginUseCase {
+            val authRepository = AuthRepositoryImpl.getAuthRepository(applicationContext)
+            return LoginUseCase(authRepository)
+        }
     }
 }

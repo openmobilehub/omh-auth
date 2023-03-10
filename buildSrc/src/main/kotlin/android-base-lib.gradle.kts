@@ -61,13 +61,3 @@ setupJacoco()
 dependencies {
     detektPlugins(BuildPlugins.detekt)
 }
-
-tasks.withType(Detekt::class.java) {
-    autoCorrect = true
-}
-
-detekt {
-    parallel = true
-    ignoreFailures = false
-    buildUponDefaultConfig = true
-}

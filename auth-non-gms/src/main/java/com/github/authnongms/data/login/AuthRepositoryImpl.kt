@@ -1,19 +1,17 @@
 package com.github.authnongms.data.login
 
+import android.content.Context
+import android.content.SharedPreferences
+import com.github.authnongms.data.GoogleRetrofitImpl
 import com.github.authnongms.data.login.datasource.AuthDataSource
-import com.github.authnongms.data.login.models.AuthTokenResponse
+import com.github.authnongms.data.login.datasource.GoogleAuthDataSource
+import com.github.authnongms.data.utils.getEncryptedSharedPrefs
 import com.github.authnongms.domain.auth.AuthRepository
-import com.github.authnongms.domain.models.DataResponse
 import com.github.authnongms.domain.models.OAuthTokens
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class AuthRepositoryImpl(private val googleAuthDataSource: AuthDataSource) : AuthRepository {
-
-    companion object {
-        private const val ACCESS_TOKEN = "accesstoken"
-        private const val REFRESH_TOKEN = "refreshtoken"
-    }
+internal class AuthRepositoryImpl(private val googleAuthDataSource: AuthDataSource) : AuthRepository {
 
     override suspend fun requestTokens(
         clientId: String,
@@ -55,5 +53,26 @@ class AuthRepositoryImpl(private val googleAuthDataSource: AuthDataSource) : Aut
             codeChallenge = codeChallenge,
             redirectUri = redirectUri
         ).toString()
+    }
+
+    companion object {
+        private const val ACCESS_TOKEN = "accesstoken"
+        private const val REFRESH_TOKEN = "refreshtoken"
+
+        private var authRepository: AuthRepository? = null
+
+        fun getAuthRepository(context: Context): AuthRepository {
+            if (authRepository == null) {
+                val authService: GoogleAuthREST = GoogleRetrofitImpl.instance.googleAuthREST
+                val sharedPreferences: SharedPreferences = getEncryptedSharedPrefs(context)
+                val googleAuthDataSource: AuthDataSource = GoogleAuthDataSource(
+                    authService = authService,
+                    sharedPreferences = sharedPreferences
+                )
+                authRepository = AuthRepositoryImpl(googleAuthDataSource)
+            }
+
+            return authRepository!!
+        }
     }
 }

@@ -1,37 +1,28 @@
 package com.github.authnongms
 
-import android.util.Base64
-import com.github.authnongms.data.login.models.AuthTokenResponse
 import com.github.authnongms.domain.auth.AuthRepository
 import com.github.authnongms.domain.auth.LoginUseCase
-import com.github.authnongms.domain.models.DataResponse
 import com.github.authnongms.domain.models.OAuthTokens
+import com.github.authnongms.domain.utils.Pkce
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.mockkStatic
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
-import org.junit.BeforeClass
 import org.junit.Test
 
 internal class LoginUseCaseTest {
 
-    companion object {
-        @JvmStatic
-        @BeforeClass
-        fun setup() {
-            mockkStatic(Base64::class)
-            every { Base64.encodeToString(any(), any()) } returns "encoded string"
-        }
-    }
-
     private val authRepository: AuthRepository = mockk()
-    private val loginUseCase = LoginUseCase(authRepository).apply {
+    private val pkce: Pkce = mockk() {
+        every { codeVerifier } returns "codeverifier"
+        every { generateCodeChallenge() } returns "codechallenge"
+    }
+    private val loginUseCase = LoginUseCase(authRepository, pkce).apply {
         clientId = "clientid"
     }
 

@@ -8,6 +8,14 @@ android {
     viewBinding {
         enable = true
     }
+
+    defaultConfig {
+        buildConfigField(
+            type = "String",
+            name = "G_AUTH_URL",
+            value = getPropertyOrFail("googleAuthUrl")
+        )
+    }
 }
 
 dependencies {
@@ -18,6 +26,8 @@ dependencies {
     implementation(Libs.lifecycleKtx)
     implementation(Libs.viewModelKtx)
     implementation(Libs.activityKtx)
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.4.1")
+
 
     // Retrofit setup
     implementation(Libs.retrofit)

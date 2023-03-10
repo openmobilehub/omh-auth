@@ -16,11 +16,6 @@ import com.github.omhauthnongms.databinding.ActivityRedirectBinding
 
 internal class RedirectActivity : AppCompatActivity() {
 
-    companion object {
-        internal const val SCOPES = "scopes"
-        internal const val CLIENT_ID = "client_id"
-    }
-
     private val viewModel: RedirectViewModel by viewModels { ViewModelFactory() }
 
     private val binding: ActivityRedirectBinding by lazy {
@@ -81,5 +76,10 @@ internal class RedirectActivity : AppCompatActivity() {
         val intent = Intent()
         setResult(result, intent)
         finish()
+    }
+
+    companion object {
+        internal const val SCOPES = "scopes"
+        internal const val CLIENT_ID = "client_id"
     }
 }

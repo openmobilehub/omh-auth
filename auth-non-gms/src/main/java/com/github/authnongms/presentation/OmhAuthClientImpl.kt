@@ -2,7 +2,7 @@ package com.github.authnongms.presentation
 
 import android.content.Context
 import android.content.Intent
-import com.github.authnongms.factories.UseCaseFactory
+import com.github.authnongms.domain.user.ProfileUseCase
 import com.github.authnongms.presentation.redirect.RedirectActivity
 import com.github.openmobilehub.auth.OmhAuthClient
 import com.github.openmobilehub.auth.models.OmhUserProfile
@@ -21,7 +21,7 @@ internal class OmhAuthClientImpl(private val clientId: String, private val scope
     }
 
     override fun getUser(context: Context): OmhUserProfile? {
-        val profileUseCase = UseCaseFactory.createUserProfileUseCase(context)
+        val profileUseCase = ProfileUseCase.createUserProfileUseCase(context)
         return profileUseCase.getProfileData()
     }
 
