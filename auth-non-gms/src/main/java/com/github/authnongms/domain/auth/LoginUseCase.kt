@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 
 internal class LoginUseCase(
     private val authRepository: AuthRepository,
-    private val pkce: Pkce = PkceImpl()
+    private val pkce: Pkce
 ) {
 
     var clientId: String? = null
@@ -37,7 +37,7 @@ internal class LoginUseCase(
 
         fun createLoginUseCase(applicationContext: Context): LoginUseCase {
             val authRepository = AuthRepositoryImpl.getAuthRepository(applicationContext)
-            return LoginUseCase(authRepository)
+            return LoginUseCase(authRepository, PkceImpl())
         }
     }
 }
