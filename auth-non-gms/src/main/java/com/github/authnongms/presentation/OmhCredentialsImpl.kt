@@ -17,11 +17,8 @@ internal class OmhCredentialsImpl(
         authUseCase.clientId = clientId
     }
 
-    @Throws(IllegalStateException::class)
     override fun refreshAccessToken(onRefreshFailure: OmhCredentials.OnRefreshFailure): String? {
-        if (ThreadUtils.isOnMainThread) {
-            error("Running blocking function on main thread.")
-        }
+        ThreadUtils.checkForMainThread()
         return runBlocking(Dispatchers.IO) {
             authUseCase.refreshToken()
                 .catch { e -> onRefreshFailure.onFailure(Exception(e)) }

@@ -5,9 +5,14 @@ import kotlinx.coroutines.runBlocking
 
 object ThreadUtils {
 
-    val isOnMainThread: Boolean
+    private val isOnMainThread: Boolean
         get() = Thread.currentThread() === runBlocking(Dispatchers.Main.immediate) {
             Thread.currentThread()
         }
 
+    fun checkForMainThread() {
+        if (isOnMainThread) {
+            error("Running blocking function on main thread.")
+        }
+    }
 }
