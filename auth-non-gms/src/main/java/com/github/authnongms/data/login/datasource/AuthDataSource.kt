@@ -40,7 +40,7 @@ interface AuthDataSource {
     /**
      * Stores token in local storage of key value type.
      *
-     * @param key -> one of [ACCESS_TOKEN] or [REFRESH_TOKEN]
+     * @param tokenType -> one of [ACCESS_TOKEN] or [REFRESH_TOKEN]
      * @param token -> token to store.
      */
     fun storeToken(tokenType: String, token: String)
@@ -62,6 +62,10 @@ interface AuthDataSource {
      * @return a [Flow] with the [AuthTokenResponse]
      */
     fun refreshAccessToken(clientId: String): Flow<AuthTokenResponse>
+
+    suspend fun revokeToken(token: String): Flow<Unit>
+
+    fun clearData()
 
     companion object {
         const val ACCESS_TOKEN = "accesstoken"

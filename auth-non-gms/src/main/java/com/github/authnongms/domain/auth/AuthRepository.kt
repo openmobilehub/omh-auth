@@ -51,4 +51,8 @@ internal interface AuthRepository {
      * @return a [Flow] with the token inside.
      */
     suspend fun refreshAccessToken(clientId: String): Flow<String>
+
+    suspend fun revokeToken(): Flow<Unit>
+
+    fun clearData()
 }

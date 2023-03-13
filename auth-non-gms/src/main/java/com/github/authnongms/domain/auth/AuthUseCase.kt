@@ -34,13 +34,11 @@ internal class AuthUseCase(
         )
     }
 
-    suspend fun refreshToken(): Flow<String> {
-        return authRepository.refreshAccessToken(_clientId)
-    }
+    suspend fun refreshToken(): Flow<String> = authRepository.refreshAccessToken(_clientId)
 
-    fun getAccessToken(): String? {
-        return authRepository.getAccessToken()
-    }
+    fun getAccessToken(): String? = authRepository.getAccessToken()
+
+    suspend fun logout(): Flow<Unit> = authRepository.revokeToken()
 
     companion object {
         const val REDIRECT_FORMAT = "%s:/oauth2redirect"

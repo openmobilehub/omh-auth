@@ -5,6 +5,7 @@ import com.github.authnongms.utils.ThreadUtils
 import com.github.openmobilehub.auth.OmhCredentials
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.runBlocking
 
@@ -17,15 +18,24 @@ internal class OmhCredentialsImpl(
         authUseCase.clientId = clientId
     }
 
-    override fun refreshAccessToken(onRefreshFailure: OmhCredentials.OnRefreshFailure): String? {
+    override fun refreshAccessToken(onOperationFailure: OmhCredentials.OnOperationFailure): String? {
         ThreadUtils.checkForMainThread()
         return runBlocking(Dispatchers.IO) {
             authUseCase.refreshToken()
-                .catch { e -> onRefreshFailure.onFailure(Exception(e)) }
+                .catch { e -> onOperationFailure.onFailure(Exception(e)) }
                 .firstOrNull()
         }
     }
 
     override val accessToken: String?
         get() = authUseCase.getAccessToken()
+
+    override fun revokeToken(onOperationFailure: OmhCredentials.OnOperationFailure) {
+        ThreadUtils.checkForMainThread()
+        runBlocking(Dispatchers.IO) {
+            authUseCase.logout()
+                .catch { e -> onOperationFailure.onFailure(Exception(e)) }
+                .collect()
+        }
+    }
 }
