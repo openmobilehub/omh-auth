@@ -45,7 +45,7 @@ internal class AuthUseCase(
     companion object {
         const val REDIRECT_FORMAT = "%s:/oauth2redirect"
 
-        fun createLoginUseCase(applicationContext: Context): AuthUseCase {
+        fun createAuthUseCase(applicationContext: Context): AuthUseCase {
             val authRepository = AuthRepositoryImpl.getAuthRepository(applicationContext)
             return AuthUseCase(authRepository, PkceImpl())
         }
