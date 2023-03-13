@@ -57,7 +57,7 @@ internal class AuthRepositoryImpl(private val googleAuthDataSource: AuthDataSour
     }
 
     override fun getAccessToken(): String? {
-        return googleAuthDataSource.getAccessToken(AuthDataSource.ACCESS_TOKEN)
+        return googleAuthDataSource.getToken(AuthDataSource.ACCESS_TOKEN)
     }
 
     override suspend fun refreshAccessToken(clientId: String): Flow<String> {

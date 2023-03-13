@@ -62,7 +62,7 @@ class GoogleAuthDataSource(
         }
     }
 
-    override fun getAccessToken(tokenType: String): String? {
+    override fun getToken(tokenType: String): String? {
         return sharedPreferences.getString(tokenType, null)
     }
 
