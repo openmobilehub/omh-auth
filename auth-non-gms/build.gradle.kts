@@ -26,7 +26,6 @@ dependencies {
     implementation(Libs.lifecycleKtx)
     implementation(Libs.viewModelKtx)
     implementation(Libs.activityKtx)
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.4.1")
 
 
     // Retrofit setup
