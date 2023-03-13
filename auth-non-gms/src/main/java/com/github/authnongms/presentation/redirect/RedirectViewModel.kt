@@ -12,7 +12,6 @@ import com.github.authnongms.domain.user.ProfileUseCase
 import com.github.authnongms.utils.EventWrapper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 internal class RedirectViewModel(

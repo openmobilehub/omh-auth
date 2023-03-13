@@ -3,12 +3,11 @@ package com.github.authnongms.data.login.datasource
 import android.net.Uri
 import com.github.authnongms.data.login.models.AuthTokenResponse
 import kotlinx.coroutines.flow.Flow
-import retrofit2.Response
 
 interface AuthDataSource {
 
     /**
-     * Requests the token from the Google REST services. This can return HTTP errors.
+     * Requests the token from the auth provider REST services. This can return HTTP errors.
      *
      * @param authCode -> the auth code returned from the custom tab login screen.
      * @param clientId -> clientId from google console of the Android Application type.
@@ -39,4 +38,13 @@ interface AuthDataSource {
     ): Uri
 
     fun storeToken(tokenType: String, token: String)
+
+    fun getAccessToken(tokenType: String): String?
+
+    fun refreshAccessToken(clientId: String): Flow<AuthTokenResponse>
+
+    companion object {
+        const val ACCESS_TOKEN = "accesstoken"
+        const val REFRESH_TOKEN = "refreshtoken"
+    }
 }
