@@ -7,7 +7,7 @@ import com.github.authnongms.domain.utils.Pkce
 import com.github.authnongms.domain.utils.PkceImpl
 import kotlinx.coroutines.flow.Flow
 
-internal class LoginUseCase(
+internal class AuthUseCase(
     private val authRepository: AuthRepository,
     private val pkce: Pkce
 ) {
@@ -45,9 +45,9 @@ internal class LoginUseCase(
     companion object {
         const val REDIRECT_FORMAT = "%s:/oauth2redirect"
 
-        fun createLoginUseCase(applicationContext: Context): LoginUseCase {
+        fun createLoginUseCase(applicationContext: Context): AuthUseCase {
             val authRepository = AuthRepositoryImpl.getAuthRepository(applicationContext)
-            return LoginUseCase(authRepository, PkceImpl())
+            return AuthUseCase(authRepository, PkceImpl())
         }
     }
 }
