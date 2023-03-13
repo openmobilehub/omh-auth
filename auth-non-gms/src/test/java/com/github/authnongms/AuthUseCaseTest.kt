@@ -119,6 +119,49 @@ internal class AuthUseCaseTest {
             )
         } returns flow { emit(mockedResponse) }
 
-       authUseCase.requestTokens(authCode, packageName).first()
+        authUseCase.requestTokens(authCode, packageName).first()
+    }
+
+    @Test
+    fun `when the access token is requested then the token is returned`() {
+        val expectedToken = "accesstoken"
+        every { authRepository.getAccessToken() } returns expectedToken
+
+        val result: String? = authUseCase.getAccessToken()
+
+        assertEquals(result, expectedToken)
+    }
+
+    @Test
+    fun `when the access token is requested but no token is stored then null is returned`() {
+        val expectedToken = null
+        every { authRepository.getAccessToken() } returns expectedToken
+
+        val result: String? = authUseCase.getAccessToken()
+
+        assertEquals(result, expectedToken)
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun `when a token refresh is requested then a new token is returned`() = runTest {
+        val expectedToken = "newtoken"
+
+        coEvery { authRepository.refreshAccessToken(any()) } returns flow { emit(expectedToken) }
+
+        val newToken = authUseCase.refreshToken().first()
+
+        assertEquals(expectedToken, newToken)
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test(expected = IllegalStateException::class)
+    fun `when a token refresh is requested with no clientId then an exception is thrown`() = runTest {
+        val expectedToken = "newtoken"
+        authUseCase.clientId = null
+
+        coEvery { authRepository.refreshAccessToken(any()) } returns flow { emit(expectedToken) }
+
+        authUseCase.refreshToken().first()
     }
 }
