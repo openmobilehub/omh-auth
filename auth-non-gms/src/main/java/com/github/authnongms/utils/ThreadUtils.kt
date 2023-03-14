@@ -1,14 +1,14 @@
 package com.github.authnongms.utils
 
+import android.os.Looper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 
 object ThreadUtils {
 
     private val isOnMainThread: Boolean
-        get() = Thread.currentThread() === runBlocking(Dispatchers.Main.immediate) {
-            Thread.currentThread()
-        }
+        get() = Looper.myLooper() == Looper.getMainLooper()
+
 
     fun checkForMainThread() {
         if (isOnMainThread) {

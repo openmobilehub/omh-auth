@@ -11,8 +11,9 @@ import com.github.authnongms.domain.models.OAuthTokens
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-internal class AuthRepositoryImpl(private val googleAuthDataSource: AuthDataSource) :
-    AuthRepository {
+internal class AuthRepositoryImpl(
+    private val googleAuthDataSource: AuthDataSource
+) : AuthRepository {
 
     override suspend fun requestTokens(
         clientId: String,
