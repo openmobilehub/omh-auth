@@ -74,11 +74,8 @@ internal class AuthRepositoryImpl(
     }
 
     override suspend fun revokeToken(): Flow<Unit> {
-        val accessToken = googleAuthDataSource.getToken(AuthDataSource.ACCESS_TOKEN)
-        if (accessToken == null) {
-            clearData()
-            return flow { emit(Unit) }
-        }
+        val accessToken: String? = googleAuthDataSource.getToken(AuthDataSource.ACCESS_TOKEN)
+        if (accessToken == null) return flow { emit(Unit) }
         return googleAuthDataSource.revokeToken(accessToken)
     }
 
