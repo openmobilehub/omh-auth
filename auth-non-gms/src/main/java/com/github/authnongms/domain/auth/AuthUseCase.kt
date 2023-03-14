@@ -6,6 +6,7 @@ import com.github.authnongms.domain.models.OAuthTokens
 import com.github.authnongms.domain.utils.Pkce
 import com.github.authnongms.domain.utils.PkceImpl
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.onCompletion
 
 internal class AuthUseCase(
     private val authRepository: AuthRepository,
@@ -38,7 +39,11 @@ internal class AuthUseCase(
 
     fun getAccessToken(): String? = authRepository.getAccessToken()
 
-    suspend fun logout(): Flow<Unit> = authRepository.revokeToken()
+    suspend fun logout(): Flow<Unit> {
+        return authRepository
+            .revokeToken()
+            .onCompletion { authRepository.clearData() }
+    }
 
     companion object {
         const val REDIRECT_FORMAT = "%s:/oauth2redirect"

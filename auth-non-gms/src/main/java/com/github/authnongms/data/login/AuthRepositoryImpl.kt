@@ -79,9 +79,7 @@ internal class AuthRepositoryImpl(
             clearData()
             return flow { emit(Unit) }
         }
-        return googleAuthDataSource.revokeToken(accessToken).onCompletion {
-            googleAuthDataSource.clearData()
-        }
+        return googleAuthDataSource.revokeToken(accessToken)
     }
 
     override fun clearData() {
