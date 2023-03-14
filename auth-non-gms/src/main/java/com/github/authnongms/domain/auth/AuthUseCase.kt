@@ -1,7 +1,5 @@
 package com.github.authnongms.domain.auth
 
-import android.content.Context
-import com.github.authnongms.data.login.AuthRepositoryImpl
 import com.github.authnongms.domain.models.OAuthTokens
 import com.github.authnongms.domain.utils.Pkce
 import com.github.authnongms.domain.utils.PkceImpl
@@ -48,8 +46,7 @@ internal class AuthUseCase(
     companion object {
         const val REDIRECT_FORMAT = "%s:/oauth2redirect"
 
-        fun createAuthUseCase(applicationContext: Context): AuthUseCase {
-            val authRepository = AuthRepositoryImpl.getAuthRepository(applicationContext)
+        fun createAuthUseCase(authRepository: AuthRepository): AuthUseCase {
             return AuthUseCase(authRepository, PkceImpl())
         }
     }

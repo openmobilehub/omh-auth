@@ -44,25 +44,16 @@ class LoggedInActivity : AppCompatActivity() {
     }
 
     private fun revokeToken() = lifecycleScope.launch(Dispatchers.IO) {
-        credentials.revokeToken { e2 ->
-            launch(Dispatchers.Main) { showRevokeException(e2) }
+        credentials.revokeToken { e ->
+            launch(Dispatchers.Main) { showRevokeException("Couldn't revoke token: ${e.message}") }
         }
         navigateToLogin()
     }
 
     private fun refreshToken() = lifecycleScope.launch(Dispatchers.IO) {
         val newToken = credentials.refreshAccessToken { e ->
-            launch(Dispatchers.Main) {
-                Toast.makeText(
-                    applicationContext,
-                    "Couldn't refresh token: ${e.message}",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-            credentials.revokeToken { e2 ->
-                launch(Dispatchers.Main) { showRevokeException(e2) }
-            }
-            navigateToLogin()
+            showRevokeException("Couldn't refresh token: ${e.message}")
+            revokeToken()
         }
 
         if (newToken != null) {
@@ -70,14 +61,9 @@ class LoggedInActivity : AppCompatActivity() {
         }
     }
 
-    private fun showRevokeException(e2: Exception) {
-        Toast.makeText(
-            applicationContext,
-            "Couldn't revoke token: ${e2.message}",
-            Toast.LENGTH_LONG
-        ).show()
+    private fun showRevokeException(message: String) = lifecycleScope.launch(Dispatchers.Main) {
+        Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
     }
-
 
     private fun navigateToLogin() {
         val intent = Intent(this, LoginActivity::class.java)
