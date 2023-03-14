@@ -25,7 +25,14 @@ interface OmhCredentials {
      */
     val accessToken: String?
 
-    fun revokeToken(onOperationFailure: OnOperationFailure)
+    /**
+     * Logs out the user. This revokes the access token from the auth provider and clears any stored
+     * data locally. If the revoke operation fails, the clear data operation still completes.
+     *
+     * @param onOperationFailure -> callback for handling failures of the revoke token REST
+     * operation.
+     */
+    fun logout(onOperationFailure: OnOperationFailure)
 
     /**
      * Helper SAM interface for Java interoperability. Lambdas don't translate well to Java.

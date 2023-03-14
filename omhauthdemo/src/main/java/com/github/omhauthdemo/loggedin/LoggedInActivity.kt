@@ -30,7 +30,7 @@ class LoggedInActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.btnLogout.setOnClickListener {
-            revokeToken()
+            logout()
         }
         binding.btnRefresh.setOnClickListener {
             refreshToken()
@@ -43,8 +43,8 @@ class LoggedInActivity : AppCompatActivity() {
         binding.tvToken.text = getString(R.string.token_placeholder, credentials.accessToken)
     }
 
-    private fun revokeToken() = lifecycleScope.launch(Dispatchers.IO) {
-        credentials.revokeToken { e ->
+    private fun logout() = lifecycleScope.launch(Dispatchers.IO) {
+        credentials.logout { e ->
             launch(Dispatchers.Main) { showRevokeException("Couldn't revoke token: ${e.message}") }
         }
         navigateToLogin()
@@ -53,7 +53,7 @@ class LoggedInActivity : AppCompatActivity() {
     private fun refreshToken() = lifecycleScope.launch(Dispatchers.IO) {
         val newToken = credentials.refreshAccessToken { e ->
             showRevokeException("Couldn't refresh token: ${e.message}")
-            revokeToken()
+            logout()
         }
 
         if (newToken != null) {

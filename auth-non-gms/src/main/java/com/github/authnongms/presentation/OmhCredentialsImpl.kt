@@ -30,7 +30,7 @@ internal class OmhCredentialsImpl(
     override val accessToken: String?
         get() = authUseCase.getAccessToken()
 
-    override fun revokeToken(onOperationFailure: OmhCredentials.OnOperationFailure) {
+    override fun logout(onOperationFailure: OmhCredentials.OnOperationFailure) {
         ThreadUtils.checkForMainThread()
         runBlocking(Dispatchers.IO) {
             authUseCase.logout()

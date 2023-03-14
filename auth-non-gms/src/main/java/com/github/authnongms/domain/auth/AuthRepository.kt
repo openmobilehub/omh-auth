@@ -52,7 +52,14 @@ internal interface AuthRepository {
      */
     suspend fun refreshAccessToken(clientId: String): Flow<String>
 
+    /**
+     * Revokes the access token of the user from the auth provider. to avoid it's future usage.
+     * This is usually performed at logout.
+     */
     suspend fun revokeToken(): Flow<Unit>
 
+    /**
+     * Clears all local data of the user, including stored tokens.
+     */
     fun clearData()
 }
