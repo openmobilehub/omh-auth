@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    namespace = "com.github.openmobilehub.auth.sample"
+    namespace = "com.openmobilehub.auth.sample"
 
     defaultConfig {
         buildConfigField(
@@ -41,7 +41,7 @@ android {
 }
 
 dependencies {
-//    implementation("com.github.openmobilehub:auth-non-gms:1.0-SNAPSHOT")
+//    implementation("com.openmobilehub:auth-non-gms:1.0-SNAPSHOT")
     implementation(project(":auth-non-gms"))
 
     implementation(Libs.coreKtx)
