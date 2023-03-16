@@ -24,7 +24,7 @@ internal class AuthUseCase(
         )
     }
 
-    suspend fun requestTokens(authCode: String, packageName: String): Flow<OAuthTokens> {
+    fun requestTokens(authCode: String, packageName: String): Flow<OAuthTokens> {
         return authRepository.requestTokens(
             clientId = _clientId,
             authCode = authCode,
@@ -33,11 +33,11 @@ internal class AuthUseCase(
         )
     }
 
-    suspend fun refreshToken(): Flow<String> = authRepository.refreshAccessToken(_clientId)
+    fun refreshToken(): Flow<String> = authRepository.refreshAccessToken(_clientId)
 
     fun getAccessToken(): String? = authRepository.getAccessToken()
 
-    suspend fun logout(): Flow<Unit> {
+    fun logout(): Flow<Unit> {
         return authRepository
             .revokeToken()
             .onCompletion { authRepository.clearData() }

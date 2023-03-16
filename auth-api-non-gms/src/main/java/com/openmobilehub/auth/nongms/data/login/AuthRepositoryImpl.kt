@@ -17,7 +17,7 @@ internal class AuthRepositoryImpl(
     private val googleAuthDataSource: AuthDataSource
 ) : AuthRepository {
 
-    override suspend fun requestTokens(
+    override fun requestTokens(
         clientId: String,
         authCode: String,
         redirectUri: String,
@@ -64,7 +64,7 @@ internal class AuthRepositoryImpl(
         return googleAuthDataSource.getToken(AuthDataSource.ACCESS_TOKEN)
     }
 
-    override suspend fun refreshAccessToken(clientId: String): Flow<String> {
+    override fun refreshAccessToken(clientId: String): Flow<String> {
         return googleAuthDataSource.refreshAccessToken(clientId).map { response ->
             val accessToken = checkNotNull(response.accessToken)
             googleAuthDataSource.storeToken(AuthDataSource.ACCESS_TOKEN, response.accessToken)
@@ -72,7 +72,7 @@ internal class AuthRepositoryImpl(
         }
     }
 
-    override suspend fun revokeToken(): Flow<Unit> {
+    override fun revokeToken(): Flow<Unit> {
         val accessToken: String? = googleAuthDataSource.getToken(AuthDataSource.ACCESS_TOKEN)
         if (accessToken == null) return flow { emit(Unit) }
         return googleAuthDataSource.revokeToken(accessToken)
