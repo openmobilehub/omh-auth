@@ -2,7 +2,7 @@ package com.github.authnongms.domain.user
 
 import android.content.Context
 import com.github.authnongms.data.user.UserRepositoryImpl
-import com.github.openmobilehub.auth.models.OmhUserProfile
+import com.github.openmobilehub.auth.api.models.OmhUserProfile
 
 class ProfileUseCase(private val userRepository: UserRepository) {
 

@@ -2,7 +2,7 @@ package com.github.openmobilehub.auth.api
 
 import android.content.Context
 import android.content.Intent
-import com.github.openmobilehub.auth.models.OmhUserProfile
+import com.github.openmobilehub.auth.api.models.OmhUserProfile
 
 interface OmhAuthClient {
 

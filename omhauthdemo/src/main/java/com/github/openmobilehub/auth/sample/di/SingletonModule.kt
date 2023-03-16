@@ -1,4 +1,4 @@
-package com.github.omhauthdemo.di
+package com.github.openmobilehub.auth.sample.di
 
 import com.github.authnongms.presentation.OmhAuthFactory
 import com.github.openmobilehub.auth.api.OmhAuthClient

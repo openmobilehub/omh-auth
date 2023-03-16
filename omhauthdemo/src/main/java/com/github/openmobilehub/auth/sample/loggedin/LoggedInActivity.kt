@@ -1,11 +1,11 @@
-package com.github.omhauthdemo.loggedin
+package com.github.openmobilehub.auth.sample.loggedin
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.github.omhauthdemo.login.LoginActivity
+import com.github.openmobilehub.auth.sample.login.LoginActivity
 import com.github.openmobilehub.auth.api.OmhAuthClient
 import com.github.openmobilehub.auth.sample.R
 import com.github.openmobilehub.auth.sample.databinding.ActivityLoggedInBinding

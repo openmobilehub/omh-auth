@@ -1,6 +1,6 @@
 package com.github.authnongms.domain.user
 
-import com.github.openmobilehub.auth.models.OmhUserProfile
+import com.github.openmobilehub.auth.api.models.OmhUserProfile
 
 interface UserRepository {
 

@@ -1,4 +1,4 @@
-package com.github.openmobilehub.auth.models
+package com.github.openmobilehub.auth.api.models
 
 class OmhUserProfile(
     val name: String?,

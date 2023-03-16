@@ -6,7 +6,7 @@ import com.github.authnongms.data.user.datasource.GoogleUserDataSource
 import com.github.authnongms.data.user.datasource.UserDataSource
 import com.github.authnongms.data.utils.getEncryptedSharedPrefs
 import com.github.authnongms.domain.user.UserRepository
-import com.github.openmobilehub.auth.models.OmhUserProfile
+import com.github.openmobilehub.auth.api.models.OmhUserProfile
 
 internal class UserRepositoryImpl(private val googleUserDataSource: UserDataSource) :
     UserRepository {

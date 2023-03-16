@@ -1,6 +1,6 @@
 package com.github.authnongms.data.user.datasource
 
-import com.github.openmobilehub.auth.models.OmhUserProfile
+import com.github.openmobilehub.auth.api.models.OmhUserProfile
 
 interface UserDataSource {
 

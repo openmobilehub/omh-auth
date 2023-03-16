@@ -7,7 +7,7 @@ import com.github.authnongms.domain.user.ProfileUseCase
 import com.github.authnongms.presentation.redirect.RedirectActivity
 import com.github.openmobilehub.auth.api.OmhAuthClient
 import com.github.openmobilehub.auth.api.OmhCredentials
-import com.github.openmobilehub.auth.models.OmhUserProfile
+import com.github.openmobilehub.auth.api.models.OmhUserProfile
 
 /**
  * Non GMS implementation of the OmhAuthClient abstraction. Required a clientId and defined scopes as

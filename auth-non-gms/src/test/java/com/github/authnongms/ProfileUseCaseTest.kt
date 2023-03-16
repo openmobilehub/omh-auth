@@ -2,7 +2,7 @@ package com.github.authnongms
 
 import com.github.authnongms.domain.user.ProfileUseCase
 import com.github.authnongms.domain.user.UserRepository
-import com.github.openmobilehub.auth.models.OmhUserProfile
+import com.github.openmobilehub.auth.api.models.OmhUserProfile
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
