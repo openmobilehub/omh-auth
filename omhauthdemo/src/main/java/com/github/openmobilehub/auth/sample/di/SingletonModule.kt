@@ -1,6 +1,6 @@
 package com.github.openmobilehub.auth.sample.di
 
-import com.github.authnongms.presentation.OmhAuthFactory
+import com.github.openmobilehub.auth.nongms.presentation.OmhAuthFactory
 import com.github.openmobilehub.auth.api.OmhAuthClient
 import com.github.openmobilehub.auth.sample.BuildConfig
 import dagger.Module
