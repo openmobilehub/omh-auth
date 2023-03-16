@@ -1,6 +1,6 @@
 package com.github.authnongms.presentation
 
-import com.github.openmobilehub.auth.OmhAuthClient
+import com.github.openmobilehub.auth.api.OmhAuthClient
 
 object OmhAuthClientFactory {
 

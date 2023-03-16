@@ -4,8 +4,8 @@ import android.content.Context
 import com.github.authnongms.data.login.AuthRepositoryImpl
 import com.github.authnongms.domain.auth.AuthRepository
 import com.github.authnongms.domain.auth.AuthUseCase
-import com.github.openmobilehub.auth.OmhAuthClient
-import com.github.openmobilehub.auth.OmhCredentials
+import com.github.openmobilehub.auth.api.OmhAuthClient
+import com.github.openmobilehub.auth.api.OmhCredentials
 
 object OmhAuthFactory {
 

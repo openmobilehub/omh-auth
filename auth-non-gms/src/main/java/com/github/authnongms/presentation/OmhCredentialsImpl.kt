@@ -2,7 +2,8 @@ package com.github.authnongms.presentation
 
 import com.github.authnongms.domain.auth.AuthUseCase
 import com.github.authnongms.utils.ThreadUtils
-import com.github.openmobilehub.auth.OmhCredentials
+import com.github.openmobilehub.auth.api.OmhCredentials
+import com.github.openmobilehub.auth.api.OperationFailureListener
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
@@ -18,11 +19,11 @@ internal class OmhCredentialsImpl(
         authUseCase.clientId = clientId
     }
 
-    override fun refreshAccessToken(onOperationFailure: OmhCredentials.OnOperationFailure): String? {
+    override fun refreshAccessToken(operationFailureListener: OperationFailureListener): String? {
         ThreadUtils.checkForMainThread()
         return runBlocking(Dispatchers.IO) {
             authUseCase.refreshToken()
-                .catch { e -> onOperationFailure.onFailure(Exception(e)) }
+                .catch { e -> operationFailureListener.onFailure(Exception(e)) }
                 .firstOrNull()
         }
     }
@@ -30,11 +31,14 @@ internal class OmhCredentialsImpl(
     override val accessToken: String?
         get() = authUseCase.getAccessToken()
 
-    override fun logout(onOperationFailure: OmhCredentials.OnOperationFailure) {
+    override fun logout(operationFailureListener: OperationFailureListener?) {
         ThreadUtils.checkForMainThread()
         runBlocking(Dispatchers.IO) {
             authUseCase.logout()
-                .catch { e -> onOperationFailure.onFailure(Exception(e)) }
+                .catch { throwable ->
+                    val exception = Exception(throwable)
+                    operationFailureListener?.onFailure(exception)
+                }
                 .collect()
         }
     }
