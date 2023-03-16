@@ -5,9 +5,9 @@ import android.os.Bundle
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.github.omhauthdemo.databinding.ActivityLoginBinding
 import com.github.omhauthdemo.loggedin.LoggedInActivity
 import com.github.openmobilehub.auth.api.OmhAuthClient
+import com.github.openmobilehub.auth.sample.databinding.ActivityLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

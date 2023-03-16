@@ -1,7 +1,7 @@
 package com.github.authnongms.data
 
 import com.github.authnongms.data.login.GoogleAuthREST
-import com.github.openmobilehub.authnongms.BuildConfig
+import com.github.openmobilehub.auth.nongms.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

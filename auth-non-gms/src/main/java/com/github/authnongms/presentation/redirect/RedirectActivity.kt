@@ -12,7 +12,7 @@ import androidx.browser.customtabs.CustomTabsIntent
 import com.github.authnongms.factories.ViewModelFactory
 import com.github.authnongms.utils.EventWrapper
 import com.github.authnongms.utils.nullOrHandled
-import com.github.openmobilehub.authnongms.databinding.ActivityRedirectBinding
+import com.github.openmobilehub.auth.nongms.databinding.ActivityRedirectBinding
 
 internal class RedirectActivity : AppCompatActivity() {
 

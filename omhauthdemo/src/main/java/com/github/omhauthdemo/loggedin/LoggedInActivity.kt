@@ -5,10 +5,10 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.github.omhauthdemo.R
-import com.github.omhauthdemo.databinding.ActivityLoggedInBinding
 import com.github.omhauthdemo.login.LoginActivity
 import com.github.openmobilehub.auth.api.OmhAuthClient
+import com.github.openmobilehub.auth.sample.R
+import com.github.openmobilehub.auth.sample.databinding.ActivityLoggedInBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers

@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.github.openmobilehub.auth"
+    namespace = "com.github.openmobilehub.auth.api"
 }
 
 dependencies {
