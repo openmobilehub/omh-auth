@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.github.omhauthnongms"
+    namespace = "com.github.openmobilehub.authnongms"
 
     viewBinding {
         enable = true
