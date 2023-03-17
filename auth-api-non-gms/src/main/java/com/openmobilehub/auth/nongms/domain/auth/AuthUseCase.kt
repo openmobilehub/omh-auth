@@ -4,6 +4,7 @@ import com.openmobilehub.auth.nongms.domain.models.OAuthTokens
 import com.openmobilehub.auth.nongms.domain.utils.Pkce
 import com.openmobilehub.auth.nongms.domain.utils.PkceImpl
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onCompletion
 
 internal class AuthUseCase(
@@ -33,7 +34,11 @@ internal class AuthUseCase(
         )
     }
 
-    fun refreshToken(): Flow<String> = authRepository.refreshAccessToken(_clientId)
+    fun refreshToken(): Flow<String?> {
+        return authRepository
+            .refreshAccessToken(_clientId)
+            .catch { emit(null) }
+    }
 
     fun getAccessToken(): String? = authRepository.getAccessToken()
 

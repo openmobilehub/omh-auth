@@ -49,17 +49,14 @@ class LoggedInActivity : AppCompatActivity() {
     }
 
     private fun refreshToken() = lifecycleScope.launch(Dispatchers.IO) {
-        val newToken = credentials.refreshAccessToken { e ->
-            showRevokeException("Couldn't refresh token: ${e.message}")
-            logout()
-        }
+        val newToken = credentials.refreshAccessToken()
 
         if (newToken != null) {
             binding.tvToken.text = getString(R.string.token_placeholder, newToken)
         }
     }
 
-    private fun showRevokeException(message: String) = lifecycleScope.launch(Dispatchers.Main) {
+    private fun showException(message: String) = lifecycleScope.launch(Dispatchers.Main) {
         Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
     }
 

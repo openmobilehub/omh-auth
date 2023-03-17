@@ -7,6 +7,8 @@ import com.openmobilehub.auth.api.OperationFailureListener
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.runBlocking
 
@@ -19,12 +21,10 @@ internal class OmhCredentialsImpl(
         authUseCase.clientId = clientId
     }
 
-    override fun refreshAccessToken(operationFailureListener: OperationFailureListener): String? {
+    override fun refreshAccessToken(): String? {
         ThreadUtils.checkForMainThread()
         return runBlocking {
-            authUseCase.refreshToken()
-                .catch { e -> operationFailureListener.onFailure(Exception(e)) }
-                .firstOrNull()
+            authUseCase.refreshToken().first()
         }
     }
 

@@ -50,7 +50,7 @@ internal interface AuthRepository {
      *
      * @return a [Flow] with the token inside.
      */
-    fun refreshAccessToken(clientId: String): Flow<String>
+    fun refreshAccessToken(clientId: String): Flow<String?>
 
     /**
      * Revokes the access token of the user from the auth provider.
