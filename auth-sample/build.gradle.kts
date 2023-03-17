@@ -1,5 +1,4 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
-import java.util.UUID
 
 plugins {
     `android-application`
@@ -41,8 +40,8 @@ android {
 }
 
 dependencies {
-//    implementation("com.openmobilehub:auth-non-gms:1.0-SNAPSHOT")
-    implementation(project(":auth-non-gms"))
+    implementation(project(":auth-api-non-gms"))
+    //    implementation("com.openmobilehub:auth-non-gms:1.0-SNAPSHOT")
 
     implementation(Libs.coreKtx)
     implementation(Libs.lifecycleKtx)
