@@ -21,7 +21,7 @@ internal class OmhCredentialsImpl(
 
     override fun refreshAccessToken(operationFailureListener: OperationFailureListener): String? {
         ThreadUtils.checkForMainThread()
-        return runBlocking(Dispatchers.IO) {
+        return runBlocking {
             authUseCase.refreshToken()
                 .catch { e -> operationFailureListener.onFailure(Exception(e)) }
                 .firstOrNull()
@@ -30,16 +30,4 @@ internal class OmhCredentialsImpl(
 
     override val accessToken: String?
         get() = authUseCase.getAccessToken()
-
-    override fun logout(operationFailureListener: OperationFailureListener?) {
-        ThreadUtils.checkForMainThread()
-        runBlocking(Dispatchers.IO) {
-            authUseCase.logout()
-                .catch { throwable ->
-                    val exception = Exception(throwable)
-                    operationFailureListener?.onFailure(exception)
-                }
-                .collect()
-        }
-    }
 }

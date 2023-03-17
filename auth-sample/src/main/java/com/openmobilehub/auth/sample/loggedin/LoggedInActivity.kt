@@ -44,9 +44,7 @@ class LoggedInActivity : AppCompatActivity() {
     }
 
     private fun logout() = lifecycleScope.launch(Dispatchers.IO) {
-        credentials.logout { e ->
-            launch(Dispatchers.Main) { showRevokeException("Couldn't revoke token: ${e.message}") }
-        }
+        omhAuthClient.signOut(applicationContext)
         navigateToLogin()
     }
 

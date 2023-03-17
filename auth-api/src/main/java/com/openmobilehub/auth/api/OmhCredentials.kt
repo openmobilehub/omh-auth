@@ -24,13 +24,4 @@ interface OmhCredentials {
      * returned.
      */
     val accessToken: String?
-
-    /**
-     * Logs out the user. This revokes the access token from the auth provider and clears any stored
-     * data locally. If the revoke operation fails, the clear data operation still completes.
-     *
-     * @param operationFailureListener -> callback for handling failures of the revoke token REST
-     * operation.
-     */
-    fun logout(operationFailureListener: OperationFailureListener? = null)
 }

@@ -53,8 +53,7 @@ internal interface AuthRepository {
     fun refreshAccessToken(clientId: String): Flow<String>
 
     /**
-     * Revokes the access token of the user from the auth provider. to avoid it's future usage.
-     * This is usually performed at logout.
+     * Revokes the access token of the user from the auth provider.
      */
     fun revokeToken(): Flow<Unit>
 

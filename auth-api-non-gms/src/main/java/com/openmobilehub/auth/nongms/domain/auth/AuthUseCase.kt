@@ -37,11 +37,7 @@ internal class AuthUseCase(
 
     fun getAccessToken(): String? = authRepository.getAccessToken()
 
-    fun logout(): Flow<Unit> {
-        return authRepository
-            .revokeToken()
-            .onCompletion { authRepository.clearData() }
-    }
+    fun logout() = authRepository.clearData()
 
     companion object {
         const val REDIRECT_FORMAT = "%s:/oauth2redirect"
