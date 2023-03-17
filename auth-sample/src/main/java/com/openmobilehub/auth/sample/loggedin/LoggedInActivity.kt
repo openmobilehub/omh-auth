@@ -49,7 +49,7 @@ class LoggedInActivity : AppCompatActivity() {
     }
 
     private fun refreshToken() = lifecycleScope.launch(Dispatchers.IO) {
-        val newToken = credentials.refreshAccessToken()
+        val newToken = credentials.blockingRefreshToken()
 
         if (newToken != null) {
             binding.tvToken.text = getString(R.string.token_placeholder, newToken)

@@ -150,7 +150,7 @@ internal class AuthUseCaseTest {
 
         coEvery { authRepository.refreshAccessToken(any()) } returns flow { emit(expectedToken) }
 
-        val newToken = authUseCase.refreshToken().first()
+        val newToken = authUseCase.blockingRefreshToken().first()
 
         assertEquals(expectedToken, newToken)
     }
@@ -164,7 +164,7 @@ internal class AuthUseCaseTest {
 
             coEvery { authRepository.refreshAccessToken(any()) } returns flow { emit(expectedToken) }
 
-            authUseCase.refreshToken().first()
+            authUseCase.blockingRefreshToken().first()
         }
     }
 

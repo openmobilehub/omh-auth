@@ -16,7 +16,7 @@ interface OmhCredentials {
      * stored and accessible in the future through [accessToken]. In case of a failure, a null value
      * is returned.
      */
-    fun refreshAccessToken(): String?
+    fun blockingRefreshToken(): String?
 
     /**
      * Fetches the access token from the secure storage if possible. If no token is stored, null is

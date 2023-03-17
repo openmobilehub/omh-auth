@@ -70,7 +70,7 @@ internal class AuthRepositoryImpl(
         return googleAuthDataSource.getToken(AuthDataSource.ACCESS_TOKEN)
     }
 
-    override fun refreshAccessToken(clientId: String): Flow<String?> {
+    override fun refreshAccessToken(clientId: String): Flow<String> {
         return googleAuthDataSource.refreshAccessToken(clientId)
             .flowOn(ioDispatcher)
             .map { response ->
