@@ -18,6 +18,7 @@ dependencies {
 
     // Google Sign In
     implementation(Libs.googlesignin)
+    implementation(Libs.googleApiClientAndroid)
 
     // Test dependencies
     testImplementation(Libs.junit)

@@ -30,6 +30,7 @@ object Libs {
 
     // Google Api Client
     val googleApiClient by lazy { "com.google.api-client:google-api-client:${Versions.googleApiClient}" }
+    val googleApiClientAndroid by lazy { "com.google.api-client:google-api-client-android:${Versions.googleApiClient}" }
 
     // Android
     val androidAppCompat by lazy { "androidx.appcompat:appcompat:${Versions.androidAppCompat}" }
@@ -42,6 +43,6 @@ object Libs {
     val junit by lazy { "junit:junit:${Versions.junit}" }
     val androidJunit by lazy { "androidx.test.ext:junit:${Versions.androidJunit}" }
     val esspreso by lazy { "androidx.test.espresso:espresso-core:${Versions.espresso}" }
-    val mockk by lazy { "io.mockk:mockk:${Versions.mockk}"}
+    val mockk by lazy { "io.mockk:mockk:${Versions.mockk}" }
     val coroutineTesting by lazy { "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}" }
 }

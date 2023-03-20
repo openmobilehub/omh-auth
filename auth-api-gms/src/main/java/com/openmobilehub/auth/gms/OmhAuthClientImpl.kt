@@ -33,7 +33,10 @@ internal class OmhAuthClientImpl(
     }
 
     override fun getCredentials(context: Context): OmhCredentials {
-        return OmhAuthFactory.getCredentials()
+        val lastSignedInAccount: GoogleSignInAccount = checkNotNull(
+            value = GoogleSignIn.getLastSignedInAccount(context)
+        )
+        return OmhAuthFactory.getCredentials(context, lastSignedInAccount)
     }
 
     override fun signOut(context: Context) {
