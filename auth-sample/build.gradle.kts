@@ -42,6 +42,7 @@ android {
 dependencies {
     implementation(project(":auth-api-non-gms"))
     //    implementation("com.openmobilehub:auth-non-gms:1.0-SNAPSHOT")
+    implementation(project(":auth-api-gms"))
 
     implementation(Libs.coreKtx)
     implementation(Libs.lifecycleKtx)
