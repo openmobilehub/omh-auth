@@ -33,7 +33,7 @@ internal class OmhAuthClientImpl(
     }
 
     override fun getCredentials(context: Context): OmhCredentials {
-        TODO("Not yet implemented")
+        return OmhAuthFactory.getCredentials()
     }
 
     override fun signOut(context: Context) {

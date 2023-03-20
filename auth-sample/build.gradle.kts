@@ -9,10 +9,6 @@ plugins {
 android {
     namespace = "com.openmobilehub.auth.sample"
 
-    defaultConfig {
-
-    }
-
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -31,11 +27,9 @@ android {
                 name = "CLIENT_ID",
                 value = gradleLocalProperties(rootDir)["clientId"].toString()
             )
-            applicationIdSuffix = ".nongms"
             dimension = "google_services"
         }
         create("gms") {
-            applicationIdSuffix = ".gms"
             dimension = "google_services"
         }
     }
