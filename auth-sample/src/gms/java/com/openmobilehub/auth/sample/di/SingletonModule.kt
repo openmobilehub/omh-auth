@@ -1,22 +1,22 @@
 package com.openmobilehub.auth.sample.di
 
-import com.openmobilehub.auth.nongms.presentation.OmhAuthFactory
+import android.content.Context
 import com.openmobilehub.auth.api.OmhAuthClient
-import com.openmobilehub.auth.sample.BuildConfig
+import com.openmobilehub.auth.gms.OmhAuthFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
 object SingletonModule {
-
     @Provides
-    fun providesOmhAuthClient(): OmhAuthClient {
+    fun providesOmhAuthClient(@ApplicationContext context: Context): OmhAuthClient {
         return OmhAuthFactory.getAuthClient(
-            clientId = BuildConfig.CLIENT_ID,
             scopes = "openid email profile",
+            context = context
         )
     }
 }
