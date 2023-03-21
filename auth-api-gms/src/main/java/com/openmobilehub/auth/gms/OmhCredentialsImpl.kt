@@ -1,12 +1,11 @@
 package com.openmobilehub.auth.gms
 
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential
 import com.openmobilehub.auth.api.OmhCredentials
 
-internal class OmhCredentialsImpl(private val gCredentials: GoogleAccountCredential) : OmhCredentials {
+internal class OmhCredentialsImpl : OmhCredentials {
 
     override fun blockingRefreshToken(): String? {
-        return gCredentials.token
+        return "new token"
     }
 
     override val accessToken: String
