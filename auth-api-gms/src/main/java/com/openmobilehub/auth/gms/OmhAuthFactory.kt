@@ -12,13 +12,11 @@ import com.openmobilehub.auth.api.OmhCredentials
 
 object OmhAuthFactory {
 
-    fun getAuthClient(context: Context, scopes: String): OmhAuthClient {
-        val gso: GoogleSignInOptions = GoogleSignInOptions.Builder()
-            .requestProfile()
-            .requestEmail()
-            .requestScopes(Scope(scopes))
-            .build()
-        val client: GoogleSignInClient = GoogleSignIn.getClient(context, gso)
+    fun getAuthClient(context: Context, scopes: Collection<String>): OmhAuthClient {
+        val scopeList: MutableList<Scope> = scopes.map(::Scope).toMutableList()
+        val gsoBuilder = GoogleSignInOptions.Builder()
+        scopeList.forEach(gsoBuilder::requestScopes)
+        val client: GoogleSignInClient = GoogleSignIn.getClient(context, gsoBuilder.build())
         return OmhAuthClientImpl(client)
     }
 

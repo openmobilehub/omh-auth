@@ -15,7 +15,7 @@ object SingletonModule {
     @Provides
     fun providesOmhAuthClient(@ApplicationContext context: Context): OmhAuthClient {
         return OmhAuthFactory.getAuthClient(
-            scopes = "openid email profile",
+            scopes = listOf("openid", "email", "profile"),
             context = context
         )
     }
