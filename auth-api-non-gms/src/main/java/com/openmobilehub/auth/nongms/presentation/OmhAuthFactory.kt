@@ -13,8 +13,9 @@ object OmhAuthFactory {
      * Creates an auth client for the user of the non GMS type and returns it as the abstraction.
      * This should be used by the core plugin only.
      */
-    fun getAuthClient(clientId: String, scopes: String): OmhAuthClient {
-        val builder = OmhAuthClientImpl.Builder(clientId, scopes)
+    fun getAuthClient(clientId: String, scopes: Collection<String>): OmhAuthClient {
+        val builder = OmhAuthClientImpl.Builder(clientId)
+        scopes.forEach(builder::addScope)
         return builder.build()
     }
 

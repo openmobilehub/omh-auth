@@ -33,10 +33,15 @@ internal class OmhAuthClientImpl(private val clientId: String, private val scope
 
     internal class Builder(
         private var clientId: String,
-        private var authScope: String
     ) : OmhAuthClient.Builder {
 
-        // TODO Add optional parameters like scopes
+        private var authScope: String = ""
+
+        fun addScope(scope: String): Builder {
+            authScope += " $scope"
+            authScope.trim()
+            return this
+        }
 
         override fun build(): OmhAuthClient {
             return OmhAuthClientImpl(clientId, authScope)

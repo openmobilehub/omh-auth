@@ -14,7 +14,7 @@ object SingletonModule {
     @Provides
     fun providesOmhAuthClient(): OmhAuthClient {
         return OmhAuthFactory.getAuthClient(
-            scopes = "openid email profile",
+            scopes = listOf("openid", "email", "profile"),
             clientId = BuildConfig.CLIENT_ID
         )
     }
