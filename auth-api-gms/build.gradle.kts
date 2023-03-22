@@ -17,7 +17,7 @@ dependencies {
     implementation(Libs.coroutinesAndroid)
 
     // Google Sign In
-    implementation(Libs.googlesignin)
+    implementation(Libs.googleSignIn)
 
     // Test dependencies
     testImplementation(Libs.junit)
