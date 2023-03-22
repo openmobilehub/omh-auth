@@ -15,7 +15,7 @@ interface OmhAuthClient {
 
     fun getUser(context: Context): OmhUserProfile?
 
-    fun getCredentials(): OmhCredentials
+    fun getCredentials(): Any
 
     /**
      * Logs out the user. This clears any stored data locally.

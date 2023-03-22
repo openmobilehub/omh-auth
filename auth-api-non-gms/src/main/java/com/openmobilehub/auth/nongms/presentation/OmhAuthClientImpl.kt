@@ -6,7 +6,6 @@ import com.openmobilehub.auth.nongms.data.user.UserRepositoryImpl
 import com.openmobilehub.auth.nongms.domain.user.ProfileUseCase
 import com.openmobilehub.auth.nongms.presentation.redirect.RedirectActivity
 import com.openmobilehub.auth.api.OmhAuthClient
-import com.openmobilehub.auth.api.OmhCredentials
 import com.openmobilehub.auth.api.models.OmhUserProfile
 import com.openmobilehub.auth.nongms.data.login.AuthRepositoryImpl
 import com.openmobilehub.auth.nongms.domain.auth.AuthUseCase
@@ -56,7 +55,7 @@ internal class OmhAuthClientImpl(
         }
     }
 
-    override fun getCredentials(): OmhCredentials {
+    override fun getCredentials(): Any {
         return OmhAuthFactoryImpl.getCredentials(clientId, applicationContext)
     }
 
