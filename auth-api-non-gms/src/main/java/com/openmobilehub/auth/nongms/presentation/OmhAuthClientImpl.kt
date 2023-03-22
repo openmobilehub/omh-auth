@@ -9,18 +9,26 @@ import com.openmobilehub.auth.api.OmhAuthClient
 import com.openmobilehub.auth.api.OmhCredentials
 import com.openmobilehub.auth.api.models.OmhUserProfile
 import com.openmobilehub.auth.nongms.data.login.AuthRepositoryImpl
-import com.openmobilehub.auth.nongms.domain.auth.AuthRepository
 import com.openmobilehub.auth.nongms.domain.auth.AuthUseCase
 
 /**
  * Non GMS implementation of the OmhAuthClient abstraction. Required a clientId and defined scopes as
  * no extra scopes can be accessed in the future.
  */
-internal class OmhAuthClientImpl(private val clientId: String, private val scopes: String) :
-    OmhAuthClient {
+internal class OmhAuthClientImpl(
+    private val clientId: String,
+    private val scopes: String,
+    context: Context
+) : OmhAuthClient {
 
-    override fun getLoginIntent(context: Context): Intent {
-        return Intent(context, RedirectActivity::class.java)
+    private val applicationContext: Context
+
+    init {
+        applicationContext = context.applicationContext
+    }
+
+    override fun getLoginIntent(): Intent {
+        return Intent(applicationContext, RedirectActivity::class.java)
             .putExtra(RedirectActivity.CLIENT_ID, clientId)
             .putExtra(RedirectActivity.SCOPES, scopes)
     }
@@ -43,17 +51,17 @@ internal class OmhAuthClientImpl(private val clientId: String, private val scope
             return this
         }
 
-        override fun build(): OmhAuthClient {
-            return OmhAuthClientImpl(clientId, authScope)
+        override fun build(context: Context): OmhAuthClient {
+            return OmhAuthClientImpl(clientId, authScope, context)
         }
     }
 
-    override fun getCredentials(context: Context): OmhCredentials {
-        return OmhAuthFactory.getCredentials(clientId, context)
+    override fun getCredentials(): OmhCredentials {
+        return OmhAuthFactoryImpl.getCredentials(clientId, applicationContext)
     }
 
-    override fun signOut(context: Context) {
-        val authRepository = AuthRepositoryImpl.getAuthRepository(context)
+    override fun signOut() {
+        val authRepository = AuthRepositoryImpl.getAuthRepository(applicationContext)
         val authUseCase = AuthUseCase.createAuthUseCase(authRepository)
         authUseCase.logout()
     }
