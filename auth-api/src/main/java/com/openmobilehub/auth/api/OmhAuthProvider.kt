@@ -4,11 +4,26 @@ import android.content.Context
 import android.util.Log
 import kotlin.reflect.KClass
 
+/**
+ * Object that providers the correct implementation of the client for GMS or non GMS builds.
+ */
 object OmhAuthProvider {
 
     private const val GMS_ADDRESS = "com.openmobilehub.auth.nongms.presentation.OmhAuthFactoryImpl"
     private const val NGMS_ADDRESS = "com.openmobilehub.auth.gms.presentation.OmhAuthFactoryImpl"
 
+    /**
+     * Provides an auth client interface to interact with the OMH Auth library. This uses reflection
+     * to obtain the correct implementation for GMS or non GMS devices depending on what dependency
+     * you have.
+     *
+     * @param context -> ideally your application context, but an activity context will also work.
+     * @param scopes -> your oauth scopes in a collection. Do take into account that non GMS devices
+     * won't be able to request more scopes after the first authorization.
+     * @param clientId -> your client ID for the Android Application.
+     *
+     * @return an [OmhAuthClient] to interact with the Auth module.
+     */
     fun provideAuthClient(
         context: Context,
         scopes: Collection<String>,
