@@ -2,7 +2,6 @@ package com.openmobilehub.auth.sample.loggedin
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential
@@ -38,7 +37,7 @@ class LoggedInActivity : AppCompatActivity() {
             refreshToken()
         }
 
-        val profile = requireNotNull(omhAuthClient.getUser(this))
+        val profile = requireNotNull(omhAuthClient.getUser())
         binding.tvEmail.text = getString(R.string.email_placeholder, profile.email)
         binding.tvName.text = getString(R.string.name_placeholder, profile.name)
         binding.tvSurname.text = getString(R.string.surname_placeholder, profile.surname)

@@ -1,6 +1,5 @@
 package com.openmobilehub.auth.gms
 
-import android.content.Context
 import android.content.Intent
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -17,8 +16,8 @@ internal class OmhAuthClientImpl(
         return googleSignInClient.signInIntent
     }
 
-    override fun getUser(context: Context): OmhUserProfile? {
-        val googleUser = GoogleSignIn.getLastSignedInAccount(context)
+    override fun getUser(): OmhUserProfile? {
+        val googleUser = GoogleSignIn.getLastSignedInAccount(googleSignInClient.applicationContext)
         return googleUser?.toOmhProfile()
     }
 

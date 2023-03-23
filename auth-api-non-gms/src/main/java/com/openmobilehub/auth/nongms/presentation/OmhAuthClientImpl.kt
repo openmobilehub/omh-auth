@@ -32,8 +32,8 @@ internal class OmhAuthClientImpl(
             .putExtra(RedirectActivity.SCOPES, scopes)
     }
 
-    override fun getUser(context: Context): OmhUserProfile? {
-        val userRepository = UserRepositoryImpl.getUserRepository(context)
+    override fun getUser(): OmhUserProfile? {
+        val userRepository = UserRepositoryImpl.getUserRepository(applicationContext)
         val profileUseCase = ProfileUseCase.createUserProfileUseCase(userRepository)
         return profileUseCase.getProfileData()
     }
