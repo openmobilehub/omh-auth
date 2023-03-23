@@ -1,7 +1,6 @@
 package com.openmobilehub.auth.api
 
 import android.content.Context
-import android.util.Log
 import kotlin.reflect.KClass
 
 /**
@@ -24,6 +23,7 @@ object OmhAuthProvider {
      *
      * @return an [OmhAuthClient] to interact with the Auth module.
      */
+    @SuppressWarnings("SwallowedException")
     fun provideAuthClient(
         context: Context,
         scopes: Collection<String>,
@@ -33,7 +33,6 @@ object OmhAuthProvider {
             val clazz: KClass<out Any> = Class.forName(GMS_ADDRESS).kotlin
             clazz.objectInstance as OmhAuthFactory
         } catch (e: ClassNotFoundException) {
-            Log.e("Auth provider", "Class not found", e) // Temporal for detekt SwallowedException rule
             val clazz: KClass<out Any> = Class.forName(NGMS_ADDRESS).kotlin
             clazz.objectInstance as OmhAuthFactory
         }
