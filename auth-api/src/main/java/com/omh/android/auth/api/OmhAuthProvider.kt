@@ -8,8 +8,8 @@ import kotlin.reflect.KClass
  */
 object OmhAuthProvider {
 
-    private const val NGMS_ADDRESS = "com.openmobilehub.auth.nongms.presentation.OmhAuthFactoryImpl"
-    private const val GMS_ADDRESS = "com.openmobilehub.auth.gms.OmhAuthFactoryImpl"
+    private const val NGMS_ADDRESS = "com.omh.android.auth.nongms.presentation.OmhAuthFactoryImpl"
+    private const val GMS_ADDRESS = "com.omh.android.auth.gms.OmhAuthFactoryImpl"
 
     /**
      * Provides an auth client interface to interact with the OMH Auth library. This uses reflection

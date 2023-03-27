@@ -4,12 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.CreationExtras
-import com.omh.auth.nongms.data.login.AuthRepositoryImpl
-import com.omh.auth.nongms.data.user.UserRepositoryImpl
-import com.omh.auth.nongms.domain.auth.AuthRepository
-import com.omh.auth.nongms.domain.auth.AuthUseCase
-import com.omh.auth.nongms.domain.user.ProfileUseCase
-import com.omh.auth.nongms.presentation.redirect.RedirectViewModel
+import com.omh.android.auth.nongms.data.login.AuthRepositoryImpl
+import com.omh.android.auth.nongms.data.user.UserRepositoryImpl
+import com.omh.android.auth.nongms.domain.auth.AuthRepository
+import com.omh.android.auth.nongms.domain.auth.AuthUseCase
+import com.omh.android.auth.nongms.domain.user.ProfileUseCase
+import com.omh.android.auth.nongms.presentation.redirect.RedirectViewModel
 
 /**
  * View model factory for the RedirectViewModel. It's required to pass the application context down

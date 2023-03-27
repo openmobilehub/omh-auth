@@ -1,9 +1,9 @@
 package com.omh.android.auth.nongms.presentation
 
 import android.content.Context
-import com.omh.auth.nongms.data.login.AuthRepositoryImpl
-import com.omh.auth.nongms.domain.auth.AuthRepository
-import com.omh.auth.nongms.domain.auth.AuthUseCase
+import com.omh.android.auth.nongms.data.login.AuthRepositoryImpl
+import com.omh.android.auth.nongms.domain.auth.AuthRepository
+import com.omh.android.auth.nongms.domain.auth.AuthUseCase
 import com.omh.android.auth.api.OmhAuthClient
 import com.omh.android.auth.api.OmhAuthFactory
 import com.omh.android.auth.api.OmhCredentials

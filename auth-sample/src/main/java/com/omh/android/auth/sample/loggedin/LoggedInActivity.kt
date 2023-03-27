@@ -8,8 +8,8 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccoun
 import com.omh.android.auth.sample.login.LoginActivity
 import com.omh.android.auth.api.OmhAuthClient
 import com.omh.android.auth.api.OmhCredentials
-import com.omh.auth.sample.R
-import com.omh.auth.sample.databinding.ActivityLoggedInBinding
+import com.omh.android.auth.sample.R
+import com.omh.android.auth.sample.databinding.ActivityLoggedInBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers

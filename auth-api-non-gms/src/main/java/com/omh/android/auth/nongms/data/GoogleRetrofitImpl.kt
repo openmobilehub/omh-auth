@@ -1,7 +1,7 @@
 package com.omh.android.auth.nongms.data
 
-import com.omh.auth.nongms.data.login.GoogleAuthREST
-import com.omh.auth.nongms.BuildConfig
+import com.omh.android.auth.nongms.BuildConfig
+import com.omh.android.auth.nongms.data.login.GoogleAuthREST
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

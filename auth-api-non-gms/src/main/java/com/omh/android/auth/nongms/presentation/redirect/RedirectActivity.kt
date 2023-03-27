@@ -9,10 +9,10 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsIntent
-import com.omh.auth.nongms.factories.ViewModelFactory
-import com.omh.auth.nongms.utils.EventWrapper
-import com.omh.auth.nongms.utils.nullOrHandled
-import com.omh.auth.nongms.databinding.ActivityRedirectBinding
+import com.omh.android.auth.nongms.factories.ViewModelFactory
+import com.omh.android.auth.nongms.utils.EventWrapper
+import com.omh.android.auth.nongms.utils.nullOrHandled
+import com.omh.android.auth.nongms.databinding.ActivityRedirectBinding
 
 internal class RedirectActivity : AppCompatActivity() {
 

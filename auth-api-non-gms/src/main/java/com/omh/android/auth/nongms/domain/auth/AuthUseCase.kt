@@ -1,9 +1,9 @@
 package com.omh.android.auth.nongms.domain.auth
 
-import com.omh.auth.nongms.domain.models.ApiResult
-import com.omh.auth.nongms.domain.models.OAuthTokens
-import com.omh.auth.nongms.domain.utils.Pkce
-import com.omh.auth.nongms.domain.utils.PkceImpl
+import com.omh.android.auth.nongms.domain.models.ApiResult
+import com.omh.android.auth.nongms.domain.models.OAuthTokens
+import com.omh.android.auth.nongms.domain.utils.Pkce
+import com.omh.android.auth.nongms.domain.utils.PkceImpl
 
 internal class AuthUseCase(
     private val authRepository: AuthRepository,

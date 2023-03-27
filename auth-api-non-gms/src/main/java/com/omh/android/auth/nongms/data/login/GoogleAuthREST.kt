@@ -1,6 +1,6 @@
 package com.omh.android.auth.nongms.data.login
 
-import com.omh.auth.nongms.data.login.models.AuthTokenResponse
+import com.omh.android.auth.nongms.data.login.models.AuthTokenResponse
 import retrofit2.Response
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded

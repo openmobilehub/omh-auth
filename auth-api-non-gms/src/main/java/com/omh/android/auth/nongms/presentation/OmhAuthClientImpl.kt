@@ -2,13 +2,13 @@ package com.omh.android.auth.nongms.presentation
 
 import android.content.Context
 import android.content.Intent
-import com.omh.auth.nongms.data.user.UserRepositoryImpl
-import com.omh.auth.nongms.domain.user.ProfileUseCase
-import com.omh.auth.nongms.presentation.redirect.RedirectActivity
+import com.omh.android.auth.nongms.data.user.UserRepositoryImpl
+import com.omh.android.auth.nongms.domain.user.ProfileUseCase
+import com.omh.android.auth.nongms.presentation.redirect.RedirectActivity
 import com.omh.android.auth.api.OmhAuthClient
 import com.omh.android.auth.api.models.OmhUserProfile
-import com.omh.auth.nongms.data.login.AuthRepositoryImpl
-import com.omh.auth.nongms.domain.auth.AuthUseCase
+import com.omh.android.auth.nongms.data.login.AuthRepositoryImpl
+import com.omh.android.auth.nongms.domain.auth.AuthUseCase
 
 /**
  * Non GMS implementation of the OmhAuthClient abstraction. Required a clientId and defined scopes as

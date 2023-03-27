@@ -3,7 +3,7 @@ package com.omh.android.auth.sample.di
 import android.content.Context
 import com.omh.android.auth.api.OmhAuthClient
 import com.omh.android.auth.api.OmhAuthProvider
-import com.omh.auth.sample.BuildConfig
+import com.omh.android.auth.sample.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

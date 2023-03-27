@@ -7,7 +7,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.omh.android.auth.sample.loggedin.LoggedInActivity
 import com.omh.android.auth.api.OmhAuthClient
-import com.omh.auth.sample.databinding.ActivityLoginBinding
+import com.omh.android.auth.sample.databinding.ActivityLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

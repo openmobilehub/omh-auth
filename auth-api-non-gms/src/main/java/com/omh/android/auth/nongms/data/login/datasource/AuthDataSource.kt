@@ -1,7 +1,7 @@
 package com.omh.android.auth.nongms.data.login.datasource
 
 import android.net.Uri
-import com.omh.auth.nongms.data.login.models.AuthTokenResponse
+import com.omh.android.auth.nongms.data.login.models.AuthTokenResponse
 import retrofit2.Response
 
 interface AuthDataSource {

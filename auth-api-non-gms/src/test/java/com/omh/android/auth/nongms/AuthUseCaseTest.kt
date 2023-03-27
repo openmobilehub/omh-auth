@@ -1,10 +1,10 @@
 package com.omh.android.auth.nongms
 
-import com.omh.auth.nongms.domain.auth.AuthRepository
-import com.omh.auth.nongms.domain.auth.AuthUseCase
-import com.omh.auth.nongms.domain.models.ApiResult
-import com.omh.auth.nongms.domain.models.OAuthTokens
-import com.omh.auth.nongms.domain.utils.Pkce
+import com.omh.android.auth.nongms.domain.auth.AuthRepository
+import com.omh.android.auth.nongms.domain.auth.AuthUseCase
+import com.omh.android.auth.nongms.domain.models.ApiResult
+import com.omh.android.auth.nongms.domain.models.OAuthTokens
+import com.omh.android.auth.nongms.domain.utils.Pkce
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every

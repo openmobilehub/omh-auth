@@ -1,7 +1,7 @@
 package com.omh.android.auth.nongms
 
-import com.omh.auth.nongms.domain.user.ProfileUseCase
-import com.omh.auth.nongms.domain.user.UserRepository
+import com.omh.android.auth.nongms.domain.user.ProfileUseCase
+import com.omh.android.auth.nongms.domain.user.UserRepository
 import com.omh.android.auth.api.models.OmhUserProfile
 import io.mockk.coEvery
 import io.mockk.coVerify

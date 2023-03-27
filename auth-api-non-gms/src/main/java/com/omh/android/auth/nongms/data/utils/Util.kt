@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
-import com.omh.auth.nongms.utils.Constants
+import com.omh.android.auth.nongms.utils.Constants
 
 internal fun getEncryptedSharedPrefs(
     context: Context,
