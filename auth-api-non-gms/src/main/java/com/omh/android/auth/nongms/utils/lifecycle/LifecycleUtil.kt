@@ -32,9 +32,7 @@ internal object LifecycleUtil {
         observer: LifecycleEventObserver,
         action: () -> Unit
     ) {
-        val isOnResume = event == Lifecycle.Event.ON_RESUME
-        val isRedirectActivity = source == owner
-        if (isOnResume && isRedirectActivity) {
+        if (event == Lifecycle.Event.ON_RESUME && source == owner) {
             action()
             source.lifecycle.removeObserver(observer)
         }
