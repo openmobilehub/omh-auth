@@ -1,13 +1,16 @@
 package com.omh.android.auth.sample.login
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.omh.android.auth.sample.loggedin.LoggedInActivity
 import com.omh.android.auth.api.OmhAuthClient
 import com.omh.android.auth.sample.databinding.ActivityLoginBinding
+import com.omh.android.auth.sample.loggedin.LoggedInActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -16,8 +19,18 @@ class LoginActivity : AppCompatActivity() {
 
     private val loginLauncher: ActivityResultLauncher<Intent> =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == RESULT_OK) {
+            try {
+                omhAuthClient.getAccountFromIntent(result.data)
                 navigateToLoggedIn()
+            } catch (exception: Exception) {
+                AlertDialog.Builder(this)
+                    .setTitle("An error has ocurred.")
+                    .setMessage(exception.message)
+                    .setPositiveButton(
+                        android.R.string.ok
+                    ) { dialog, _ -> dialog.dismiss() }
+                    .create()
+                    .show()
             }
         }
 

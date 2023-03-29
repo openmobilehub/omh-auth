@@ -12,7 +12,10 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsIntent
 import com.omh.android.auth.nongms.databinding.ActivityRedirectBinding
+import com.omh.android.auth.nongms.domain.models.ApiResult
+import com.omh.android.auth.nongms.domain.models.OAuthTokens
 import com.omh.android.auth.nongms.factories.ViewModelFactory
+import com.omh.android.auth.nongms.utils.Constants
 import com.omh.android.auth.nongms.utils.EventWrapper
 import com.omh.android.auth.nongms.utils.lifecycle.LifecycleUtil
 import com.omh.android.auth.nongms.utils.nullOrHandled
@@ -42,7 +45,7 @@ internal class RedirectActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         if (intent.getStringExtra(CLIENT_ID) == null) {
-            finish()
+            returnResult(Activity.RESULT_CANCELED, Exception("Missing clientID"))
             return
         }
         val clientId: String = intent.getStringExtra(CLIENT_ID)!!
@@ -52,20 +55,22 @@ internal class RedirectActivity : AppCompatActivity() {
         viewModel.tokenResponseEvent.observe(this, this::observeTokenResponse)
     }
 
-    private fun observeTokenResponse(eventWrapper: EventWrapper<Boolean>?) {
+    private fun observeTokenResponse(eventWrapper: EventWrapper<ApiResult<OAuthTokens>>?) {
         if (eventWrapper.nullOrHandled()) return
-        val result = if (eventWrapper.getContentIfHandled() == true) {
-            Activity.RESULT_OK
-        } else {
-            Activity.RESULT_CANCELED
+        when (val content = eventWrapper.getContentIfHandled()!!) {
+            is ApiResult.Error -> {
+                returnResult(Activity.RESULT_CANCELED, Exception(content.exception))
+            }
+            is ApiResult.Success -> {
+                returnResult(Activity.RESULT_OK)
+            }
         }
-        returnResult(result)
     }
 
     private fun openCustomTabLogin() {
         val scopes = intent.getStringExtra(SCOPES)
         if (scopes.isNullOrEmpty() || packageName.isNullOrEmpty()) {
-            returnResult(Activity.RESULT_CANCELED)
+            returnResult(Activity.RESULT_CANCELED, Exception("Missing data for login"))
             return
         }
         val uri = viewModel.getLoginUrl(scopes, packageName)
@@ -84,14 +89,17 @@ internal class RedirectActivity : AppCompatActivity() {
         val error = data?.getQueryParameter("error code")
         if (authCode == null) {
             Toast.makeText(this, "Error: $error", Toast.LENGTH_LONG).show()
-            returnResult(Activity.RESULT_CANCELED)
+            returnResult(Activity.RESULT_CANCELED, Exception("Auth code wasn't returned."))
             return
         }
         viewModel.requestTokens(authCode, packageName)
     }
 
-    private fun returnResult(result: Int) {
+    private fun returnResult(result: Int, exception: Exception? = null) {
         val intent = Intent()
+        if (result == Activity.RESULT_CANCELED) {
+            intent.putExtra(Constants.CAUSE_KEY, exception)
+        }
         setResult(result, intent)
         finish()
     }

@@ -9,6 +9,7 @@ import com.omh.android.auth.api.OmhAuthClient
 import com.omh.android.auth.api.models.OmhUserProfile
 import com.omh.android.auth.nongms.data.login.AuthRepositoryImpl
 import com.omh.android.auth.nongms.domain.auth.AuthUseCase
+import com.omh.android.auth.nongms.utils.Constants
 
 /**
  * Non GMS implementation of the OmhAuthClient abstraction. Required a clientId and defined scopes as
@@ -63,5 +64,13 @@ internal class OmhAuthClientImpl(
         val authRepository = AuthRepositoryImpl.getAuthRepository(applicationContext)
         val authUseCase = AuthUseCase.createAuthUseCase(authRepository)
         authUseCase.logout()
+    }
+
+    override fun getAccountFromIntent(data: Intent?): OmhUserProfile {
+        if (data?.hasExtra(Constants.CAUSE_KEY) == true) {
+            val exception = data.getSerializableExtra(Constants.CAUSE_KEY) as Exception
+            throw exception
+        }
+        return getUser() ?: error("Login failed") // TODO throw an OMH auth error
     }
 }

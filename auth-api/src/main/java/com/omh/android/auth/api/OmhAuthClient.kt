@@ -34,4 +34,7 @@ interface OmhAuthClient {
      * Logs out the user. This clears any stored data locally.
      */
     fun signOut()
+
+    @Throws(Exception::class)
+    fun getAccountFromIntent(data: Intent?): OmhUserProfile
 }

@@ -5,7 +5,9 @@ import com.omh.android.auth.api.models.OmhUserProfile
 class ProfileUseCase(private val userRepository: UserRepository) {
 
     suspend fun resolveIdToken(idToken: String, clientId: String) {
-        if (idToken.trim().isEmpty() || clientId.trim().isEmpty()) return // todo add error handling
+        if (idToken.trim().isEmpty() || clientId.trim().isEmpty()) {
+            error("ID token or clientID are empty")
+        }
         userRepository.handleIdToken(idToken, clientId)
     }
 

@@ -19,8 +19,8 @@ internal class RedirectViewModel(
     private val profileUseCase: ProfileUseCase
 ) : ViewModel() {
 
-    private val _tokenResponseEvent = MutableLiveData<EventWrapper<Boolean>>()
-    val tokenResponseEvent: LiveData<EventWrapper<Boolean>> = _tokenResponseEvent
+    private val _tokenResponseEvent = MutableLiveData<EventWrapper<ApiResult<OAuthTokens>>>()
+    val tokenResponseEvent: LiveData<EventWrapper<ApiResult<OAuthTokens>>> = _tokenResponseEvent
 
     fun getLoginUrl(scopes: String, packageName: String): Uri {
         return authUseCase.getLoginUrl(scopes, packageName).toUri()
@@ -30,18 +30,18 @@ internal class RedirectViewModel(
         authCode: String,
         packageName: String,
     ) = viewModelScope.launch {
-        when (val apiResult = authUseCase.requestTokens(authCode, packageName)) {
+        val apiResult = authUseCase.requestTokens(authCode, packageName)
+        when (apiResult) {
             is ApiResult.Error -> {
                 Log.e(RedirectViewModel::class.java.name, apiResult.exception)
-                _tokenResponseEvent.postValue(EventWrapper(false))
             }
             is ApiResult.Success -> {
                 val tokens: OAuthTokens = apiResult.data
                 val clientId = checkNotNull(authUseCase.clientId)
                 profileUseCase.resolveIdToken(tokens.idToken, clientId)
-                _tokenResponseEvent.postValue(EventWrapper(true))
             }
         }
+        _tokenResponseEvent.postValue(EventWrapper(apiResult))
     }
 
     fun setClientId(clientId: String) {
