@@ -37,7 +37,7 @@ internal class RedirectActivity : AppCompatActivity() {
 
     private fun handleCustomTabsClosed() {
         LifecycleUtil.runOnResume(lifecycle = lifecycle, owner = this) {
-            if (!caughtRedirect) returnResult(Activity.RESULT_CANCELED)
+            if (!caughtRedirect) returnResult(Activity.RESULT_CANCELED, Exception("Login canceled"))
         }
     }
 
