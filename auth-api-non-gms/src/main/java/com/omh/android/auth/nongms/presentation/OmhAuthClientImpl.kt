@@ -6,6 +6,7 @@ import com.omh.android.auth.nongms.data.user.UserRepositoryImpl
 import com.omh.android.auth.nongms.domain.user.ProfileUseCase
 import com.omh.android.auth.nongms.presentation.redirect.RedirectActivity
 import com.omh.android.auth.api.OmhAuthClient
+import com.omh.android.auth.api.models.OmhAuthException
 import com.omh.android.auth.api.models.OmhUserProfile
 import com.omh.android.auth.nongms.data.login.AuthRepositoryImpl
 import com.omh.android.auth.nongms.domain.auth.AuthUseCase
@@ -68,7 +69,7 @@ internal class OmhAuthClientImpl(
 
     override fun getAccountFromIntent(data: Intent?): OmhUserProfile {
         if (data?.hasExtra(Constants.CAUSE_KEY) == true) {
-            val exception = data.getSerializableExtra(Constants.CAUSE_KEY) as Exception
+            val exception = data.getSerializableExtra(Constants.CAUSE_KEY) as OmhAuthException
             throw exception
         }
         return getUser() ?: error("Login failed") // TODO throw an OMH auth error

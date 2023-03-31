@@ -2,6 +2,7 @@ package com.omh.android.auth.api
 
 import android.content.Context
 import android.content.Intent
+import com.omh.android.auth.api.models.OmhAuthException
 import com.omh.android.auth.api.models.OmhUserProfile
 
 interface OmhAuthClient {
@@ -35,6 +36,6 @@ interface OmhAuthClient {
      */
     fun signOut()
 
-    @Throws(Exception::class)
+    @Throws(OmhAuthException::class)
     fun getAccountFromIntent(data: Intent?): OmhUserProfile
 }

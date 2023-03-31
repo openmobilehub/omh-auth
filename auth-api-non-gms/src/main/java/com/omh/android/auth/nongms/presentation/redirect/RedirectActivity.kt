@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -11,6 +12,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsIntent
+import com.omh.android.auth.api.models.OmhAuthException
+import com.omh.android.auth.api.models.OmhAuthStatusCodes
 import com.omh.android.auth.nongms.databinding.ActivityRedirectBinding
 import com.omh.android.auth.nongms.domain.models.ApiResult
 import com.omh.android.auth.nongms.domain.models.OAuthTokens
@@ -37,7 +40,12 @@ internal class RedirectActivity : AppCompatActivity() {
 
     private fun handleCustomTabsClosed() {
         LifecycleUtil.runOnResume(lifecycle = lifecycle, owner = this) {
-            if (!caughtRedirect) returnResult(Activity.RESULT_CANCELED, Exception("Login canceled"))
+            if (!caughtRedirect) {
+                returnResult(
+                    Activity.RESULT_CANCELED,
+                    OmhAuthException.LoginCanceledException()
+                )
+            }
         }
     }
 
@@ -45,7 +53,10 @@ internal class RedirectActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         if (intent.getStringExtra(CLIENT_ID) == null) {
-            returnResult(Activity.RESULT_CANCELED, Exception("Missing clientID"))
+            returnResult(
+                Activity.RESULT_CANCELED,
+                OmhAuthException.RecoverableLoginException(OmhAuthStatusCodes.DEVELOPER_ERROR)
+            )
             return
         }
         val clientId: String = intent.getStringExtra(CLIENT_ID)!!
@@ -57,12 +68,15 @@ internal class RedirectActivity : AppCompatActivity() {
 
     private fun observeTokenResponse(eventWrapper: EventWrapper<ApiResult<OAuthTokens>>?) {
         if (eventWrapper.nullOrHandled()) return
-        when (val content = eventWrapper.getContentIfHandled()!!) {
-            is ApiResult.Error -> {
-                returnResult(Activity.RESULT_CANCELED, Exception(content.exception))
-            }
+        when (eventWrapper.getContentIfHandled()) {
             is ApiResult.Success -> {
                 returnResult(Activity.RESULT_OK)
+            }
+            else -> {
+                returnResult(
+                    Activity.RESULT_CANCELED,
+                    OmhAuthException.UnrecoverableLoginException()
+                )
             }
         }
     }
@@ -70,7 +84,10 @@ internal class RedirectActivity : AppCompatActivity() {
     private fun openCustomTabLogin() {
         val scopes = intent.getStringExtra(SCOPES)
         if (scopes.isNullOrEmpty() || packageName.isNullOrEmpty()) {
-            returnResult(Activity.RESULT_CANCELED, Exception("Missing data for login"))
+            returnResult(
+                Activity.RESULT_CANCELED,
+                OmhAuthException.RecoverableLoginException(OmhAuthStatusCodes.DEVELOPER_ERROR)
+            )
             return
         }
         val uri = viewModel.getLoginUrl(scopes, packageName)
@@ -88,14 +105,17 @@ internal class RedirectActivity : AppCompatActivity() {
         val authCode = data?.getQueryParameter("code")
         val error = data?.getQueryParameter("error code")
         if (authCode == null) {
-            Toast.makeText(this, "Error: $error", Toast.LENGTH_LONG).show()
-            returnResult(Activity.RESULT_CANCELED, Exception("Auth code wasn't returned."))
+            Log.e("Redirect Activity", "Error: $error")
+            returnResult(
+                Activity.RESULT_CANCELED,
+                OmhAuthException.UnrecoverableLoginException()
+            )
             return
         }
         viewModel.requestTokens(authCode, packageName)
     }
 
-    private fun returnResult(result: Int, exception: Exception? = null) {
+    private fun returnResult(result: Int, exception: OmhAuthException? = null) {
         val intent = Intent()
         if (result == Activity.RESULT_CANCELED) {
             intent.putExtra(Constants.CAUSE_KEY, exception)

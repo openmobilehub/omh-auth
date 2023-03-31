@@ -6,9 +6,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.tasks.Task
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential
 import com.omh.android.auth.api.OmhAuthClient
+import com.omh.android.auth.api.models.OmhAuthException
+import com.omh.android.auth.api.models.OmhAuthStatusCodes
 import com.omh.android.auth.api.models.OmhUserProfile
 
 internal class OmhAuthClientImpl(
@@ -51,9 +54,26 @@ internal class OmhAuthClientImpl(
         try {
             val account: GoogleSignInAccount = task.getResult(ApiException::class.java)
             return account.toOmhProfile()
-        } catch (e: ApiException) {
-            val message = GoogleSignInStatusCodes.getStatusCodeString(e.statusCode)
-            error(message) // TODO Map to OMH Exception
+        } catch (apiException: ApiException) {
+            val omhException: OmhAuthException = toOmhException(apiException)
+            throw omhException
+        }
+    }
+
+    private fun toOmhException(apiException: ApiException) = when (apiException.statusCode) {
+        GoogleSignInStatusCodes.SIGN_IN_CANCELLED -> {
+            OmhAuthException.LoginCanceledException(apiException.cause)
+        }
+        GoogleSignInStatusCodes.SIGN_IN_FAILED -> {
+            OmhAuthException.UnrecoverableLoginException(apiException.cause)
+        }
+        else -> {
+            val omhStatusCode = when (apiException.statusCode) {
+                CommonStatusCodes.NETWORK_ERROR -> OmhAuthStatusCodes.NETWORK_ERROR
+                CommonStatusCodes.DEVELOPER_ERROR -> OmhAuthStatusCodes.DEVELOPER_ERROR
+                else -> OmhAuthStatusCodes.INTERNAL_ERROR
+            }
+            OmhAuthException.RecoverableLoginException(omhStatusCode, apiException.cause)
         }
     }
 }
