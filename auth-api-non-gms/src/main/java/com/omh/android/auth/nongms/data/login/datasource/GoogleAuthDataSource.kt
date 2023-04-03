@@ -10,7 +10,7 @@ import com.omh.android.auth.nongms.domain.models.ApiResult
 import com.omh.android.auth.nongms.utils.Constants
 import retrofit2.Response
 
-class GoogleAuthDataSource(
+internal class GoogleAuthDataSource(
     private val authService: GoogleAuthREST,
     private val sharedPreferences: SharedPreferences
 ) : AuthDataSource {

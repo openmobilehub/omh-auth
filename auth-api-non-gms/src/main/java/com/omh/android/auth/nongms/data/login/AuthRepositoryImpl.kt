@@ -32,27 +32,20 @@ internal class AuthRepositoryImpl(
             codeVerifier = codeVerifier
         )
 
-        return@withContext when (result) {
-            is ApiResult.Success<AuthTokenResponse> -> {
-                val authTokenResponse = result.data
-                googleAuthDataSource.storeToken(
-                    tokenType = AuthDataSource.ACCESS_TOKEN,
-                    token = authTokenResponse.accessToken
-                )
-                googleAuthDataSource.storeToken(
-                    tokenType = AuthDataSource.REFRESH_TOKEN,
-                    token = checkNotNull(authTokenResponse.refreshToken)
-                )
-                val data = OAuthTokens(
-                    accessToken = authTokenResponse.accessToken,
-                    refreshToken = checkNotNull(authTokenResponse.refreshToken),
-                    idToken = authTokenResponse.idToken
-                )
-                ApiResult.Success(data)
-            }
-            is ApiResult.Error -> result
-            is ApiResult.NetworkError -> result
-            is ApiResult.RuntimeError -> result
+        result.map { data: AuthTokenResponse ->
+            googleAuthDataSource.storeToken(
+                tokenType = AuthDataSource.ACCESS_TOKEN,
+                token = data.accessToken
+            )
+            googleAuthDataSource.storeToken(
+                tokenType = AuthDataSource.REFRESH_TOKEN,
+                token = checkNotNull(data.refreshToken)
+            )
+            OAuthTokens(
+                accessToken = data.accessToken,
+                refreshToken = checkNotNull(data.refreshToken),
+                idToken = data.idToken
+            )
         }
     }
 
@@ -77,15 +70,9 @@ internal class AuthRepositoryImpl(
     override suspend fun refreshAccessToken(
         clientId: String
     ): ApiResult<String> = withContext(ioDispatcher) {
-        return@withContext when (val result = googleAuthDataSource.refreshAccessToken(clientId)) {
-            is ApiResult.Success<AuthTokenResponse> -> {
-                val token = result.data.accessToken
-                googleAuthDataSource.storeToken(AuthDataSource.ACCESS_TOKEN, token)
-                ApiResult.Success(token)
-            }
-            is ApiResult.Error -> result
-            is ApiResult.NetworkError -> result
-            is ApiResult.RuntimeError -> result
+        googleAuthDataSource.refreshAccessToken(clientId).map { data: AuthTokenResponse ->
+            googleAuthDataSource.storeToken(AuthDataSource.ACCESS_TOKEN, data.accessToken)
+            data.accessToken
         }
     }
 

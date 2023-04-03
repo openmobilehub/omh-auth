@@ -5,7 +5,7 @@ import java.lang.reflect.Type
 import retrofit2.Call
 import retrofit2.CallAdapter
 
-class ApiResultCallAdapter<R>(private val successType: Type) : CallAdapter<R, Call<ApiResult<R>>> {
+internal class ApiResultCallAdapter<R>(private val successType: Type) : CallAdapter<R, Call<ApiResult<R>>> {
 
     override fun responseType(): Type = successType
 

@@ -8,7 +8,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.jackson.JacksonConverterFactory
 
-class GoogleRetrofitImpl {
+internal class GoogleRetrofitImpl {
 
     private val okHttpClient = OkHttpClient.Builder()
         .addInterceptor(

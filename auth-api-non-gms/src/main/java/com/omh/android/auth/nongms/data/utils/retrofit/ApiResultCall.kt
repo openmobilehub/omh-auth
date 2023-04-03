@@ -9,7 +9,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ApiResultCall<T>(
+internal class ApiResultCall<T>(
     private val delegate: Call<T>,
     private val successType: Type
 ) : Call<ApiResult<T>> {
@@ -23,8 +23,8 @@ class ApiResultCall<T>(
 
             override fun onFailure(call: Call<T>, throwable: Throwable) {
                 val apiResult = when (throwable) {
-                    is IOException -> ApiResult.NetworkError(throwable)
-                    else -> ApiResult.RuntimeError(throwable)
+                    is IOException -> ApiResult.Error.NetworkError(throwable)
+                    else -> ApiResult.Error.RuntimeError(throwable)
                 }
                 callback.onResponse(this@ApiResultCall, Response.success(apiResult))
             }
@@ -34,7 +34,7 @@ class ApiResultCall<T>(
                     // Http error response (4xx - 5xx)
                     !isSuccessful -> {
                         val errorBody: String? = errorBody()?.string()
-                        ApiResult.Error(code(), errorBody.orEmpty())
+                        ApiResult.Error.ApiError(code(), errorBody.orEmpty())
                     }
                     // Http success response with body
                     body() != null -> {
@@ -48,7 +48,7 @@ class ApiResultCall<T>(
                     }
                     else -> {
                         val exception = UnknownError("Response body was null")
-                        ApiResult.RuntimeError(exception)
+                        ApiResult.Error.RuntimeError(exception)
                     }
                 }
             }

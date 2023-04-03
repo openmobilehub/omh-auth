@@ -7,7 +7,7 @@ import retrofit2.Call
 import retrofit2.CallAdapter
 import retrofit2.Retrofit
 
-class ApiResultCallAdapterFactory : CallAdapter.Factory() {
+internal class ApiResultCallAdapterFactory : CallAdapter.Factory() {
 
     @SuppressWarnings("ReturnCount")
     override fun get(

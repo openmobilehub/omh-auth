@@ -5,7 +5,7 @@ import com.omh.android.auth.nongms.data.login.models.AuthTokenResponse
 import com.omh.android.auth.nongms.domain.models.ApiResult
 import retrofit2.Response
 
-interface AuthDataSource {
+internal interface AuthDataSource {
 
     /**
      * Requests the token from the auth provider REST services. This can return HTTP errors.
