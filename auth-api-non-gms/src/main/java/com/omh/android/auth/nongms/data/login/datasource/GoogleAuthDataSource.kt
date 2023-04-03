@@ -69,12 +69,12 @@ class GoogleAuthDataSource(
         return sharedPreferences.getString(AuthDataSource.REFRESH_TOKEN, null)
     }
 
-    override suspend fun refreshAccessToken(clientId: String): Response<AuthTokenResponse> {
+    override suspend fun refreshAccessToken(clientId: String): ApiResult<AuthTokenResponse> {
         val refreshToken = checkNotNull(getRefreshToken())
         return (authService.refreshToken(clientId, refreshToken))
     }
 
-    override suspend fun revokeToken(token: String): Response<Nothing> {
+    override suspend fun revokeToken(token: String): ApiResult<Unit> {
         return (authService.revokeToken(token))
     }
 

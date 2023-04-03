@@ -62,7 +62,7 @@ interface AuthDataSource {
      *
      * @return a [Response] with the [AuthTokenResponse]
      */
-    suspend fun refreshAccessToken(clientId: String): Response<AuthTokenResponse>
+    suspend fun refreshAccessToken(clientId: String): ApiResult<AuthTokenResponse>
 
     /**
      * Indicates the auth provider that the token should be revoked. When logging out, this step is
@@ -70,7 +70,7 @@ interface AuthDataSource {
      *
      * @param token -> token to revoke.
      */
-    suspend fun revokeToken(token: String): Response<Nothing>
+    suspend fun revokeToken(token: String): ApiResult<Unit>
 
     /**
      * Clears all local data of the user, including any stored tokens.

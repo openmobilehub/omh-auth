@@ -26,11 +26,11 @@ interface GoogleAuthREST {
         @Field("client_id") clientId: String,
         @Field("refresh_token") refreshToken: String,
         @Field("grant_type") grantType: String = "refresh_token"
-    ): Response<AuthTokenResponse>
+    ): ApiResult<AuthTokenResponse>
 
     @POST("/revoke")
     @FormUrlEncoded
     suspend fun revokeToken(
         @Field("token") token: String
-    ): Response<Nothing>
+    ): ApiResult<Unit>
 }
