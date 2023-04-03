@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.omh.android.auth.api.models.OmhAuthException
 import com.omh.android.auth.nongms.domain.auth.AuthUseCase
 import com.omh.android.auth.nongms.domain.models.ApiResult
 import com.omh.android.auth.nongms.domain.models.OAuthTokens
@@ -29,11 +30,15 @@ internal class RedirectViewModel(
         authCode: String,
         packageName: String,
     ) = viewModelScope.launch {
-        val apiResult = authUseCase.requestTokens(authCode, packageName)
+        var apiResult = authUseCase.requestTokens(authCode, packageName)
         if (apiResult is ApiResult.Success) {
             val tokens: OAuthTokens = apiResult.data
-            val clientId = checkNotNull(authUseCase.clientId)
-            profileUseCase.resolveIdToken(tokens.idToken, clientId)
+            val clientId = authUseCase.clientId.orEmpty()
+            try {
+                profileUseCase.resolveIdToken(tokens.idToken, clientId)
+            } catch (omhException: OmhAuthException) {
+                apiResult = ApiResult.Error.RuntimeError(omhException)
+            }
         }
         _tokenResponseEvent.postValue(EventWrapper(apiResult))
     }

@@ -1,12 +1,16 @@
 package com.omh.android.auth.nongms.domain.user
 
+import com.omh.android.auth.api.models.OmhAuthException
 import com.omh.android.auth.api.models.OmhUserProfile
 
 class ProfileUseCase(private val userRepository: UserRepository) {
 
+    @Throws(OmhAuthException.UnrecoverableLoginException::class)
     suspend fun resolveIdToken(idToken: String, clientId: String) {
         if (idToken.trim().isEmpty() || clientId.trim().isEmpty()) {
-            error("ID token or clientID are empty")
+            throw OmhAuthException.UnrecoverableLoginException(
+                cause = IllegalStateException("idToken or clientId is empty")
+            )
         }
         userRepository.handleIdToken(idToken, clientId)
     }
