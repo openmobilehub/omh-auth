@@ -6,6 +6,7 @@ import androidx.core.content.edit
 import androidx.core.net.toUri
 import com.omh.android.auth.nongms.data.login.GoogleAuthREST
 import com.omh.android.auth.nongms.data.login.models.AuthTokenResponse
+import com.omh.android.auth.nongms.domain.models.ApiResult
 import com.omh.android.auth.nongms.utils.Constants
 import retrofit2.Response
 
@@ -19,7 +20,7 @@ class GoogleAuthDataSource(
         authCode: String,
         redirectUri: String,
         codeVerifier: String
-    ): Response<AuthTokenResponse> {
+    ): ApiResult<AuthTokenResponse> {
         return authService.getToken(
             clientId = clientId,
             code = authCode,

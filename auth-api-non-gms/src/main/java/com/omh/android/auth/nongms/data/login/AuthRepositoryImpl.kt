@@ -26,34 +26,34 @@ internal class AuthRepositoryImpl(
         redirectUri: String,
         codeVerifier: String
     ): ApiResult<OAuthTokens> = withContext(ioDispatcher) {
-        val response: Response<AuthTokenResponse> = googleAuthDataSource.getToken(
+        val result: ApiResult<AuthTokenResponse> = googleAuthDataSource.getToken(
             clientId = clientId,
             authCode = authCode,
             redirectUri = redirectUri,
             codeVerifier = codeVerifier
         )
-        val body: AuthTokenResponse = response.body()
-            ?: return@withContext ApiResult.Error("Null body")
 
-        return@withContext if (response.isSuccessful) {
-            googleAuthDataSource.storeToken(
-                tokenType = AuthDataSource.ACCESS_TOKEN,
-                token = checkNotNull(body.accessToken)
-            )
-            googleAuthDataSource.storeToken(
-                tokenType = AuthDataSource.REFRESH_TOKEN,
-                token = checkNotNull(body.refreshToken)
-            )
-            val data = OAuthTokens(
-                accessToken = body.accessToken,
-                refreshToken = checkNotNull(body.refreshToken),
-                idToken = body.idToken
-            )
-            ApiResult.Success(data)
-        } else {
-            val exception = response.errorBody()?.string()
-            response.errorBody()?.close()
-            ApiResult.Error(exception.orEmpty())
+        return@withContext when (result) {
+            is ApiResult.Success<AuthTokenResponse> -> {
+                val authTokenResponse = result.data
+                googleAuthDataSource.storeToken(
+                    tokenType = AuthDataSource.ACCESS_TOKEN,
+                    token = authTokenResponse.accessToken
+                )
+                googleAuthDataSource.storeToken(
+                    tokenType = AuthDataSource.REFRESH_TOKEN,
+                    token = checkNotNull(authTokenResponse.refreshToken)
+                )
+                val data = OAuthTokens(
+                    accessToken = authTokenResponse.accessToken,
+                    refreshToken = checkNotNull(authTokenResponse.refreshToken),
+                    idToken = authTokenResponse.idToken
+                )
+                ApiResult.Success(data)
+            }
+            is ApiResult.Error -> result
+            is ApiResult.NetworkError -> result
+            is ApiResult.RuntimeError -> result
         }
     }
 
@@ -81,7 +81,7 @@ internal class AuthRepositoryImpl(
         val response: Response<AuthTokenResponse> =
             googleAuthDataSource.refreshAccessToken(clientId)
         val body: AuthTokenResponse = response.body()
-            ?: return@withContext ApiResult.Error("Null body")
+            ?: return@withContext ApiResult.RuntimeError(UnknownError("Null body"))
 
         return@withContext if (response.isSuccessful) {
             googleAuthDataSource.storeToken(AuthDataSource.ACCESS_TOKEN, body.accessToken)
@@ -89,7 +89,7 @@ internal class AuthRepositoryImpl(
         } else {
             val exception = response.errorBody()?.string()
             response.errorBody()?.close()
-            ApiResult.Error(exception.orEmpty())
+            ApiResult.Error(response.code(), exception.orEmpty())
         }
     }
 
@@ -104,7 +104,7 @@ internal class AuthRepositoryImpl(
         } else {
             val exception = response.errorBody()?.string()
             response.errorBody()?.close()
-            ApiResult.Error(exception.orEmpty())
+            ApiResult.Error(response.code(), exception.orEmpty())
         }
     }
 

@@ -1,6 +1,8 @@
 package com.omh.android.auth.nongms.data.login
 
 import com.omh.android.auth.nongms.data.login.models.AuthTokenResponse
+import com.omh.android.auth.nongms.data.utils.retrofit.ApiResultCall
+import com.omh.android.auth.nongms.domain.models.ApiResult
 import retrofit2.Response
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -16,7 +18,7 @@ interface GoogleAuthREST {
         @Field("redirect_uri") redirectUri: String,
         @Field("code_verifier") codeVerifier: String,
         @Field("grant_type") grantType: String = "authorization_code",
-    ): Response<AuthTokenResponse>
+    ): ApiResult<AuthTokenResponse>
 
     @POST("/token")
     @FormUrlEncoded

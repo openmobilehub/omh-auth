@@ -2,6 +2,7 @@ package com.omh.android.auth.nongms.data.login.datasource
 
 import android.net.Uri
 import com.omh.android.auth.nongms.data.login.models.AuthTokenResponse
+import com.omh.android.auth.nongms.domain.models.ApiResult
 import retrofit2.Response
 
 interface AuthDataSource {
@@ -19,7 +20,7 @@ interface AuthDataSource {
         authCode: String,
         redirectUri: String,
         codeVerifier: String
-    ): Response<AuthTokenResponse>
+    ): ApiResult<AuthTokenResponse>
 
     /**
      * Builds the login URL for the Custom Tabs screen. If the login is successful, an auth code

@@ -70,6 +70,12 @@ internal class RedirectActivity : AppCompatActivity() {
             is ApiResult.Success -> {
                 returnResult(Activity.RESULT_OK)
             }
+            is ApiResult.NetworkError -> {
+                returnResult(
+                    Activity.RESULT_CANCELED,
+                    OmhAuthException.RecoverableLoginException(OmhAuthStatusCodes.NETWORK_ERROR)
+                )
+            }
             else -> {
                 returnResult(
                     Activity.RESULT_CANCELED,

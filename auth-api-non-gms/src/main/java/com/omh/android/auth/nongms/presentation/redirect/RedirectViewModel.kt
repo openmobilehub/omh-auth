@@ -1,7 +1,6 @@
 package com.omh.android.auth.nongms.presentation.redirect
 
 import android.net.Uri
-import android.util.Log
 import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -31,15 +30,10 @@ internal class RedirectViewModel(
         packageName: String,
     ) = viewModelScope.launch {
         val apiResult = authUseCase.requestTokens(authCode, packageName)
-        when (apiResult) {
-            is ApiResult.Error -> {
-                Log.e(RedirectViewModel::class.java.name, apiResult.exception)
-            }
-            is ApiResult.Success -> {
-                val tokens: OAuthTokens = apiResult.data
-                val clientId = checkNotNull(authUseCase.clientId)
-                profileUseCase.resolveIdToken(tokens.idToken, clientId)
-            }
+        if (apiResult is ApiResult.Success) {
+            val tokens: OAuthTokens = apiResult.data
+            val clientId = checkNotNull(authUseCase.clientId)
+            profileUseCase.resolveIdToken(tokens.idToken, clientId)
         }
         _tokenResponseEvent.postValue(EventWrapper(apiResult))
     }
