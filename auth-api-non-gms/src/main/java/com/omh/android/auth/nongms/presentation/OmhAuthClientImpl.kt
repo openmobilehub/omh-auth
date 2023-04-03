@@ -72,6 +72,8 @@ internal class OmhAuthClientImpl(
             val exception = data.getSerializableExtra(Constants.CAUSE_KEY) as OmhAuthException
             throw exception
         }
-        return getUser() ?: error("Login failed") // TODO throw an OMH auth error
+        return getUser() ?: throw OmhAuthException.UnrecoverableLoginException(
+            cause = Throwable(message = "No user profile stored")
+        )
     }
 }

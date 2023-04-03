@@ -4,9 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -42,8 +40,8 @@ internal class RedirectActivity : AppCompatActivity() {
         LifecycleUtil.runOnResume(lifecycle = lifecycle, owner = this) {
             if (!caughtRedirect) {
                 returnResult(
-                    Activity.RESULT_CANCELED,
-                    OmhAuthException.LoginCanceledException()
+                    result = Activity.RESULT_CANCELED,
+                    exception = OmhAuthException.LoginCanceledException()
                 )
             }
         }
@@ -54,8 +52,8 @@ internal class RedirectActivity : AppCompatActivity() {
         setContentView(binding.root)
         if (intent.getStringExtra(CLIENT_ID) == null) {
             returnResult(
-                Activity.RESULT_CANCELED,
-                OmhAuthException.RecoverableLoginException(OmhAuthStatusCodes.DEVELOPER_ERROR)
+                result = Activity.RESULT_CANCELED,
+                exception = OmhAuthException.RecoverableLoginException(OmhAuthStatusCodes.DEVELOPER_ERROR)
             )
             return
         }
@@ -103,16 +101,23 @@ internal class RedirectActivity : AppCompatActivity() {
         caughtRedirect = true
         val data: Uri? = intent?.data
         val authCode = data?.getQueryParameter("code")
-        val error = data?.getQueryParameter("error code")
+        val error = data?.getQueryParameter("error")
         if (authCode == null) {
-            Log.e("Redirect Activity", "Error: $error")
-            returnResult(
-                Activity.RESULT_CANCELED,
-                OmhAuthException.UnrecoverableLoginException()
-            )
+            handleLoginError(error)
             return
         }
         viewModel.requestTokens(authCode, packageName)
+    }
+
+    private fun handleLoginError(error: String?) {
+        val code = when (error) {
+            "access_denied" -> OmhAuthStatusCodes.ACCESS_DENIED
+            else -> OmhAuthStatusCodes.DEFAULT_ERROR
+        }
+        returnResult(
+            result = RESULT_CANCELED,
+            exception = OmhAuthException.RecoverableLoginException(code)
+        )
     }
 
     private fun returnResult(result: Int, exception: OmhAuthException? = null) {
