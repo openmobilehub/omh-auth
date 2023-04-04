@@ -117,7 +117,7 @@ internal class RedirectActivity : AppCompatActivity() {
 
     private fun handleLoginError(error: String?) {
         val code = when (error) {
-            "access_denied" -> OmhAuthStatusCodes.ACCESS_DENIED
+            ACCESS_DENIED_RESPONSE -> OmhAuthStatusCodes.ACCESS_DENIED
             else -> OmhAuthStatusCodes.DEFAULT_ERROR
         }
         returnResult(
@@ -136,7 +136,8 @@ internal class RedirectActivity : AppCompatActivity() {
     }
 
     companion object {
-        internal const val SCOPES = "scopes"
-        internal const val CLIENT_ID = "client_id"
+        const val SCOPES = "scopes"
+        const val CLIENT_ID = "client_id"
+        const val ACCESS_DENIED_RESPONSE = "access_denied"
     }
 }
