@@ -41,11 +41,11 @@ class LoggedInActivity : AppCompatActivity() {
             refreshToken()
         }
 
-//        val profile = requireNotNull(omhAuthClient.getUser())
-//        binding.tvEmail.text = getString(R.string.email_placeholder, profile.email)
-//        binding.tvName.text = getString(R.string.name_placeholder, profile.name)
-//        binding.tvSurname.text = getString(R.string.surname_placeholder, profile.surname)
-//        getToken()
+        val profile = requireNotNull(omhAuthClient.getUser())
+        binding.tvEmail.text = getString(R.string.email_placeholder, profile.email)
+        binding.tvName.text = getString(R.string.name_placeholder, profile.name)
+        binding.tvSurname.text = getString(R.string.surname_placeholder, profile.surname)
+        getToken()
     }
 
     private fun getToken() = lifecycleScope.launch(Dispatchers.IO) {
