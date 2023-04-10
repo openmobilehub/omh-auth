@@ -25,11 +25,9 @@ class LoginActivity : AppCompatActivity() {
             } catch (exception: OmhAuthException) {
                 val errorMessage = OmhAuthStatusCodes.getStatusCodeString(exception.statusCode)
                 AlertDialog.Builder(this)
-                    .setTitle("An error has ocurred.")
+                    .setTitle("An error has occurred.")
                     .setMessage(errorMessage)
-                    .setPositiveButton(
-                        android.R.string.ok
-                    ) { dialog, _ -> dialog.dismiss() }
+                    .setPositiveButton(android.R.string.ok) { dialog, _ -> dialog.dismiss() }
                     .create()
                     .show()
             }
@@ -47,7 +45,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
         binding.btnLogin.setOnClickListener { startLogin() }
 
-        if (omhAuthClient.getUser() != null) {
+        if (omhAuthClient.getUser() == null) {
             navigateToLoggedIn()
         }
     }
