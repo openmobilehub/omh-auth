@@ -6,13 +6,13 @@ internal sealed class ApiResult<out T> {
 
     data class Success<out R>(val data: R) : ApiResult<R>()
 
-    sealed class Error : ApiResult<Nothing>() {
+    sealed class Error(open val cause: Throwable) : ApiResult<Nothing>() {
 
-        data class ApiError(val exception: HttpException) : Error()
+        data class ApiError(override val cause: HttpException) : Error(cause)
 
-        data class RuntimeError(val exception: Throwable) : Error()
+        data class RuntimeError(override val cause: Throwable) : Error(cause)
 
-        data class NetworkError(val exception: Throwable) : Error()
+        data class NetworkError(override val cause: Throwable) : Error(cause)
     }
 
     /**

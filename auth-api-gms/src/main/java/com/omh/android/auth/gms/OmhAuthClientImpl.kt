@@ -105,7 +105,8 @@ internal class OmhAuthClientImpl(
         exception: Exception,
         onFailure: (OmhAuthException) -> Unit
     ) {
-        val statusCode: Int = when ((exception as? ApiException)?.statusCode) {
+        val apiException: ApiException? = exception as? ApiException
+        val statusCode: Int = when (apiException?.statusCode) {
             CommonStatusCodes.API_NOT_CONNECTED -> OmhAuthStatusCodes.GMS_UNAVAILABLE
             else -> OmhAuthStatusCodes.INTERNAL_ERROR
         }

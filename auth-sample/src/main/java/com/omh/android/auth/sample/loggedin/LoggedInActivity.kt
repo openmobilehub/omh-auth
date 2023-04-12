@@ -53,7 +53,7 @@ class LoggedInActivity : AppCompatActivity() {
     private fun revokeToken() {
         omhAuthClient.revokeToken(
             onFailure = ::showErrorDialog,
-//            onSuccess = ::logout
+            onSuccess = ::logout
         )
     }
 

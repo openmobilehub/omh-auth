@@ -121,31 +121,19 @@ internal class OmhAuthClientImpl(
         onFailure: (OmhAuthException) -> Unit,
         onSuccess: () -> Unit
     ) {
-        when (this) {
-            is ApiResult.Error.ApiError -> {
-                val apiException = OmhAuthException.ApiException(
-                    statusCode = OmhAuthStatusCodes.HTTPS_ERROR,
-                    cause = exception
-                )
-                onFailure(apiException)
-            }
-            is ApiResult.Error.NetworkError -> {
-                val apiException = OmhAuthException.ApiException(
-                    statusCode = OmhAuthStatusCodes.NETWORK_ERROR,
-                    cause = exception
-                )
-                onFailure(apiException)
-            }
-            is ApiResult.Error.RuntimeError -> {
-                val apiException = OmhAuthException.ApiException(
-                    statusCode = OmhAuthStatusCodes.INTERNAL_ERROR,
-                    cause = exception
-                )
-                onFailure(apiException)
-            }
-            is ApiResult.Success -> {
-                onSuccess()
-            }
+        return when (this) {
+            is ApiResult.Error -> handleError(onFailure)
+            is ApiResult.Success -> onSuccess()
         }
+    }
+
+    private fun ApiResult.Error.handleError(onFailure: (OmhAuthException) -> Unit) {
+        val statusCode = when (this) {
+            is ApiResult.Error.ApiError -> OmhAuthStatusCodes.HTTPS_ERROR
+            is ApiResult.Error.NetworkError -> OmhAuthStatusCodes.NETWORK_ERROR
+            is ApiResult.Error.RuntimeError -> OmhAuthStatusCodes.INTERNAL_ERROR
+        }
+        val apiException = OmhAuthException.ApiException(statusCode, cause)
+        onFailure(apiException)
     }
 }
