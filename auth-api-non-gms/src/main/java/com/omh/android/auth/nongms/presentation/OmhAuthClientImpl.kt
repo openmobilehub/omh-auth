@@ -11,7 +11,13 @@ import com.omh.android.auth.api.models.OmhAuthStatusCodes
 import com.omh.android.auth.api.models.OmhUserProfile
 import com.omh.android.auth.nongms.data.login.AuthRepositoryImpl
 import com.omh.android.auth.nongms.domain.auth.AuthUseCase
+import com.omh.android.auth.nongms.domain.models.ApiResult
 import com.omh.android.auth.nongms.utils.Constants
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * Non GMS implementation of the OmhAuthClient abstraction. Required a clientId and defined scopes as
@@ -74,7 +80,7 @@ internal class OmhAuthClientImpl(
             authUseCase.logout()
             onSuccess()
         } catch (exception: RuntimeException) {
-            val omhException = OmhAuthException.SignOutException(
+            val omhException = OmhAuthException.ApiException(
                 OmhAuthStatusCodes.INTERNAL_ERROR,
                 exception
             )
@@ -92,5 +98,54 @@ internal class OmhAuthClientImpl(
         return getUser() ?: throw OmhAuthException.UnrecoverableLoginException(
             cause = Throwable(message = "No user profile stored")
         )
+    }
+
+    @OptIn(DelicateCoroutinesApi::class)
+    override fun revokeToken(
+        onSuccess: () -> Unit,
+        onFailure: (OmhAuthException) -> Unit,
+        onComplete: () -> Unit,
+    ) {
+        val authRepository = AuthRepositoryImpl.getAuthRepository(applicationContext)
+        val authUseCase = AuthUseCase.createAuthUseCase(authRepository)
+        GlobalScope.launch { // TODO Look for better ways of handling this
+            val result = authUseCase.revokeToken()
+            withContext(Dispatchers.Main) {
+                result.handleOutcome(onFailure, onSuccess)
+                onComplete()
+            }
+        }
+    }
+
+    private fun ApiResult<Unit>.handleOutcome(
+        onFailure: (OmhAuthException) -> Unit,
+        onSuccess: () -> Unit
+    ) {
+        when (this) {
+            is ApiResult.Error.ApiError -> {
+                val apiException = OmhAuthException.ApiException(
+                    statusCode = OmhAuthStatusCodes.HTTPS_ERROR,
+                    cause = exception
+                )
+                onFailure(apiException)
+            }
+            is ApiResult.Error.NetworkError -> {
+                val apiException = OmhAuthException.ApiException(
+                    statusCode = OmhAuthStatusCodes.NETWORK_ERROR,
+                    cause = exception
+                )
+                onFailure(apiException)
+            }
+            is ApiResult.Error.RuntimeError -> {
+                val apiException = OmhAuthException.ApiException(
+                    statusCode = OmhAuthStatusCodes.INTERNAL_ERROR,
+                    cause = exception
+                )
+                onFailure(apiException)
+            }
+            is ApiResult.Success -> {
+                onSuccess()
+            }
+        }
     }
 }

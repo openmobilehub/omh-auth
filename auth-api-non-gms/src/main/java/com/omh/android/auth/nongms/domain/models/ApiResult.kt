@@ -1,12 +1,14 @@
 package com.omh.android.auth.nongms.domain.models
 
+import retrofit2.HttpException
+
 internal sealed class ApiResult<out T> {
 
     data class Success<out R>(val data: R) : ApiResult<R>()
 
     sealed class Error : ApiResult<Nothing>() {
 
-        data class ApiError(val code: Int, val body: String) : Error()
+        data class ApiError(val exception: HttpException) : Error()
 
         data class RuntimeError(val exception: Throwable) : Error()
 

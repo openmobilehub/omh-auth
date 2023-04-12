@@ -37,12 +37,13 @@ internal class OmhAuthClientImpl(
         )
     }
 
-    override fun getCredentials(): Any {
+    override fun getCredentials(): Any? {
         val context = googleSignInClient.applicationContext
-        val lastSignedInAccount: GoogleSignInAccount? = GoogleSignIn.getLastSignedInAccount(context)
-        val scopes = lastSignedInAccount?.grantedScopes?.map { scope -> scope.scopeUri }
+        val account: GoogleSignInAccount =
+            GoogleSignIn.getLastSignedInAccount(context) ?: return null
+        val scopes = account.grantedScopes.map { scope -> scope.scopeUri }
         return GoogleAccountCredential.usingOAuth2(context, scopes).apply {
-            selectedAccount = lastSignedInAccount?.account
+            selectedAccount = account.account
         }
     }
 
@@ -53,15 +54,7 @@ internal class OmhAuthClientImpl(
     ) {
         googleSignInClient.signOut()
             .addOnFailureListener { exception: Exception ->
-                val statusCode: Int = when ((exception as? ApiException)?.statusCode) {
-                    CommonStatusCodes.API_NOT_CONNECTED -> OmhAuthStatusCodes.GMS_UNAVAILABLE
-                    else -> OmhAuthStatusCodes.INTERNAL_ERROR
-                }
-                val omhException = OmhAuthException.SignOutException(
-                    statusCode = statusCode,
-                    cause = exception
-                )
-                onFailure(omhException)
+                toOmhApiException(exception, onFailure)
             }
             .addOnSuccessListener { onSuccess() }
             .addOnCompleteListener { onComplete() }
@@ -93,5 +86,33 @@ internal class OmhAuthClientImpl(
             }
             OmhAuthException.RecoverableLoginException(omhStatusCode, apiException.cause)
         }
+    }
+
+    override fun revokeToken(
+        onSuccess: () -> Unit,
+        onFailure: (OmhAuthException) -> Unit,
+        onComplete: () -> Unit
+    ) {
+        googleSignInClient.revokeAccess()
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener { exception ->
+                toOmhApiException(exception, onFailure)
+            }
+            .addOnCompleteListener { onComplete() }
+    }
+
+    private fun toOmhApiException(
+        exception: Exception,
+        onFailure: (OmhAuthException) -> Unit
+    ) {
+        val statusCode: Int = when ((exception as? ApiException)?.statusCode) {
+            CommonStatusCodes.API_NOT_CONNECTED -> OmhAuthStatusCodes.GMS_UNAVAILABLE
+            else -> OmhAuthStatusCodes.INTERNAL_ERROR
+        }
+        val omhException = OmhAuthException.ApiException(
+            statusCode = statusCode,
+            cause = exception
+        )
+        onFailure(omhException)
     }
 }
