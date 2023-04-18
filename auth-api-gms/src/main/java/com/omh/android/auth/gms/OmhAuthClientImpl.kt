@@ -39,11 +39,11 @@ internal class OmhAuthClientImpl(
 
     override fun getCredentials(): Any? {
         val context = googleSignInClient.applicationContext
-        val account: GoogleSignInAccount =
+        val lastSignedInAccount: GoogleSignInAccount =
             GoogleSignIn.getLastSignedInAccount(context) ?: return null
-        val scopes = account.grantedScopes.map { scope -> scope.scopeUri }
+        val scopes = lastSignedInAccount.grantedScopes.map { scope -> scope.scopeUri }
         return GoogleAccountCredential.usingOAuth2(context, scopes).apply {
-            selectedAccount = account.account
+            selectedAccount = lastSignedInAccount.account
         }
     }
 
