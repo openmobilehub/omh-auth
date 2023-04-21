@@ -1,5 +1,10 @@
 package com.omh.android.auth.nongms.domain.auth
 
+import android.os.Handler
+import android.os.Looper
+import androidx.core.os.ExecutorCompat
+import com.google.common.util.concurrent.Futures
+import com.google.common.util.concurrent.ListenableFuture
 import com.omh.android.auth.nongms.domain.models.ApiResult
 import com.omh.android.auth.nongms.domain.models.OAuthTokens
 import com.omh.android.auth.nongms.domain.utils.Pkce
@@ -40,12 +45,14 @@ internal class AuthUseCase(
 
     fun logout() = authRepository.clearData()
 
-    suspend fun revokeToken(): ApiResult<Unit> {
-        val result = authRepository.revokeToken()
-        if (result is ApiResult.Success<*>) {
-            authRepository.clearData()
-        }
-        return result
+    fun revokeToken(): ListenableFuture<Unit> {
+        val future = authRepository.revokeToken()
+        val executor = ExecutorCompat.create(Handler(Looper.getMainLooper()))
+        return Futures.transform(
+            future,
+            { authRepository.clearData() },
+            executor
+        )
     }
 
     companion object {

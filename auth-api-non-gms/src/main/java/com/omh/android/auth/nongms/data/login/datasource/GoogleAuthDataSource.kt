@@ -4,11 +4,11 @@ import android.content.SharedPreferences
 import android.net.Uri
 import androidx.core.content.edit
 import androidx.core.net.toUri
+import com.google.common.util.concurrent.ListenableFuture
 import com.omh.android.auth.nongms.data.login.GoogleAuthREST
 import com.omh.android.auth.nongms.data.login.models.AuthTokenResponse
 import com.omh.android.auth.nongms.domain.models.ApiResult
 import com.omh.android.auth.nongms.utils.Constants
-import retrofit2.Response
 
 internal class GoogleAuthDataSource(
     private val authService: GoogleAuthREST,
@@ -76,8 +76,8 @@ internal class GoogleAuthDataSource(
         return authService.refreshToken(clientId, refreshToken)
     }
 
-    override suspend fun revokeToken(token: String): ApiResult<Unit> {
-        return (authService.revokeToken(token))
+    override fun revokeToken(token: String): ListenableFuture<Unit> {
+        return authService.revokeToken(token)
     }
 
     override fun clearData() {

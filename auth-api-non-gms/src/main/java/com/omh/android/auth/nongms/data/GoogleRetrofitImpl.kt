@@ -6,6 +6,7 @@ import com.omh.android.auth.nongms.data.utils.retrofit.ApiResultCallAdapterFacto
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import retrofit2.adapter.guava.GuavaCallAdapterFactory
 import retrofit2.converter.jackson.JacksonConverterFactory
 
 internal class GoogleRetrofitImpl {
@@ -23,6 +24,7 @@ internal class GoogleRetrofitImpl {
         .baseUrl(BuildConfig.G_AUTH_URL)
         .addConverterFactory(JacksonConverterFactory.create())
         .addCallAdapterFactory(ApiResultCallAdapterFactory())
+        .addCallAdapterFactory(GuavaCallAdapterFactory.create())
         .build()
 
     val googleAuthREST: GoogleAuthREST = retrofitClient.create(GoogleAuthREST::class.java)

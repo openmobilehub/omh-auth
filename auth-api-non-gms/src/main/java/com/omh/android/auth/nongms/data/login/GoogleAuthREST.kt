@@ -1,9 +1,8 @@
 package com.omh.android.auth.nongms.data.login
 
+import com.google.common.util.concurrent.ListenableFuture
 import com.omh.android.auth.nongms.data.login.models.AuthTokenResponse
-import com.omh.android.auth.nongms.data.utils.retrofit.ApiResultCall
 import com.omh.android.auth.nongms.domain.models.ApiResult
-import retrofit2.Response
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
@@ -30,7 +29,7 @@ internal interface GoogleAuthREST {
 
     @POST("/revoke")
     @FormUrlEncoded
-    suspend fun revokeToken(
+    fun revokeToken(
         @Field("token") token: String
-    ): ApiResult<Unit>
+    ): ListenableFuture<Unit>
 }
