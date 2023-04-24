@@ -2,6 +2,7 @@ package com.omh.android.auth.api
 
 import android.content.Context
 import android.content.Intent
+import com.google.android.gms.tasks.Task
 import com.google.common.util.concurrent.ListenableFuture
 import com.omh.android.auth.api.models.OmhAuthException
 import com.omh.android.auth.api.models.OmhUserProfile
@@ -45,5 +46,5 @@ interface OmhAuthClient {
     @Throws(OmhAuthException::class)
     fun getAccountFromIntent(data: Intent?): OmhUserProfile
 
-    fun revokeToken(): ListenableFuture<Unit>
+    fun revokeToken(): Task<Unit>
 }

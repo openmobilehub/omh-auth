@@ -39,11 +39,6 @@ dependencies {
     implementation(Libs.coroutinesCore)
     implementation(Libs.coroutinesAndroid)
 
-    implementation("androidx.concurrent:concurrent-futures:1.1.0")
-    // Kotlin
-    implementation("androidx.concurrent:concurrent-futures-ktx:1.1.0")
-    implementation("com.google.guava:guava:31.1-android")
-
     // Custom tabs
     implementation(Libs.customTabs)
 

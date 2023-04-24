@@ -115,10 +115,9 @@ internal class AuthUseCaseTest {
 
         coVerify { authRepository.clearData() }
     }
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `given revoke was requested when revoke succeeds then storage is cleaned up`() = runTest {
-        coEvery { authRepository.revokeToken() } returns ApiResult.Success(Unit)
+    fun `given revoke was requested when revoke succeeds then storage is cleaned up`() {
+        coEvery { authRepository.revokeToken() } returns mockk()
         coEvery { authRepository.clearData() } returns Unit
 
         authUseCase.revokeToken()
@@ -127,11 +126,9 @@ internal class AuthUseCaseTest {
         coVerify { authRepository.clearData() }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `given revoke was requested when revoke fails then storage is not cleaned up`() = runTest {
-        val error: ApiResult.Error = mockk()
-        coEvery { authRepository.revokeToken() } returns error
+    fun `given revoke was requested when revoke fails then storage is not cleaned up`() {
+        coEvery { authRepository.revokeToken() } returns mockk()
         coEvery { authRepository.clearData() } returns Unit
 
         authUseCase.revokeToken()

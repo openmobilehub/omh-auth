@@ -2,7 +2,9 @@ package com.omh.android.auth.nongms.presentation
 
 import android.content.Context
 import android.content.Intent
-import androidx.concurrent.futures.CallbackToFutureAdapter
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.TaskCompletionSource
+import com.google.android.gms.tasks.Tasks
 import com.google.common.util.concurrent.ListenableFuture
 import com.omh.android.auth.api.OmhAuthClient
 import com.omh.android.auth.api.models.OmhAuthException
@@ -14,6 +16,8 @@ import com.omh.android.auth.nongms.domain.auth.AuthUseCase
 import com.omh.android.auth.nongms.domain.user.ProfileUseCase
 import com.omh.android.auth.nongms.presentation.redirect.RedirectActivity
 import com.omh.android.auth.nongms.utils.Constants
+import com.omh.android.auth.nongms.utils.addListeners
+import java.util.concurrent.Executor
 
 
 /**
@@ -97,9 +101,16 @@ internal class OmhAuthClientImpl(
         )
     }
 
-    override fun revokeToken(): ListenableFuture<Unit> {
+    override fun revokeToken(): Task<Unit> {
         val authRepository = AuthRepositoryImpl.getAuthRepository(applicationContext)
         val authUseCase = AuthUseCase.createAuthUseCase(authRepository)
-        return authUseCase.revokeToken()
+        val listenableFuture = authUseCase.revokeToken()
+        val completionSource = TaskCompletionSource<Unit>()
+        listenableFuture.addListeners(
+            onSuccess = { completionSource.setResult(Unit) },
+            onError = completionSource::setException,
+            executor = { command -> Thread(command).start() }
+        )
+        return completionSource.task
     }
 }

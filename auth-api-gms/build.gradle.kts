@@ -15,10 +15,7 @@ dependencies {
     // Coroutines
     implementation(Libs.coroutinesCore)
     implementation(Libs.coroutinesAndroid)
-    implementation("androidx.concurrent:concurrent-futures:1.1.0")
-    // Kotlin
-    implementation("androidx.concurrent:concurrent-futures-ktx:1.1.0")
-    implementation("com.google.guava:guava:31.1-android")
+
     // Google Sign In
     implementation(Libs.googleSignIn)
     implementation(Libs.googleApiClientAndroid)

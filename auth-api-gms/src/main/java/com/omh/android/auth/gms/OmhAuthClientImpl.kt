@@ -1,7 +1,6 @@
 package com.omh.android.auth.gms
 
 import android.content.Intent
-import androidx.concurrent.futures.CallbackToFutureAdapter
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -10,11 +9,12 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.tasks.Task
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential
-import com.google.common.util.concurrent.ListenableFuture
 import com.omh.android.auth.api.OmhAuthClient
 import com.omh.android.auth.api.models.OmhAuthException
 import com.omh.android.auth.api.models.OmhAuthStatusCodes
 import com.omh.android.auth.api.models.OmhUserProfile
+import com.omh.android.auth.gms.util.mapToOmhExceptions
+import com.omh.android.auth.gms.util.toOmhApiException
 
 internal class OmhAuthClientImpl(
     private val googleSignInClient: GoogleSignInClient
@@ -91,26 +91,9 @@ internal class OmhAuthClientImpl(
         }
     }
 
-    override fun revokeToken(): ListenableFuture<Unit> {
-        return CallbackToFutureAdapter.getFuture { completer ->
-            googleSignInClient.revokeAccess()
-                .addOnSuccessListener { completer.set(Unit) }
-                .addOnFailureListener { exception ->
-                    completer.setException(exception.toOmhApiException())
-                }
-                .addOnCanceledListener(completer::setCancelled)
-        }
-    }
-
-    private fun Exception.toOmhApiException(): OmhAuthException.ApiException {
-        val apiException: ApiException? = this as? ApiException
-        val statusCode: Int = when (apiException?.statusCode) {
-            CommonStatusCodes.API_NOT_CONNECTED -> OmhAuthStatusCodes.GMS_UNAVAILABLE
-            else -> OmhAuthStatusCodes.INTERNAL_ERROR
-        }
-        return OmhAuthException.ApiException(
-            statusCode = statusCode,
-            cause = this
-        )
+    override fun revokeToken(): Task<Unit> {
+        return googleSignInClient
+            .revokeAccess()
+            .continueWithTask { task -> task.mapToOmhExceptions() }
     }
 }

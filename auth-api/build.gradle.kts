@@ -12,11 +12,11 @@ dependencies {
     implementation(Libs.material)
     implementation(Libs.reflection)
 
-    implementation("androidx.concurrent:concurrent-futures:1.1.0")
+    api("androidx.concurrent:concurrent-futures:1.1.0")
     // Kotlin
-    implementation("androidx.concurrent:concurrent-futures-ktx:1.1.0")
-    implementation("com.google.guava:guava:31.1-android")
-    
+    api("androidx.concurrent:concurrent-futures-ktx:1.1.0")
+    api("com.google.guava:guava:31.1-android")
+    api("com.google.android.gms:play-services-tasks:18.0.2")
     // Test dependencies
     testImplementation(Libs.junit)
     androidTestImplementation(Libs.androidJunit)

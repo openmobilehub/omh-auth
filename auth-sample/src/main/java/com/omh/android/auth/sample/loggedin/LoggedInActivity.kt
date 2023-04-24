@@ -4,22 +4,18 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential
-import com.google.common.util.concurrent.FutureCallback
-import com.google.common.util.concurrent.Futures
 import com.omh.android.auth.sample.login.LoginActivity
 import com.omh.android.auth.api.OmhAuthClient
 import com.omh.android.auth.api.OmhCredentials
 import com.omh.android.auth.api.models.OmhAuthException
 import com.omh.android.auth.api.models.OmhAuthStatusCodes
-import com.omh.android.auth.nongms.utils.addListeners
 import com.omh.android.auth.sample.R
 import com.omh.android.auth.sample.databinding.ActivityLoggedInBinding
 import dagger.hilt.android.AndroidEntryPoint
+import java.lang.Exception
 import javax.inject.Inject
-import javax.security.auth.callback.Callback
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -56,14 +52,14 @@ class LoggedInActivity : AppCompatActivity() {
     }
 
     private fun revokeToken() {
-        val future = omhAuthClient.revokeToken()
-        future.addListeners(
-            onSuccess = {
-                logout()
-            },
-            onError = ::showErrorDialog,
-            executor = ContextCompat.getMainExecutor(this)
-        )
+        val task = omhAuthClient.revokeToken()
+        task
+            .addOnSuccessListener { logout() }
+            .addOnFailureListener { exception: Exception ->
+                if (exception is OmhAuthException) {
+                    showErrorDialog(exception)
+                }
+            }
     }
 
     private fun getToken() = lifecycleScope.launch(Dispatchers.IO) {
