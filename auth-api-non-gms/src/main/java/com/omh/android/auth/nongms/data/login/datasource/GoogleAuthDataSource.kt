@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import android.net.Uri
 import androidx.core.content.edit
 import androidx.core.net.toUri
+import com.google.android.gms.tasks.Task
 import com.google.common.util.concurrent.ListenableFuture
 import com.omh.android.auth.nongms.data.login.GoogleAuthREST
 import com.omh.android.auth.nongms.data.login.models.AuthTokenResponse
@@ -76,7 +77,7 @@ internal class GoogleAuthDataSource(
         return authService.refreshToken(clientId, refreshToken)
     }
 
-    override fun revokeToken(token: String): ListenableFuture<Unit> {
+    override fun revokeToken(token: String): Task<Unit> {
         return authService.revokeToken(token)
     }
 

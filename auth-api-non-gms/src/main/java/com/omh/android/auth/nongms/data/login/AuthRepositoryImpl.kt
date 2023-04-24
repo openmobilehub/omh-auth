@@ -2,8 +2,12 @@ package com.omh.android.auth.nongms.data.login
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.TaskCompletionSource
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
+import com.omh.android.auth.api.models.OmhAuthException
+import com.omh.android.auth.api.models.OmhAuthStatusCodes
 import com.omh.android.auth.nongms.data.GoogleRetrofitImpl
 import com.omh.android.auth.nongms.data.login.datasource.AuthDataSource
 import com.omh.android.auth.nongms.data.login.datasource.GoogleAuthDataSource
@@ -78,11 +82,17 @@ internal class AuthRepositoryImpl(
         }
     }
 
-    override fun revokeToken(): ListenableFuture<Unit>  {
+    override fun revokeToken(): Task<Unit> {
         val accessToken = googleAuthDataSource.getToken(AuthDataSource.ACCESS_TOKEN)
         if (accessToken == null) {
-            val noTokenException = IllegalStateException("No token stored")
-            return Futures.immediateFailedFuture(noTokenException)
+            val omhAuthException = OmhAuthException.ApiException(
+                statusCode = OmhAuthStatusCodes.INTERNAL_ERROR,
+                cause = IllegalStateException("No token stored")
+            )
+            val completionSource = TaskCompletionSource<Unit>().apply {
+                setException(omhAuthException)
+            }
+            return completionSource.task
         }
 
         return googleAuthDataSource.revokeToken(accessToken)

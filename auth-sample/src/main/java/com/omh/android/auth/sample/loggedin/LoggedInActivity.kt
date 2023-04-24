@@ -6,15 +6,14 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential
-import com.omh.android.auth.sample.login.LoginActivity
 import com.omh.android.auth.api.OmhAuthClient
 import com.omh.android.auth.api.OmhCredentials
 import com.omh.android.auth.api.models.OmhAuthException
 import com.omh.android.auth.api.models.OmhAuthStatusCodes
 import com.omh.android.auth.sample.R
 import com.omh.android.auth.sample.databinding.ActivityLoggedInBinding
+import com.omh.android.auth.sample.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
-import java.lang.Exception
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

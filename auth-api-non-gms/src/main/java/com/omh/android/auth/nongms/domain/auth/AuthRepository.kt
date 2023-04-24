@@ -1,5 +1,6 @@
 package com.omh.android.auth.nongms.domain.auth
 
+import com.google.android.gms.tasks.Task
 import com.google.common.util.concurrent.ListenableFuture
 import com.omh.android.auth.nongms.domain.models.ApiResult
 import com.omh.android.auth.nongms.domain.models.OAuthTokens
@@ -56,7 +57,7 @@ internal interface AuthRepository {
     /**
      * Revokes the access token of the user from the auth provider.
      */
-    fun revokeToken(): ListenableFuture<Unit>
+    fun revokeToken(): Task<Unit>
 
     /**
      * Clears all local data of the user, including stored tokens.

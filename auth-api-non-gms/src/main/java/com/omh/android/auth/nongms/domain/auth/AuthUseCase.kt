@@ -1,14 +1,11 @@
 package com.omh.android.auth.nongms.domain.auth
 
-import android.os.Handler
-import android.os.Looper
-import androidx.core.os.ExecutorCompat
-import com.google.common.util.concurrent.Futures
-import com.google.common.util.concurrent.ListenableFuture
+import com.google.android.gms.tasks.Task
 import com.omh.android.auth.nongms.domain.models.ApiResult
 import com.omh.android.auth.nongms.domain.models.OAuthTokens
 import com.omh.android.auth.nongms.domain.utils.Pkce
 import com.omh.android.auth.nongms.domain.utils.PkceImpl
+import com.omh.android.auth.nongms.utils.map
 
 internal class AuthUseCase(
     private val authRepository: AuthRepository,
@@ -45,14 +42,9 @@ internal class AuthUseCase(
 
     fun logout() = authRepository.clearData()
 
-    fun revokeToken(): ListenableFuture<Unit> {
-        val future = authRepository.revokeToken()
-        val executor = ExecutorCompat.create(Handler(Looper.getMainLooper()))
-        return Futures.transform(
-            future,
-            { authRepository.clearData() },
-            executor
-        )
+    fun revokeToken(): Task<Unit> {
+        return authRepository.revokeToken()
+            .map { authRepository.clearData() }
     }
 
     companion object {

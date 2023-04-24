@@ -1,6 +1,7 @@
 package com.omh.android.auth.nongms.data.login.datasource
 
 import android.net.Uri
+import com.google.android.gms.tasks.Task
 import com.google.common.util.concurrent.ListenableFuture
 import com.omh.android.auth.nongms.data.login.models.AuthTokenResponse
 import com.omh.android.auth.nongms.domain.models.ApiResult
@@ -71,7 +72,7 @@ internal interface AuthDataSource {
      *
      * @param token -> token to revoke.
      */
-    fun revokeToken(token: String): ListenableFuture<Unit>
+    fun revokeToken(token: String): Task<Unit>
 
     /**
      * Clears all local data of the user, including any stored tokens.

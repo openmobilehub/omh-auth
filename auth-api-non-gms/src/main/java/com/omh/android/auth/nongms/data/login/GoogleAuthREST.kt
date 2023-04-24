@@ -1,5 +1,6 @@
 package com.omh.android.auth.nongms.data.login
 
+import com.google.android.gms.tasks.Task
 import com.google.common.util.concurrent.ListenableFuture
 import com.omh.android.auth.nongms.data.login.models.AuthTokenResponse
 import com.omh.android.auth.nongms.domain.models.ApiResult
@@ -31,5 +32,5 @@ internal interface GoogleAuthREST {
     @FormUrlEncoded
     fun revokeToken(
         @Field("token") token: String
-    ): ListenableFuture<Unit>
+    ): Task<Unit>
 }
