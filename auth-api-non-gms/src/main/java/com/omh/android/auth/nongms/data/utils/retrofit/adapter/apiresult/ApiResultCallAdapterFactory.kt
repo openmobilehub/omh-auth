@@ -1,4 +1,4 @@
-package com.omh.android.auth.nongms.data.utils.retrofit
+package com.omh.android.auth.nongms.data.utils.retrofit.adapter.apiresult
 
 import com.omh.android.auth.nongms.domain.models.ApiResult
 import java.lang.reflect.ParameterizedType
