@@ -1,14 +1,16 @@
 package com.omh.android.auth.nongms
 
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import com.omh.android.auth.nongms.domain.auth.AuthRepository
 import com.omh.android.auth.nongms.domain.auth.AuthUseCase
 import com.omh.android.auth.nongms.domain.models.ApiResult
 import com.omh.android.auth.nongms.domain.models.OAuthTokens
 import com.omh.android.auth.nongms.domain.utils.Pkce
 import io.mockk.coEvery
-import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -55,7 +57,7 @@ internal class AuthUseCaseTest {
             val packageName = "com.package.name"
             val mockedResponse: OAuthTokens = mockk()
             val expectedResult = ApiResult.Success(mockedResponse)
-        val clientId = "client ID"
+            val clientId = "client ID"
 
             coEvery {
                 authRepository.requestTokens(
@@ -106,34 +108,53 @@ internal class AuthUseCaseTest {
         assertEquals(expectedResult, newToken)
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `when logout is requested then storage is cleaned up`() = runTest {
-        coEvery { authRepository.clearData() } returns Unit
+    fun `when logout is requested then storage is cleaned up`() {
+        every { authRepository.clearData() } returns Tasks.forResult(Unit)
 
         authUseCase.logout()
 
-        coVerify { authRepository.clearData() }
+        verify { authRepository.clearData() }
     }
+
     @Test
     fun `given revoke was requested when revoke succeeds then storage is cleaned up`() {
-        coEvery { authRepository.revokeToken() } returns mockk()
-        coEvery { authRepository.clearData() } returns Unit
+        every { authRepository.clearData() } returns mockTask()
+        every { authRepository.revokeToken() } returns mockTask { authRepository.clearData() }
 
         authUseCase.revokeToken()
 
-        coVerify { authRepository.revokeToken() }
-        coVerify { authRepository.clearData() }
+        verify { authRepository.revokeToken() }
+        verify { authRepository.clearData() }
     }
 
     @Test
     fun `given revoke was requested when revoke fails then storage is not cleaned up`() {
-        coEvery { authRepository.revokeToken() } returns mockk()
-        coEvery { authRepository.clearData() } returns Unit
+        every { authRepository.clearData() } returns mockTask()
+        every { authRepository.revokeToken() } returns mockTask(
+            exception = mockk(),
+            getContinuation = { authRepository.clearData() }
+        )
 
         authUseCase.revokeToken()
 
-        coVerify { authRepository.revokeToken() }
-        coVerify(inverse = true) { authRepository.clearData() }
+        verify { authRepository.revokeToken() }
+        verify(inverse = true) { authRepository.clearData() }
+    }
+
+    private inline fun <reified T> mockTask(
+        exception: Exception? = null,
+        noinline getContinuation: (() -> Task<*>)? = null
+    ): Task<T> {
+        val task: Task<T> = mockk(relaxed = true)
+        every { task.isComplete } returns true
+        every { task.exception } returns exception
+        every { task.isCanceled } returns false
+        val relaxedResult: T = mockk(relaxed = true)
+        every { task.result } returns relaxedResult
+        if (getContinuation != null) {
+            every { task.onSuccessTask { any<Task<*>>() } } returns getContinuation()
+        }
+        return task
     }
 }

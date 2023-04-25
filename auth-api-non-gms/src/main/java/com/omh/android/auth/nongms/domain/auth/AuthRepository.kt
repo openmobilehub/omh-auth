@@ -62,5 +62,5 @@ internal interface AuthRepository {
     /**
      * Clears all local data of the user, including stored tokens.
      */
-    fun clearData()
+    fun clearData(): Task<Unit>
 }

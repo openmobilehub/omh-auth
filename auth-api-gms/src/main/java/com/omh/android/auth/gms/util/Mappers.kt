@@ -8,17 +8,6 @@ import com.omh.android.auth.api.models.OmhAuthException
 import com.omh.android.auth.api.models.OmhAuthStatusCodes
 
 
-internal fun <T> Task<T>.mapToOmhExceptions(): Task<T> {
-    val completionSource = TaskCompletionSource<T>()
-    try {
-        val result: T = getResult(ApiException::class.java)
-        completionSource.setResult(result)
-    } catch (e: ApiException) {
-        completionSource.setException(e.toOmhApiException())
-    }
-    return completionSource.task
-}
-
 internal fun Task<Void>.mapToOmhExceptions(): Task<Unit> {
     val completionSource = TaskCompletionSource<Unit>()
     try {

@@ -14,7 +14,6 @@ import com.omh.android.auth.api.models.OmhAuthException
 import com.omh.android.auth.api.models.OmhAuthStatusCodes
 import com.omh.android.auth.api.models.OmhUserProfile
 import com.omh.android.auth.gms.util.mapToOmhExceptions
-import com.omh.android.auth.gms.util.toOmhApiException
 
 internal class OmhAuthClientImpl(
     private val googleSignInClient: GoogleSignInClient
@@ -48,17 +47,8 @@ internal class OmhAuthClientImpl(
         }
     }
 
-    override fun signOut(
-        onFailure: (OmhAuthException) -> Unit,
-        onSuccess: () -> Unit,
-        onComplete: () -> Unit
-    ) {
-        googleSignInClient.signOut()
-            .addOnFailureListener { exception: Exception ->
-                onFailure(exception.toOmhApiException())
-            }
-            .addOnSuccessListener { onSuccess() }
-            .addOnCompleteListener { onComplete() }
+    override fun signOut(): Task<Unit> {
+        return googleSignInClient.signOut().mapToOmhExceptions()
     }
 
     override fun getAccountFromIntent(data: Intent?): OmhUserProfile {

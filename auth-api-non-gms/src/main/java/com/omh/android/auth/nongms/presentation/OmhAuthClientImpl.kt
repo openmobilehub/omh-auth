@@ -5,7 +5,6 @@ import android.content.Intent
 import com.google.android.gms.tasks.Task
 import com.omh.android.auth.api.OmhAuthClient
 import com.omh.android.auth.api.models.OmhAuthException
-import com.omh.android.auth.api.models.OmhAuthStatusCodes
 import com.omh.android.auth.api.models.OmhUserProfile
 import com.omh.android.auth.nongms.data.login.AuthRepositoryImpl
 import com.omh.android.auth.nongms.data.user.UserRepositoryImpl
@@ -66,24 +65,10 @@ internal class OmhAuthClientImpl(
 
     @SuppressWarnings("TooGenericExceptionCaught") // Until we find any specific errors for this.
     override fun signOut(
-        onFailure: (OmhAuthException) -> Unit,
-        onSuccess: () -> Unit,
-        onComplete: () -> Unit
-    ) {
-        try {
-            val authRepository = AuthRepositoryImpl.getAuthRepository(applicationContext)
-            val authUseCase = AuthUseCase.createAuthUseCase(authRepository)
-            authUseCase.logout()
-            onSuccess()
-        } catch (exception: RuntimeException) {
-            val omhException = OmhAuthException.ApiException(
-                OmhAuthStatusCodes.INTERNAL_ERROR,
-                exception
-            )
-            onFailure(omhException)
-        } finally {
-            onComplete()
-        }
+    ): Task<Unit> {
+        val authRepository = AuthRepositoryImpl.getAuthRepository(applicationContext)
+        val authUseCase = AuthUseCase.createAuthUseCase(authRepository)
+        return authUseCase.logout()
     }
 
     override fun getAccountFromIntent(data: Intent?): OmhUserProfile {

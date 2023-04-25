@@ -13,6 +13,7 @@ dependencies {
     implementation(Libs.reflection)
 
     api("com.google.android.gms:play-services-tasks:18.0.2")
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.4.1")
     // Test dependencies
     testImplementation(Libs.junit)
     androidTestImplementation(Libs.androidJunit)

@@ -1,11 +1,11 @@
 package com.omh.android.auth.nongms.domain.auth
 
+import com.google.android.gms.tasks.SuccessContinuation
 import com.google.android.gms.tasks.Task
 import com.omh.android.auth.nongms.domain.models.ApiResult
 import com.omh.android.auth.nongms.domain.models.OAuthTokens
 import com.omh.android.auth.nongms.domain.utils.Pkce
 import com.omh.android.auth.nongms.domain.utils.PkceImpl
-import com.omh.android.auth.nongms.utils.map
 
 internal class AuthUseCase(
     private val authRepository: AuthRepository,
@@ -40,11 +40,11 @@ internal class AuthUseCase(
 
     fun getAccessToken(): String? = authRepository.getAccessToken()
 
-    fun logout() = authRepository.clearData()
+    fun logout(): Task<Unit> = authRepository.clearData()
 
     fun revokeToken(): Task<Unit> {
         return authRepository.revokeToken()
-            .map { authRepository.clearData() }
+//            .onSuccessTask { authRepository.clearData() }
     }
 
     companion object {

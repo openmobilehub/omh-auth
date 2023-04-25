@@ -4,8 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.TaskCompletionSource
-import com.google.common.util.concurrent.Futures
-import com.google.common.util.concurrent.ListenableFuture
+import com.google.android.gms.tasks.Tasks
 import com.omh.android.auth.api.models.OmhAuthException
 import com.omh.android.auth.api.models.OmhAuthStatusCodes
 import com.omh.android.auth.nongms.data.GoogleRetrofitImpl
@@ -16,6 +15,7 @@ import com.omh.android.auth.nongms.data.utils.getEncryptedSharedPrefs
 import com.omh.android.auth.nongms.domain.auth.AuthRepository
 import com.omh.android.auth.nongms.domain.models.ApiResult
 import com.omh.android.auth.nongms.domain.models.OAuthTokens
+import com.omh.android.auth.nongms.utils.createTaskFromCallable
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -89,17 +89,14 @@ internal class AuthRepositoryImpl(
                 statusCode = OmhAuthStatusCodes.INTERNAL_ERROR,
                 cause = IllegalStateException("No token stored")
             )
-            val completionSource = TaskCompletionSource<Unit>().apply {
-                setException(omhAuthException)
-            }
-            return completionSource.task
+            return Tasks.forException(omhAuthException)
         }
 
         return googleAuthDataSource.revokeToken(accessToken)
     }
 
-    override fun clearData() {
-        googleAuthDataSource.clearData()
+    override fun clearData(): Task<Unit> {
+        return createTaskFromCallable { googleAuthDataSource.clearData() }
     }
 
     companion object {

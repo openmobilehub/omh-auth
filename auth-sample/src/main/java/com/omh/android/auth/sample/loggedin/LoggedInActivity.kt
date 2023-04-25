@@ -75,10 +75,13 @@ class LoggedInActivity : AppCompatActivity() {
     }
 
     private fun logout() {
-        omhAuthClient.signOut(
-            onFailure = ::showErrorDialog,
-            onSuccess = ::navigateToLogin
-        )
+        omhAuthClient.signOut()
+            .addOnSuccessListener { navigateToLogin() }
+            .addOnFailureListener { exception ->
+                if (exception is OmhAuthException) {
+                    showErrorDialog(exception)
+                }
+            }
     }
 
     private fun showErrorDialog(omhException: OmhAuthException) {
