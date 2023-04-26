@@ -1,6 +1,5 @@
 package com.omh.android.auth.nongms.domain.auth
 
-import com.google.android.gms.tasks.SuccessContinuation
 import com.google.android.gms.tasks.Task
 import com.omh.android.auth.nongms.domain.models.ApiResult
 import com.omh.android.auth.nongms.domain.models.OAuthTokens
@@ -44,7 +43,7 @@ internal class AuthUseCase(
 
     fun revokeToken(): Task<Unit> {
         return authRepository.revokeToken()
-//            .onSuccessTask { authRepository.clearData() }
+            .onSuccessTask { authRepository.clearData() }
     }
 
     companion object {

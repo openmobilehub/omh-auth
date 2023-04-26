@@ -1,12 +1,12 @@
 package com.omh.android.auth.nongms
 
-import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.omh.android.auth.nongms.domain.auth.AuthRepository
 import com.omh.android.auth.nongms.domain.auth.AuthUseCase
 import com.omh.android.auth.nongms.domain.models.ApiResult
 import com.omh.android.auth.nongms.domain.models.OAuthTokens
 import com.omh.android.auth.nongms.domain.utils.Pkce
+import com.omh.android.auth.nongms.utils.TestableTask
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
@@ -86,7 +86,7 @@ internal class AuthUseCaseTest {
 
     @Test
     fun `given that an access token wasn't stored when it's requested then null returned`() {
-        val expectedToken = null
+        val expectedToken: String? = null
         every { authRepository.getAccessToken() } returns expectedToken
 
         val result: String? = authUseCase.getAccessToken()
@@ -110,7 +110,7 @@ internal class AuthUseCaseTest {
 
     @Test
     fun `when logout is requested then storage is cleaned up`() {
-        every { authRepository.clearData() } returns Tasks.forResult(Unit)
+        every { authRepository.clearData() } returns TestableTask(mockk())
 
         authUseCase.logout()
 
@@ -119,8 +119,8 @@ internal class AuthUseCaseTest {
 
     @Test
     fun `given revoke was requested when revoke succeeds then storage is cleaned up`() {
-        every { authRepository.clearData() } returns mockTask()
-        every { authRepository.revokeToken() } returns mockTask { authRepository.clearData() }
+        every { authRepository.clearData() } returns TestableTask(mockk())
+        every { authRepository.revokeToken() } returns TestableTask(mockk())
 
         authUseCase.revokeToken()
 
@@ -130,31 +130,12 @@ internal class AuthUseCaseTest {
 
     @Test
     fun `given revoke was requested when revoke fails then storage is not cleaned up`() {
-        every { authRepository.clearData() } returns mockTask()
-        every { authRepository.revokeToken() } returns mockTask(
-            exception = mockk(),
-            getContinuation = { authRepository.clearData() }
-        )
+        every { authRepository.clearData() } returns TestableTask(mockk())
+        every { authRepository.revokeToken() } returns TestableTask(mockk(), isSuccessful = false)
 
         authUseCase.revokeToken()
 
         verify { authRepository.revokeToken() }
         verify(inverse = true) { authRepository.clearData() }
-    }
-
-    private inline fun <reified T> mockTask(
-        exception: Exception? = null,
-        noinline getContinuation: (() -> Task<*>)? = null
-    ): Task<T> {
-        val task: Task<T> = mockk(relaxed = true)
-        every { task.isComplete } returns true
-        every { task.exception } returns exception
-        every { task.isCanceled } returns false
-        val relaxedResult: T = mockk(relaxed = true)
-        every { task.result } returns relaxedResult
-        if (getContinuation != null) {
-            every { task.onSuccessTask { any<Task<*>>() } } returns getContinuation()
-        }
-        return task
     }
 }

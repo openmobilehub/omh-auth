@@ -6,6 +6,7 @@ import com.omh.android.auth.api.models.OmhAuthException
 import com.omh.android.auth.api.models.OmhAuthStatusCodes
 
 
+@SuppressWarnings("TooGenericExceptionCaught")
 internal fun <T> createTaskFromCallable(callable: () -> T): Task<T> {
     val completionSource = TaskCompletionSource<T>()
     try {
