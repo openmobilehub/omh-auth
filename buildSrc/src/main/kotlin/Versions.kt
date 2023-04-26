@@ -26,8 +26,9 @@ object Versions {
     const val androidAppCompat = "1.6.1"
     const val material = "1.8.0"
 
-    // Google Sign In
+    // Google Play Services
     const val googlesignin = "20.4.1"
+    const val googleTasks = "18.0.2"
 
     // Testing
     const val junit = "4.13.2"

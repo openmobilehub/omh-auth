@@ -38,8 +38,9 @@ object Libs {
     val androidAppCompat by lazy { "androidx.appcompat:appcompat:${Versions.androidAppCompat}" }
     val material by lazy { "com.google.android.material:material:${Versions.material}" }
 
-    // Google Sign In
+    // Google Play Services
     val googleSignIn by lazy { "com.google.android.gms:play-services-auth:${Versions.googlesignin}" }
+    val googleTasks by lazy { "com.google.android.gms:play-services-tasks:${Versions.googleTasks}" }
 
     // Testing
     val junit by lazy { "junit:junit:${Versions.junit}" }
