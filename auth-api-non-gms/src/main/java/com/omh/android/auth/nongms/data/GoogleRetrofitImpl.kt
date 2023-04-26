@@ -3,12 +3,10 @@ package com.omh.android.auth.nongms.data
 import com.omh.android.auth.nongms.BuildConfig
 import com.omh.android.auth.nongms.data.login.GoogleAuthREST
 import com.omh.android.auth.nongms.data.utils.retrofit.adapter.apiresult.ApiResultCallAdapterFactory
-import com.omh.android.auth.nongms.data.utils.retrofit.adapter.tasks.TasksCallAdapter
 import com.omh.android.auth.nongms.data.utils.retrofit.adapter.tasks.TasksCallAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.adapter.guava.GuavaCallAdapterFactory
 import retrofit2.converter.jackson.JacksonConverterFactory
 
 internal class GoogleRetrofitImpl {

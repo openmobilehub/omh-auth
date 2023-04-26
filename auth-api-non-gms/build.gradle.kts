@@ -33,7 +33,6 @@ dependencies {
     implementation(Libs.retrofitJacksonConverter)
     implementation(Libs.okHttp)
     implementation(Libs.okHttpLoggingInterceptor)
-    implementation("com.squareup.retrofit2:adapter-guava:2.9.0")
 
     // Coroutines
     implementation(Libs.coroutinesCore)
