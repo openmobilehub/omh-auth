@@ -48,7 +48,9 @@ internal class OmhAuthClientImpl(
     }
 
     override fun signOut(): Task<Unit> {
-        return googleSignInClient.signOut().mapToOmhExceptions()
+        return googleSignInClient
+            .signOut()
+            .mapToOmhExceptions()
     }
 
     override fun getAccountFromIntent(data: Intent?): OmhUserProfile {
@@ -84,6 +86,6 @@ internal class OmhAuthClientImpl(
     override fun revokeToken(): Task<Unit> {
         return googleSignInClient
             .revokeAccess()
-            .continueWithTask { task -> task.mapToOmhExceptions() }
+            .mapToOmhExceptions()
     }
 }
