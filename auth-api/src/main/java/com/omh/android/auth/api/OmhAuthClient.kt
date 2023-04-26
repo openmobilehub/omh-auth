@@ -35,7 +35,6 @@ interface OmhAuthClient {
     /**
      * Logs out the user. This clears any stored data locally.
      */
-    @Throws(OmhAuthException::class)
     fun signOut(): Task<Unit>
 
     @Throws(OmhAuthException::class)
