@@ -15,5 +15,5 @@ abstract class OmhTask<T> {
         return this
     }
 
-    abstract fun execute(): OmhCancellable
+    abstract fun execute(): OmhCancellable?
 }

@@ -34,19 +34,11 @@ interface OmhAuthClient {
     /**
      * Logs out the user. This clears any stored data locally.
      */
-    @Throws(OmhAuthException::class)
-    fun signOut(
-        onFailure: (OmhAuthException) -> Unit = {},
-        onSuccess: () -> Unit = {},
-        onComplete: () -> Unit = {},
-    )
+
+    fun signOut(): OmhTask<Unit>
 
     @Throws(OmhAuthException::class)
     fun getAccountFromIntent(data: Intent?): OmhUserProfile
 
-    fun revokeToken(
-        onSuccess: () -> Unit = {},
-        onFailure: (OmhAuthException) -> Unit = {},
-        onComplete: () -> Unit = {}
-    )
+    fun revokeToken(): OmhTask<Unit>
 }
