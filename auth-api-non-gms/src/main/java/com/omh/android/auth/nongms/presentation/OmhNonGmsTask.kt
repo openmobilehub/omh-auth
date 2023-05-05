@@ -1,11 +1,10 @@
-package com.omh.android.auth.nongms
+package com.omh.android.auth.nongms.presentation
 
 import com.omh.android.auth.api.OmhCancellable
 import com.omh.android.auth.api.OmhTask
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

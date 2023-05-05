@@ -10,13 +10,11 @@ import com.omh.android.auth.api.OmhTask
 import com.omh.android.auth.api.models.OmhAuthException
 import com.omh.android.auth.api.models.OmhAuthStatusCodes
 import com.omh.android.auth.api.models.OmhUserProfile
-import com.omh.android.auth.nongms.OmhNonGmsTask
 import com.omh.android.auth.nongms.data.login.AuthRepositoryImpl
 import com.omh.android.auth.nongms.domain.auth.AuthUseCase
 import com.omh.android.auth.nongms.domain.models.ApiResult
 import com.omh.android.auth.nongms.utils.Constants
 import kotlin.jvm.Throws
-import kotlinx.coroutines.DelicateCoroutinesApi
 
 /**
  * Non GMS implementation of the OmhAuthClient abstraction. Required a clientId and defined scopes as
