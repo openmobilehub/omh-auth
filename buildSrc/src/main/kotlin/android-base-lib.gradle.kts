@@ -84,9 +84,9 @@ afterEvaluate {
 
 signing {
     useInMemoryPgpKeys(
-        rootProject.ext["signing.keyId"].toString(),
-        rootProject.ext["signing.key"].toString(),
-        rootProject.ext["signing.password"].toString(),
+        rootProject.ext["signingKeyId"].toString(),
+        rootProject.ext["signingKey"].toString(),
+        rootProject.ext["signingPassword"].toString(),
     )
 }
 
