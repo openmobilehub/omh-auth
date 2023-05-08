@@ -1,3 +1,7 @@
+plugins {
+    id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
+}
+
 subprojects {
     repositories {
         mavenCentral()
@@ -23,4 +27,8 @@ tasks {
     val installPreCommitHook by existing
     getByName("prepareKotlinBuildScriptModel").dependsOn(installPrePushHook)
     getByName("prepareKotlinBuildScriptModel").dependsOn(installPreCommitHook)
+}
+
+apply {
+    from("${rootDir}/tools/scripts/publish-root.gradle")
 }

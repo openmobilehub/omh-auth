@@ -5,25 +5,10 @@ plugins {
     id("io.gitlab.arturbosch.detekt")
     kotlin("android")
     id("jacoco")
-    id("maven-publish")
 }
 
 detekt {
     autoCorrect = properties.get("autoCorrect")?.toString()?.toBoolean() ?: false
-}
-
-publishing {
-    publications {
-        register<MavenPublication>("release") {
-            group = getPropertyOrFail("group")
-            artifactId = properties.get("artifactId").toString()
-            version = getPropertyOrFail("version")
-
-            afterEvaluate {
-                from(components["release"])
-            }
-        }
-    }
 }
 
 android {
@@ -60,4 +45,14 @@ setupJacoco()
 
 dependencies {
     detektPlugins(BuildPlugins.detekt)
+}
+
+ext {
+    this["PUBLISH_GROUP_ID"] = getPropertyOrFail("group")
+    this["PUBLISH_VERSION"] = getPropertyOrFail("version")
+    this["PUBLISH_ARTIFACT_ID"] = properties.get("artifactId").toString()
+}
+
+apply {
+    from("${rootProject.projectDir}/tools/scripts/publish-module.gradle")
 }
