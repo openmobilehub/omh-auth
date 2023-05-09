@@ -86,26 +86,8 @@ internal class OmhAuthClientImpl(
         val authRepository = AuthRepositoryImpl.getAuthRepository(applicationContext)
         val authUseCase = AuthUseCase.createAuthUseCase(authRepository)
         return OmhNonGmsTask {
-            val apiResult = authUseCase.revokeToken()
+            val apiResult: ApiResult<Unit> = authUseCase.revokeToken()
             return@OmhNonGmsTask apiResult.extractResult()
         }
-    }
-
-    @Throws(OmhAuthException::class)
-    private fun <T> ApiResult<T>.extractResult(): T {
-        return when (this) {
-            is ApiResult.Error -> throw getOmhException()
-            is ApiResult.Success -> this.data
-        }
-    }
-
-    @Throws(OmhAuthException::class)
-    private fun ApiResult.Error.getOmhException(): OmhAuthException {
-        val statusCode = when (this) {
-            is ApiResult.Error.ApiError -> OmhAuthStatusCodes.HTTPS_ERROR
-            is ApiResult.Error.NetworkError -> OmhAuthStatusCodes.NETWORK_ERROR
-            is ApiResult.Error.RuntimeError -> OmhAuthStatusCodes.INTERNAL_ERROR
-        }
-        return OmhAuthException.ApiException(statusCode, cause)
     }
 }
