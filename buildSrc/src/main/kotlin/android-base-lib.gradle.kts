@@ -88,6 +88,7 @@ signing {
         rootProject.ext["signingKey"].toString(),
         rootProject.ext["signingPassword"].toString(),
     )
+    sign(publishing.publications)
 }
 
 fun MavenPublication.setupPublication() {
