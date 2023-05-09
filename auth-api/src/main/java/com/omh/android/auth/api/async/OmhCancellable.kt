@@ -1,6 +1,6 @@
 package com.omh.android.auth.api.async
 
-interface OmhCancellable {
+fun interface OmhCancellable {
 
     fun cancel()
 }

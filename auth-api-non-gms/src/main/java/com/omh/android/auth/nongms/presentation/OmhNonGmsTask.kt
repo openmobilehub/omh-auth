@@ -19,7 +19,7 @@ class OmhNonGmsTask<T>(private val task: suspend () -> T) : OmhTask<T>() {
         customScope.launch {
             executeScopedTask()
         }
-        return OmhNonGmsCancellable { coroutineContext.cancelChildren() }
+        return OmhCancellable { coroutineContext.cancelChildren() }
     }
 
     @SuppressWarnings("TooGenericExceptionCaught")
@@ -40,11 +40,5 @@ class OmhNonGmsTask<T>(private val task: suspend () -> T) : OmhTask<T>() {
         withContext(Dispatchers.Main) {
             onSuccess?.invoke(result)
         }
-    }
-
-    private class OmhNonGmsCancellable(
-        private val cancellationAction: () -> Unit
-    ) : OmhCancellable {
-        override fun cancel() = cancellationAction()
     }
 }
