@@ -6,7 +6,7 @@ import com.omh.android.auth.nongms.data.user.UserRepositoryImpl
 import com.omh.android.auth.nongms.domain.user.ProfileUseCase
 import com.omh.android.auth.nongms.presentation.redirect.RedirectActivity
 import com.omh.android.auth.api.OmhAuthClient
-import com.omh.android.auth.api.OmhTask
+import com.omh.android.auth.api.async.OmhTask
 import com.omh.android.auth.api.models.OmhAuthException
 import com.omh.android.auth.api.models.OmhAuthStatusCodes
 import com.omh.android.auth.api.models.OmhUserProfile

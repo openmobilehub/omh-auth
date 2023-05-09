@@ -8,7 +8,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential
 import com.omh.android.auth.api.OmhAuthClient
-import com.omh.android.auth.api.OmhTask
+import com.omh.android.auth.api.async.OmhTask
 import com.omh.android.auth.api.models.OmhAuthException
 import com.omh.android.auth.api.models.OmhUserProfile
 import com.omh.android.auth.gms.util.mapToOmhExceptions

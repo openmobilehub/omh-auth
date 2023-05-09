@@ -1,4 +1,4 @@
-package com.omh.android.auth.api
+package com.omh.android.auth.api.async
 
 abstract class OmhTask<T> {
 

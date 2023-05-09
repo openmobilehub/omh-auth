@@ -36,17 +36,21 @@ internal fun toOmhLoginException(apiException: ApiException) = when (apiExceptio
     GoogleSignInStatusCodes.SIGN_IN_CANCELLED -> {
         OmhAuthException.LoginCanceledException(apiException.cause)
     }
-
     GoogleSignInStatusCodes.SIGN_IN_FAILED -> {
         OmhAuthException.UnrecoverableLoginException(apiException.cause)
     }
-
     else -> {
-        val omhStatusCode = when (apiException.statusCode) {
-            CommonStatusCodes.NETWORK_ERROR -> OmhAuthStatusCodes.NETWORK_ERROR
-            CommonStatusCodes.DEVELOPER_ERROR -> OmhAuthStatusCodes.DEVELOPER_ERROR
-            else -> OmhAuthStatusCodes.INTERNAL_ERROR
-        }
-        OmhAuthException.RecoverableLoginException(omhStatusCode, apiException.cause)
+        mapToRecoverableLoginException(apiException)
     }
+}
+
+private fun mapToRecoverableLoginException(
+    apiException: ApiException
+): OmhAuthException.RecoverableLoginException {
+    val omhStatusCode = when (apiException.statusCode) {
+        CommonStatusCodes.NETWORK_ERROR -> OmhAuthStatusCodes.NETWORK_ERROR
+        CommonStatusCodes.DEVELOPER_ERROR -> OmhAuthStatusCodes.DEVELOPER_ERROR
+        else -> OmhAuthStatusCodes.INTERNAL_ERROR
+    }
+    return OmhAuthException.RecoverableLoginException(omhStatusCode, apiException.cause)
 }

@@ -2,6 +2,7 @@ package com.omh.android.auth.api
 
 import android.content.Context
 import android.content.Intent
+import com.omh.android.auth.api.async.OmhTask
 import com.omh.android.auth.api.models.OmhAuthException
 import com.omh.android.auth.api.models.OmhUserProfile
 

@@ -6,7 +6,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential
-import com.omh.android.auth.api.CancellableCollector
+import com.omh.android.auth.api.async.CancellableCollector
 import com.omh.android.auth.sample.login.LoginActivity
 import com.omh.android.auth.api.OmhAuthClient
 import com.omh.android.auth.api.OmhCredentials
@@ -55,7 +55,7 @@ class LoggedInActivity : AppCompatActivity() {
 
     private fun revokeToken() {
         val cancellable = omhAuthClient.revokeToken()
-            .addOnFailure { showErrorDialog(it as OmhAuthException) }
+            .addOnFailure(::showErrorDialog)
             .addOnSuccess { navigateToLogin() }
             .execute()
         cancellableCollector.addCancellable(cancellable)
@@ -77,16 +77,15 @@ class LoggedInActivity : AppCompatActivity() {
     private fun logout() {
         val cancellable = omhAuthClient.signOut()
             .addOnSuccess { navigateToLogin() }
-            .addOnFailure { showErrorDialog(it as OmhAuthException) }
+            .addOnFailure(::showErrorDialog)
             .execute()
         cancellableCollector.addCancellable(cancellable)
     }
 
-    private fun showErrorDialog(omhException: OmhAuthException) {
-        val errorMessage = OmhAuthStatusCodes.getStatusCodeString(omhException.statusCode)
+    private fun showErrorDialog(exception: Throwable) {
         AlertDialog.Builder(this)
             .setTitle("An error has occurred.")
-            .setMessage(errorMessage)
+            .setMessage(exception.message)
             .setPositiveButton(android.R.string.ok) { dialog, _ -> dialog.dismiss() }
             .create()
             .show()
