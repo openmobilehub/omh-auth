@@ -31,12 +31,12 @@ tasks {
     getByName("prepareKotlinBuildScriptModel").dependsOn(installPreCommitHook)
 }
 
-val ossrhUsername by extra(lookForVariable("ossrhUsername"))
-val ossrhPassword by extra(lookForVariable("ossrhPassword"))
-val mStagingProfileId by extra(lookForVariable("stagingProfileId"))
-val signingKeyId by extra(lookForVariable("signing.keyId"))
-val signingPassword by extra(lookForVariable("signing.password"))
-val signingKey by extra(lookForVariable("signing.key"))
+val ossrhUsername by extra(getValueFromEnvOrProperties("ossrhUsername"))
+val ossrhPassword by extra(getValueFromEnvOrProperties("ossrhPassword"))
+val mStagingProfileId by extra(getValueFromEnvOrProperties("stagingProfileId"))
+val signingKeyId by extra(getValueFromEnvOrProperties("signing.keyId"))
+val signingPassword by extra(getValueFromEnvOrProperties("signing.password"))
+val signingKey by extra(getValueFromEnvOrProperties("signing.key"))
 
 // Set up Sonatype repository
 nexusPublishing {
@@ -52,7 +52,7 @@ nexusPublishing {
     }
 }
 
-fun lookForVariable(name: String): Any? {
+fun getValueFromEnvOrProperties(name: String): Any? {
     val localProperties = gradleLocalProperties(rootDir)
     return System.getenv(name) ?: localProperties[name]
 }
