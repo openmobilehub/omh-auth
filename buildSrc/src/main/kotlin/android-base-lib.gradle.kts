@@ -67,7 +67,8 @@ artifacts {
 
 val groupProperty = getPropertyOrFail("group")
 val versionProperty = getPropertyOrFail("version")
-val artifactId = properties.get("artifactId").toString()
+val artifactId = getPropertyOrFail("artifactId")
+val mDescription = getPropertyOrFail("description")
 
 group = groupProperty
 version = versionProperty
@@ -106,11 +107,19 @@ fun MavenPublication.setupPublication() {
 
     pom {
         name.set(artifactId)
+        description.set(mDescription)
         url.set("https://github.com/openmobilehub/omh-auth")
         licenses {
             license {
                 name.set("Apache-2.0 License")
                 url.set("https://github.com/openmobilehub/omh-auth/blob/main/LICENSE")
+            }
+        }
+
+        developers {
+            developer {
+                id.set("Anwera64")
+                name.set("Anton Soares")
             }
         }
 
