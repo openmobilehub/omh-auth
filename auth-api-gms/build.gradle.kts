@@ -7,7 +7,7 @@ android {
 }
 
 dependencies {
-    api(Libs.authApi)
+    api(project(":auth-api"))
 
     // KTX
     implementation(Libs.coreKtx)
