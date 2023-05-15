@@ -56,12 +56,12 @@ val gmsImplementation by configurations
 val ngmsImplementation by configurations
 val singleBuildImplementation by configurations
 dependencies {
-    ngmsImplementation(project(":auth-api-non-gms"))
+    ngmsImplementation(Libs.authNgms)
 
-    gmsImplementation(project(":auth-api-gms"))
+    gmsImplementation(Libs.authGms)
 
-    singleBuildImplementation(project(":auth-api-non-gms"))
-    singleBuildImplementation(project(":auth-api-gms"))
+    singleBuildImplementation(Libs.authGms)
+    singleBuildImplementation(Libs.authNgms)
 
     implementation(Libs.googleApiClientAndroid)
 
