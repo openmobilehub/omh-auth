@@ -4,6 +4,7 @@ import android.net.Uri
 import com.omh.android.auth.nongms.data.login.AuthRepositoryImpl
 import com.omh.android.auth.nongms.data.login.datasource.AuthDataSource
 import com.omh.android.auth.nongms.data.login.models.AuthTokenResponse
+import com.omh.android.auth.nongms.domain.auth.AuthRepository
 import com.omh.android.auth.nongms.domain.models.ApiResult
 import com.omh.android.auth.nongms.domain.models.OAuthTokens
 import io.mockk.coEvery
@@ -77,7 +78,7 @@ internal class AuthRepositoryTest {
             assertEquals(result.extractResult(), expectedResult)
         }
 
-    private fun TestScope.createAuthRepository(): AuthRepositoryImpl {
+    private fun TestScope.createAuthRepository(): AuthRepository {
         val ioDispatcher = UnconfinedTestDispatcher(testScheduler)
         return AuthRepositoryImpl(googleAuthDataSource, ioDispatcher)
     }
