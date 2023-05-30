@@ -56,12 +56,12 @@ val gmsImplementation by configurations
 val ngmsImplementation by configurations
 val singleBuildImplementation by configurations
 dependencies {
-    ngmsImplementation(project(":auth-api-non-gms"))
+    ngmsImplementation("com.openmobilehub.android:auth-api-non-gms:1.0")
 
-    gmsImplementation(project(":auth-api-gms"))
+    gmsImplementation("com.openmobilehub.android:auth-api-gms:1.0")
 
-    singleBuildImplementation(project(":auth-api-non-gms"))
-    singleBuildImplementation(project(":auth-api-gms"))
+    singleBuildImplementation("com.openmobilehub.android:auth-api-non-gms:1.0")
+    singleBuildImplementation("com.openmobilehub.android:auth-api-gms:1.0")
 
     implementation(Libs.googleApiClientAndroid)
 
