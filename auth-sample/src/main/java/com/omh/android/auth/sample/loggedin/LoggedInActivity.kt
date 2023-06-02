@@ -51,6 +51,7 @@ class LoggedInActivity : AppCompatActivity() {
         binding.tvEmail.text = getString(R.string.email_placeholder, profile.email)
         binding.tvName.text = getString(R.string.name_placeholder, profile.name)
         binding.tvSurname.text = getString(R.string.surname_placeholder, profile.surname)
+        binding.tvIdToken.text = getString(R.string.id_token_placeholder, profile.idToken)
         getToken()
     }
 
