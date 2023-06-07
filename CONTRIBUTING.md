@@ -29,7 +29,7 @@ repositories {
 2. Go to Android Studio -> Gradle tab and run the `publishToMavenLocal`in the `auth-api`
    , `auth-api-gms` and `auth-api-non-gms`:
 
-#### Step 2: Verify plugin is published
+#### Step 2: Verify that the libraries are published
 
 Go to `/Users/your_user/.m2` dot folder and you'll find the plugin.
 
@@ -52,7 +52,8 @@ You can verify your code with the following tasks:
 ```
 
 Once you have made a change in any of the `auth-api`, `auth-api-gms` or `auth-api-non-gms` modules,
-you must `publishToMavenLocal` in that module in order to see the changes.
+you must `publishToMavenLocal` in that module in order to see the changes. Gradle holds the latest versions in cache,
+so we'd recommend updating to minor versions or clearing your gradle cache every time you publish your changes.
 
 ## Write documentation
 
@@ -60,8 +61,7 @@ This project has documentation in a few places:
 
 ### Introduction and usage
 
-A
-friendly [README.md](https://github.com/openmobilehub/omh-auth/blob/main/README.md)
+A friendly [README.md](https://github.com/openmobilehub/omh-auth/blob/main/README.md)
 written for many audiences.
 
 ### Examples and advanced usage
