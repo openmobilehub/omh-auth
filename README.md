@@ -17,7 +17,7 @@ components for consistent map functionality.
 
 We also believe in the power of community collaboration. That's why OMH Auth SDK is open-source,
 inviting contributions and supporting plugins from other auth providers.
-Together, we can expand the capabilities of the SDK and enhance the range of supported map services.
+Together, we can expand the capabilities of the SDK and enhance the range of supported auth services.
 
 # Sample App
 
@@ -66,11 +66,13 @@ see [Gradle properties](https://developer.android.com/studio/build#properties-fi
    pass it to the OMH Auth provider down the line. One way of accomplishing this is with the
    following snippet:
 
-```kotlin
+```groovy
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
 buildConfigField(
-    type = "String",
-    name = "CLIENT_ID",
-    value = gradleLocalProperties(rootDir)["clientId"].toString()
+    type = 'String',
+    name = 'CLIENT_ID',
+    value = properties.getProperty('clientId')
 )
 ```
 
@@ -257,7 +259,7 @@ cancellableCollector.addCancellable(cancellable)
 See example and check the full documentation and add custom implementation at
 our [Wiki](https://github.com/openmobilehub/omh-auth/wiki).
 
-Additionally for more information about the OMH Map
+Additionally for more information about the OMH Auth
 functions, [Docs](https://openmobilehub.github.io/omh-auth).
 
 ## Contributing
