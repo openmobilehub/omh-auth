@@ -16,8 +16,8 @@ components for consistent map functionality.
 # Provider Implementations
 
 We also believe in the power of community collaboration. That's why OMH Auth SDK is open-source,
-inviting contributions and supporting plugins from other auth providers.
-Together, we can expand the capabilities of the SDK and enhance the range of supported auth services.
+inviting contributions and supporting plugins from other auth providers. Together, we can expand the
+capabilities of the SDK and enhance the range of supported auth services.
 
 # Sample App
 
@@ -60,21 +60,31 @@ see [Gradle properties](https://developer.android.com/studio/build#properties-fi
 
 1. Open the `local.properties` in your project level directory, and then add the following code.
    Replace `YOUR_CLIENT_ID` with your API key.
-   `clientId=YOUR_CLIENT_ID`
+   `CLIENT_ID=YOUR_CLIENT_ID`
 2. Save the file.
-3. In your application gradle build file add a BuildConfigField with the client ID so that you can
-   pass it to the OMH Auth provider down the line. One way of accomplishing this is with the
-   following snippet:
+3. To read the value from the `local.properties` you can
+   use [Secrets Gradle plugin for Android](https://github.com/google/secrets-gradle-plugin). To
+   install the plugin and store your API key:
+    - Open your project level `build.gradle` file and add the following code:
+   ```groovy
+   buildscript {
+       dependencies {
+           classpath "com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.1"
+       }
+   }
+   ```
 
-```groovy
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-buildConfigField(
-    type = 'String',
-    name = 'CLIENT_ID',
-    value = properties.getProperty('clientId')
-)
-```
+    - Open your application level `build.gradle` file and add the following code to
+      the `plugins` element.
+
+   ```groovy
+   plugins {
+      id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
+   }
+   ```
+
+    - Save the file
+      and [sync your project with Gradle](https://developer.android.com/studio/build#sync-files).
 
 ## Gradle dependencies
 
@@ -86,19 +96,19 @@ To add the core plugin dependency in a new project, follow the next steps:
 
 1. In the project's `build.gradle` add the next script
 
-```groovy
-buildscript {
-    dependencies {
-        classpath 'com.openmobilehub.android:omh-core:1.0'
-    }
-}
-```
+   ```groovy
+   buildscript {
+       dependencies {
+           classpath 'com.openmobilehub.android:omh-core:1.0'
+       }
+   }
+   ```
 
 2. In the app's `build.gradle` add the plugin id
 
-```groovy
-id 'com.openmobilehub.android.omh-core'
-```
+   ```groovy
+   id 'com.openmobilehub.android.omh-core'
+   ```
 
 3. Finally, Sync Project with Gradle Files.
 
@@ -118,49 +128,49 @@ details [Docs](https://github.com/openmobilehub/omh-core/tree/release/1.0)
 
 1. Go to your app's `build.gradle` file and add the next code:
 
-```groovy
-omhConfig {
-    bundle("singleBuild") {
-        maps {
-            gmsService {
-                dependency = "com.openmobilehub.android:auth-api-gms:1.0"
-            }
-            nonGmsService {
-                dependency = "com.openmobilehub.android:auth-api-non-gms:1.0"
-            }
-        }
-    }
-    bundle("gms") {
-        maps {
-            gmsService {
-                dependency = "com.openmobilehub.android:auth-api-gms:1.0"
-            }
-        }
-    }
-    bundle("nongms") {
-        maps {
-            nonGmsService {
-                dependency = "com.openmobilehub.android:auth-api-non-gms:1.0"
-            }
-        }
-    }
-}
-```
+   ```groovy
+   omhConfig {
+       bundle("singleBuild") {
+           maps {
+               gmsService {
+                   dependency = "com.openmobilehub.android:auth-api-gms:1.0"
+               }
+               nonGmsService {
+                   dependency = "com.openmobilehub.android:auth-api-non-gms:1.0"
+               }
+           }
+       }
+       bundle("gms") {
+           maps {
+               gmsService {
+                   dependency = "com.openmobilehub.android:auth-api-gms:1.0"
+               }
+           }
+       }
+       bundle("nongms") {
+           maps {
+               nonGmsService {
+                   dependency = "com.openmobilehub.android:auth-api-non-gms:1.0"
+               }
+           }
+       }
+   }
+   ```
 
 2. Now you can select in the build variants the generated build types.
 3. To get the OMH Auth client you need to build the provider which you can do like this:
 
-```kotlin
-val omhAuthProvider = OmhAuthProvider.Builder()
-    .addNonGmsPath(BuildConfig.AUTH_GMS_PATH)
-    .addGmsPath(BuildConfig.AUTH_NON_GMS_PATH)
-    .build()
-return omhAuthProvider.provideAuthClient(
-    scopes = listOf("openid", "email", "profile"),
-    clientId = BuildConfig.CLIENT_ID,
-    context = context
-)
-```
+   ```kotlin
+   val omhAuthProvider = OmhAuthProvider.Builder()
+       .addNonGmsPath(BuildConfig.AUTH_GMS_PATH)
+       .addGmsPath(BuildConfig.AUTH_NON_GMS_PATH)
+       .build()
+   return omhAuthProvider.provideAuthClient(
+       scopes = listOf("openid", "email", "profile"),
+       clientId = BuildConfig.CLIENT_ID,
+       context = context
+   )
+   ```
 
 *Note*: we'd recommend to store the client as a singleton with your preferred dependency injection
 library as this will be your only gateway to the OMH Auth SDK and it doesn't change in runtime at
@@ -272,9 +282,12 @@ For more information
 check [CONTRIBUTING](https://github.com/openmobilehub/omh-auth/blob/main/CONTRIBUTING.md)
 
 ## License
+
 Copyright 2023 Futurewei, Inc.
-Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements. 
-See the NOTICE file distributed with this work for additional information regarding copyright ownership. 
-The ASF licenses this file to you under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. 
+Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements.
+See the NOTICE file distributed with this work for additional information regarding copyright
+ownership.
+The ASF licenses this file to you under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License.
 You may obtain a copy of the License at
 https://www.apache.org/licenses/LICENSE-2.0
