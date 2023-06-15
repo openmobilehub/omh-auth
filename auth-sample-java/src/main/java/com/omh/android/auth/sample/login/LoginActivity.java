@@ -46,10 +46,10 @@ public class LoginActivity extends AppCompatActivity {
             omhAuthClient.getAccountFromIntent(result.getData());
             navigateToLoggedIn();
         } catch (OmhAuthException exception) {
-            String errorMessage = OmhAuthStatusCodes.getStatusCodeString(exception.getStatusCode());
+            exception.printStackTrace();
             new AlertDialog.Builder(this)
                     .setTitle("An error has occurred.")
-                    .setMessage(errorMessage)
+                    .setMessage(exception.getMessage())
                     .setPositiveButton(android.R.string.ok, (dialog, which) -> dialog.dismiss())
                     .create()
                     .show();

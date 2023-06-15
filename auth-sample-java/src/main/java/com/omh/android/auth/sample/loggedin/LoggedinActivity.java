@@ -76,15 +76,16 @@ public class LoggedinActivity extends AppCompatActivity {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSuccess(token -> binding.tvToken.setText(getString(R.string.token_placeholder, token)))
-                .doOnError(error -> showErrorDialog(error.getMessage()))
+                .doOnError(this::showErrorDialog)
                 .subscribe();
         cd.add(disposable);
     }
 
-    private void showErrorDialog(String errorMessage) {
+    private void showErrorDialog(Throwable throwable) {
+        throwable.printStackTrace();
         new AlertDialog.Builder(this)
                 .setTitle("An error has occurred.")
-                .setMessage(errorMessage)
+                .setMessage(throwable.getMessage())
                 .setPositiveButton(android.R.string.ok, (dialog, which) -> dialog.dismiss())
                 .create()
                 .show();
@@ -104,7 +105,7 @@ public class LoggedinActivity extends AppCompatActivity {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSuccess(token -> binding.tvToken.setText(getString(R.string.token_placeholder, token)))
-                .doOnError(error -> showErrorDialog(error.getMessage()))
+                .doOnError(this::showErrorDialog)
                 .subscribe();
         cd.add(disposable);
     }
@@ -143,7 +144,7 @@ public class LoggedinActivity extends AppCompatActivity {
 
     private void logout() {
         OmhCancellable cancellable = omhAuthClient.signOut()
-                .addOnFailure(exception -> showErrorDialog(exception.getMessage()))
+                .addOnFailure(this::showErrorDialog)
                 .addOnSuccess(result -> navigateToLogin())
                 .execute();
         cc.addCancellable(cancellable);
@@ -157,7 +158,7 @@ public class LoggedinActivity extends AppCompatActivity {
 
     private void revokeToken() {
         OmhCancellable cancellable = omhAuthClient.revokeToken()
-                .addOnFailure(exception -> showErrorDialog(exception.getMessage()))
+                .addOnFailure(this::showErrorDialog)
                 .addOnSuccess(result -> navigateToLogin())
                 .execute();
         cc.addCancellable(cancellable);
