@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 
 plugins {
@@ -8,11 +10,22 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        create("release") {
+            val localProperties = gradleLocalProperties(rootDir)
+            storeFile = file(localProperties["keypath"].toString())
+            storePassword = localProperties["keypass"].toString()
+            keyAlias = localProperties["keyalias"].toString()
+            keyPassword = localProperties["keypassword"].toString()
+        }
+    }
     namespace = "com.omh.android.auth.sample"
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("release")
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
