@@ -21,8 +21,8 @@ capabilities of the SDK and enhance the range of supported auth services.
 
 # Sample App
 
-Sample app demonstrates how to use Omh Auth SDK
-functionalities, [sample](/omh-auth/tree/develop/auth-sample).
+This section describes how to setup an Android Studio project to use the OMH Maps SDK for Android.
+For greater ease, a base code will be used within the repository.
 
 ## Set up the development environment
 
@@ -32,6 +32,22 @@ functionalities, [sample](/omh-auth/tree/develop/auth-sample).
 2. Ensure that you are using
    the [Android Gradle plugin](https://developer.android.com/studio/releases/gradle-plugin) version
    7.0 or later in Android Studio.
+
+## Clone the repository
+
+Go to branch the "starter-code". The easiest way is cloning the repository.
+
+- Open Terminal.
+- Type git clone, and then paste the URL:
+
+   ```
+   git clone --branch guide/starter-code https://github.com/openmobilehub/omh-auth.git
+   ```
+
+- Press "Enter" to create your local clone.
+
+You can always check what the final result should be in the module `sample-app` in the main or
+develop branches.
 
 ## Set up your Google Cloud project for applications with Google Services (Google Auth)
 
