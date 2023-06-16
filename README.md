@@ -105,13 +105,17 @@ see [Gradle properties](https://developer.android.com/studio/build#properties-fi
 ## Gradle dependencies
 
 To integrate the OMH Auth SDK in your project is required to add some Gradle dependencies.
+
 ## Gradle configuration
+
 To integrate the OMH Auth in your project is required to add some Gradle dependencies.
 
 ### Add OMH Core plugin
+
 To add the core plugin dependency in a new project, follow the next steps:
 
-1. In your "auth-starter-sample" module-level `build.gradle` under the `plugins` element add the plugin id.
+1. In your "auth-starter-sample" module-level `build.gradle` under the `plugins` element add the
+   plugin id.
 
    ```
    plugins {
@@ -120,12 +124,17 @@ To add the core plugin dependency in a new project, follow the next steps:
    }
    ```
 
-2. Save the file and [sync Project with Gradle Files](https://developer.android.com/studio/build#sync-files).
+2. Save the file
+   and [sync Project with Gradle Files](https://developer.android.com/studio/build#sync-files).
 
 ### Configure the OMH Core plugin
-To use the core plugin is required some minimum configuration, for more details see [OMH Core Docs](https://github.com/openmobilehub/omh-core/tree/release/1.0).
 
-1. In your "auth-starter-sample" module-level `build.gradle` file under the `buildFeatures` element add `buildConfig = true`. For more information see [BuildFeatures](https://developer.android.com/reference/tools/gradle-api/7.0/com/android/build/api/dsl/BuildFeatures)
+To use the core plugin is required some minimum configuration, for more details
+see [OMH Core Docs](https://github.com/openmobilehub/omh-core/tree/release/1.0).
+
+1. In your "auth-starter-sample" module-level `build.gradle` file under the `buildFeatures` element
+   add `buildConfig = true`. For more information
+   see [BuildFeatures](https://developer.android.com/reference/tools/gradle-api/7.0/com/android/build/api/dsl/BuildFeatures)
 
    ```
    android {
@@ -137,31 +146,41 @@ To use the core plugin is required some minimum configuration, for more details 
    }
    ```
 
-2. In your "auth-starter-sample" module-level `build.gradle` file is required to configure the `omhConfig`. The `omhConfig` definition is used to extend the existing Android Studio variants in the core plugin. 
-For more details `omhConfig` see [OMH Core](https://github.com/openmobilehub/omh-core/tree/release/1.0).
+2. In your "auth-starter-sample" module-level `build.gradle` file is required to configure
+   the `omhConfig`. The `omhConfig` definition is used to extend the existing Android Studio
+   variants in the core plugin.
+   For more details `omhConfig`
+   see [OMH Core](https://github.com/openmobilehub/omh-core/tree/release/1.0).
 
    #### Basic configuration
-   Define the `Bundle` that represents the build variants names. In this example are `singleBuild`, `gms` and `nongms`.
+   Define the `Bundle` that represents the build variants names. In this example are `singleBuild`
+   , `gms` and `nongms`.
 
    ##### Variant singleBuild
-   - Define the `Service`. In this example is auth.
-   - Define the `ServiceDetails`. In this example are `gmsService` and `nonGmsService`.
-   - Define the dependency and the path. In this example are `com.openmobilehub.android:auth-api-gms:1.0"` and `com.openmobilehub.android:auth-api-non-gms:1.0`.
-   **Note:** It's important to observe how a single build encompasses both GMS (Google Mobile Services) and Non-GMS configurations.
+    - Define the `Service`. In this example is auth.
+    - Define the `ServiceDetails`. In this example are `gmsService` and `nonGmsService`.
+    - Define the dependency and the path. In this example
+      are `com.openmobilehub.android:auth-api-gms:1.0"`
+      and `com.openmobilehub.android:auth-api-non-gms:1.0`.
+      **Note:** It's important to observe how a single build encompasses both GMS (Google Mobile
+      Services) and Non-GMS configurations.
 
    ##### Variant gms
-   - Define the `Service`. In this example is auth.
-   - Define the `ServiceDetails` . In this example is `gmsService`.
-   - Define the dependency and the path. In this example is `com.openmobilehub.android:auth-api-gms:1.0"`.
-   **Note:** gms build covers only GMS (Google Mobile Services).
+    - Define the `Service`. In this example is auth.
+    - Define the `ServiceDetails` . In this example is `gmsService`.
+    - Define the dependency and the path. In this example
+      is `com.openmobilehub.android:auth-api-gms:1.0"`.
+      **Note:** gms build covers only GMS (Google Mobile Services).
 
    ##### Variant nongms
-   - Define the `Service`. In this example is auth.
-   - Define the `ServiceDetails` . In this example is `nonGmsService`.
-   - Define the dependency and the path. In this example is `com.openmobilehub.android:auth-api-non-gms:1.0`.
-   **Note:** nongms build covers only Non-GMS configurations.
+    - Define the `Service`. In this example is auth.
+    - Define the `ServiceDetails` . In this example is `nonGmsService`.
+    - Define the dependency and the path. In this example
+      is `com.openmobilehub.android:auth-api-non-gms:1.0`.
+      **Note:** nongms build covers only Non-GMS configurations.
 
-   In your "auth-starter-sample" module-level `build.gradle` file add the following code at the end of the file.
+   In your "auth-starter-sample" module-level `build.gradle` file add the following code at the end
+   of the file.
 
    ```
    omhConfig {
@@ -191,18 +210,21 @@ For more details `omhConfig` see [OMH Core](https://github.com/openmobilehub/omh
       }
    }
    ```
-   
-3. Save and [sync Project with Gradle Files](https://developer.android.com/studio/build#sync-files). 
-4. Now you can select a build variant. To change the build variant Android Studio uses, do one of the following:
-   - Select "Build" > "Select Build Variant..." in the menu.
-   - Select "View" > "Tool Windows" > "Build Variants" in the menu.
-   - Click the "Build Variants" tab on the tool window bar.
+
+3. Save and [sync Project with Gradle Files](https://developer.android.com/studio/build#sync-files).
+4. Now you can select a build variant. To change the build variant Android Studio uses, do one of
+   the following:
+    - Select "Build" > "Select Build Variant..." in the menu.
+    - Select "View" > "Tool Windows" > "Build Variants" in the menu.
+    - Click the "Build Variants" tab on the tool window bar.
 
 5. You can select any of the 3 variants for the `:auth-starter-sample`:
-   - "singleBuild" variant builds for GMS (Google Mobile Services) and Non-GMS devices without changes to the code.(Recommended)
-   - "gms" variant  builds for devices that has GMS (Google Mobile Services).
-   - "nongms" variant builds for devices that doesn't have GMS (Google Mobile Services).
-6. In the SingletonModule.kt file in the `:auth-starter-sample` module add the following code to provide the OMH Auth Client.
+    - "singleBuild" variant builds for GMS (Google Mobile Services) and Non-GMS devices without
+      changes to the code.(Recommended)
+    - "gms" variant builds for devices that has GMS (Google Mobile Services).
+    - "nongms" variant builds for devices that doesn't have GMS (Google Mobile Services).
+6. In the SingletonModule.kt file in the `:auth-starter-sample` module add the following code to
+   provide the OMH Auth Client.
 
    ```kotlin
    val omhAuthProvider = OmhAuthProvider.Builder()
@@ -230,8 +252,8 @@ profile.
 
 The snippet below shows how to check if there's a signed in user already in your application. If no
 one has logged in yet, then it will return a null value. A successful fetch will return an object of
-the class `OmhUserProfile`. In the LoginActivity.kt file in the `:auth-starter-sample` module add the
-following code.
+the class `OmhUserProfile`. In the LoginActivity.kt file in the `:auth-starter-sample` module add
+the following code.
 
 ```kotlin
 if (omhAuthClient.getUser() != null) {
@@ -244,8 +266,9 @@ if (omhAuthClient.getUser() != null) {
 If no user is found, then we should request a login intent which will redirect the user to the
 provider's auth screen, be it the Google SignIn UI or a custom tab that redirects the user to
 Google's Auth page. This should be used to start an activity for result ( The snippet below uses the
-latest method of doing so, but it's the same as using `startActivityForResult(Intent intent, int code)`.
-In the LoginActivity.kt file in the `:auth-starter-sample` module add the following code.
+latest method of doing so, but it's the same as
+using `startActivityForResult(Intent intent, int code)`. In the LoginActivity.kt file in
+the `:auth-starter-sample` module add the following code.
 
 ```kotlin
 private val loginLauncher: ActivityResultLauncher<Intent> =
@@ -299,7 +322,7 @@ cancellableCollector.clear()
 
 The SDK also provides a way to revoke the access token provided to the application. This works
 similar to the sign-out functionality but on top of clearing all local data, this also makes a
-request to the auth provider to revoke the token from the server. Add the following code in the 
+request to the auth provider to revoke the token from the server. Add the following code in the
 LoggedInActivity.kt in the `:auth-starter-sample` module.
 
 ```kotlin
@@ -323,8 +346,7 @@ functions, [Docs](https://openmobilehub.github.io/omh-auth).
 We'd be glad if you decide to contribute to this project.
 
 All pull request is welcome, just make sure that every work is linked to an issue on this repository
-so everyone can track it.
-For more information
+so everyone can track it. For more information
 check [CONTRIBUTING](https://github.com/openmobilehub/omh-auth/blob/main/CONTRIBUTING.md)
 
 ## License
@@ -332,8 +354,6 @@ check [CONTRIBUTING](https://github.com/openmobilehub/omh-auth/blob/main/CONTRIB
 Copyright 2023 Futurewei, Inc.
 Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements.
 See the NOTICE file distributed with this work for additional information regarding copyright
-ownership.
-The ASF licenses this file to you under the Apache License, Version 2.0 (the "License"); you may not
-use this file except in compliance with the License.
-You may obtain a copy of the License at
-https://www.apache.org/licenses/LICENSE-2.0
+ownership. The ASF licenses this file to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy of the
+License at https://www.apache.org/licenses/LICENSE-2.0
