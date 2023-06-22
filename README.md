@@ -92,17 +92,13 @@ see [Gradle properties](https://developer.android.com/studio/build#properties-fi
     - Save the file
       and [sync your project with Gradle](https://developer.android.com/studio/build#sync-files).
 
-## Gradle dependencies
+## Gradle configuration
 
 To integrate the OMH Auth SDK in your project is required to add some Gradle dependencies.
 
-## Gradle configuration
-
-To integrate the OMH Auth in your project is required to add some Gradle dependencies.
-
 ### Add OMH Core plugin
 
-To add the core plugin dependency in a new project, follow the next steps:
+To incorporate OMH Auth into your project, you have two options: utilize the OMH Core Plugin or directly include the OMH Client libraries dependencies. The subsequent instructions will outline the necessary steps for including the OMH Core Plugin as a Gradle dependency.
 
 1. In your "auth-starter-sample" module-level `build.gradle` under the `plugins` element add the
    plugin id.
@@ -143,34 +139,12 @@ see [OMH Core Docs](https://github.com/openmobilehub/omh-core/tree/release/1.0).
    see [OMH Core](https://github.com/openmobilehub/omh-core/tree/release/1.0).
 
    #### Basic configuration
-   Define the `Bundle` that represents the build variants names. In this example are `singleBuild`
-   , `gms` and `nongms`.
+    In this step, you will define the OMH Core Plugin bundles to generate multiple build variants with specific suffixes as their names. For example, if your project has `release` and `debug` variants with `singleBuild`, `gms`, and `nonGms` OMH bundles, the following build variants will be generated:
 
-   ##### Variant singleBuild
-    - Define the `Service`. In this example is auth.
-    - Define the `ServiceDetails`. In this example are `gmsService` and `nonGmsService`.
-    - Define the dependency and the path. In this example
-      are `com.openmobilehub.android:auth-api-gms:1.0"`
-      and `com.openmobilehub.android:auth-api-non-gms:1.0`.
-      **Note:** It's important to observe how a single build encompasses both GMS (Google Mobile
-      Services) and Non-GMS configurations.
-
-   ##### Variant gms
-    - Define the `Service`. In this example is auth.
-    - Define the `ServiceDetails` . In this example is `gmsService`.
-    - Define the dependency and the path. In this example
-      is `com.openmobilehub.android:auth-api-gms:1.0"`.
-      **Note:** gms build covers only GMS (Google Mobile Services).
-
-   ##### Variant nongms
-    - Define the `Service`. In this example is auth.
-    - Define the `ServiceDetails` . In this example is `nonGmsService`.
-    - Define the dependency and the path. In this example
-      is `com.openmobilehub.android:auth-api-non-gms:1.0`.
-      **Note:** nongms build covers only Non-GMS configurations.
-
-   In your "auth-starter-sample" module-level `build.gradle` file add the following code at the end
-   of the file.
+   - `releaseSingleBuild`, `releaseGms`, and `releaseNonGms`
+   - `debugSingleBuild`, `debugGms`, and `debugNonGms`
+   
+   In your `maps-starter-sample` module-level `build.gradle` file add the following code at the end of the file.
 
    ```
    omhConfig {
@@ -201,19 +175,45 @@ see [OMH Core Docs](https://github.com/openmobilehub/omh-core/tree/release/1.0).
    }
    ```
 
-3. Save and [sync Project with Gradle Files](https://developer.android.com/studio/build#sync-files).
-4. Now you can select a build variant. To change the build variant Android Studio uses, do one of
+   ##### Variant singleBuild
+    - Define the `Service`. In this example is auth.
+    - Define the `ServiceDetails`. In this example are `gmsService` and `nonGmsService`.
+    - Define the dependency and the path. In this example
+      are `com.openmobilehub.android:auth-api-gms:1.0"`
+      and `com.openmobilehub.android:auth-api-non-gms:1.0`.
+
+   **Note:** It's important to observe how a single build encompasses both GMS (Google MobileServices) and Non-GMS configurations.
+
+   ##### Variant gms
+    - Define the `Service`. In this example is auth.
+    - Define the `ServiceDetails` . In this example is `gmsService`.
+    - Define the dependency and the path. In this example
+      is `com.openmobilehub.android:auth-api-gms:1.0"`.
+   **Note:** gms build covers only GMS (Google Mobile Services).
+
+   ##### Variant nongms
+    - Define the `Service`. In this example is auth.
+    - Define the `ServiceDetails` . In this example is `nonGmsService`.
+    - Define the dependency and the path. In this example
+      is `com.openmobilehub.android:auth-api-non-gms:1.0`.
+   **Note:** nongms build covers only Non-GMS configurations.
+
+   In your "auth-starter-sample" module-level `build.gradle` file add the following code at the end
+   of the file.
+
+4. Save and [sync Project with Gradle Files](https://developer.android.com/studio/build#sync-files).
+5. Now you can select a build variant. To change the build variant Android Studio uses, do one of
    the following:
     - Select "Build" > "Select Build Variant..." in the menu.
     - Select "View" > "Tool Windows" > "Build Variants" in the menu.
     - Click the "Build Variants" tab on the tool window bar.
 
-5. You can select any of the 3 variants for the `:auth-starter-sample`:
+6. You can select any of the 3 variants for the `:auth-starter-sample`:
     - "singleBuild" variant builds for GMS (Google Mobile Services) and Non-GMS devices without
       changes to the code.(Recommended)
     - "gms" variant builds for devices that has GMS (Google Mobile Services).
     - "nongms" variant builds for devices that doesn't have GMS (Google Mobile Services).
-6. In the SingletonModule.kt file in the `:auth-starter-sample` module add the following code to
+7. In the SingletonModule.kt file in the `:auth-starter-sample` module add the following code to
    provide the OMH Auth Client.
 
    ```kotlin
@@ -232,7 +232,7 @@ see [OMH Core Docs](https://github.com/openmobilehub/omh-core/tree/release/1.0).
 library as this will be your only gateway to the OMH Auth SDK and it doesn't change in runtime at
 all.
 
-## Getting Started
+## Adding Auth to your app.
 
 First and foremost, the main interface that you'll be interacting with is called `OmhAuthClient`. In
 contains all your basic authentication functionalities like login, sign out and check for a user
