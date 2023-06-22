@@ -2,27 +2,16 @@
 ![GitHub contributors](https://img.shields.io/github/contributors/openmobilehub/omh-auth)
 [![API](https://img.shields.io/badge/API-23%2B-green.svg?style=flat)](https://developer.android.com/studio/releases/platforms#6.0)
 
-# OMH Auth
+# OMH Auth Client Library Overview
 
-The solution to seamlessly integrating auth services across GMS and non-GMS devices. Our open-source
-Android SDK tackles the problem of device compatibility, allowing developers to use the same SDK
-without worrying about specific device requirements.
+OMH Auth is an Android client library that makes it easy to integrate auth providers on both Google Mobile Services (GMS) and non-GMS devices. It eliminates the need for separate codebases for different Android builds.
 
-With OMH Auth SDK, you can effortlessly incorporate the Google Auth implementation into your
-applications, regardless of whether the device has Google Mobile Services or not.
-Our SDK handles the complexities behind the scenes, providing a unified interface and common
-components for consistent map functionality.
+With the OMH Maps Client Library, you can easily add Google Sign in and other third-party maps to your applications, regardless of whether the device has GMS or not. The library takes care of the technical details, providing a unified interface and components for a consistent auth experience.
 
-# Provider Implementations
+# Getting started
+This section describes how to setup an Android Studio project to use the OMH Auth SDK for Android. For greater ease, a base code will be used within the repository. 
 
-We also believe in the power of community collaboration. That's why OMH Auth SDK is open-source,
-inviting contributions and supporting plugins from other auth providers. Together, we can expand the
-capabilities of the SDK and enhance the range of supported auth services.
-
-# Sample App
-
-This section describes how to setup an Android Studio project to use the OMH Auth SDK for Android.
-For greater ease, a base code will be used within the repository.
+**Note: To quickly run a full-featured app with all OMH Maps functionality, refer to the [`Sample App`](#sample-app) section and follow the provided steps.**
 
 ## Set up the development environment
 
@@ -333,8 +322,10 @@ val cancellable = omhAuthClient.revokeToken()
     .execute()
 cancellableCollector.addCancellable(cancellable)
 ```
+# Sample App
+This repository includes a [auth-sample](/auth-sample) that demonstrates the functionality of the OMH Auth Client Library. By cloning the repo and executing the app, you can explore the various features offered by the library. However, if you prefer a step-by-step approach to learn the SDK from scratch, we recommend following the detailed Getting Started guide provided in this repository. The guide will walk you through the implementation process and help you integrate the OMH Auth Client Library into your projects effectively.
 
-## Documentation
+# Documentation
 
 See example and check the full documentation and add custom implementation at
 our [Wiki](https://github.com/openmobilehub/omh-auth/wiki).
@@ -342,15 +333,11 @@ our [Wiki](https://github.com/openmobilehub/omh-auth/wiki).
 Additionally for more information about the OMH Auth
 functions, [Docs](https://openmobilehub.github.io/omh-auth).
 
-## Contributing
+# Contributing
 
-We'd be glad if you decide to contribute to this project.
+Please contribute! We will gladly review any pull requests. Make sure to read the [CONTRIBUTING](https://github.com/openmobilehub/omh-auth/blob/main/CONTRIBUTING.md) page first though.
 
-All pull request is welcome, just make sure that every work is linked to an issue on this repository
-so everyone can track it. For more information
-check [CONTRIBUTING](https://github.com/openmobilehub/omh-auth/blob/main/CONTRIBUTING.md)
-
-## License
+# License
 
 Copyright 2023 Futurewei, Inc.
 Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements.
