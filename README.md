@@ -11,7 +11,7 @@ With the OMH Maps Client Library, you can easily add Google Sign in and other th
 # Getting started
 This section describes how to setup an Android Studio project to use the OMH Auth SDK for Android. For greater ease, a base code will be used within the repository. 
 
-**Note: To quickly run a full-featured app with all OMH Maps functionality, refer to the [`Sample App`](#sample-app) section and follow the provided steps.**
+**Note: To quickly run a full-featured app with all OMH Auth functionality, refer to the [`Sample App`](#sample-app) section and follow the provided steps.**
 
 ## Set up the development environment
 
