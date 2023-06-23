@@ -325,6 +325,8 @@ cancellableCollector.addCancellable(cancellable)
 # Sample App
 This repository includes a [auth-sample](/auth-sample) that demonstrates the functionality of the OMH Auth Client Library. By cloning the repo and executing the app, you can explore the various features offered by the library. However, if you prefer a step-by-step approach to learn the SDK from scratch, we recommend following the detailed Getting Started guide provided in this repository. The guide will walk you through the implementation process and help you integrate the OMH Auth Client Library into your projects effectively.
 
+**Note: Before running the sample application, make sure to follow the steps in Setup your Google Cloud project for application with Google Services to configure your Google Cloud project.**
+
 # Documentation
 
 See example and check the full documentation and add custom implementation at
