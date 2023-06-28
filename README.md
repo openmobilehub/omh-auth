@@ -95,8 +95,7 @@ To incorporate OMH Auth into your project, you have two options: utilize the OMH
 
 ### Configure the OMH Core plugin
 
-To use the core plugin is required some minimum configuration, for more details
-see [OMH Core Docs](https://github.com/openmobilehub/omh-core/tree/release/1.0).
+For more details `omhConfig` see [OMH Core Docs](https://github.com/openmobilehub/omh-core/tree/release/1.0).
 
 In your `auth-starter-sample` module-level `build.gradle` file add the following code at the end of the file.
 
