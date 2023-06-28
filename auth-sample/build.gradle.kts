@@ -1,6 +1,7 @@
 @file:Suppress("UnstableApiUsage")
 
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import org.jetbrains.kotlin.fir.declarations.builder.buildField
 
 plugins {
     `android-application`
@@ -70,6 +71,10 @@ android {
     }
     kapt {
         correctErrorTypes = true
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 }
 dependencies {
