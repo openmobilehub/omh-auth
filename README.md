@@ -12,9 +12,9 @@ With the OMH Auth Client Library, you can easily add Google Sign in and other th
 For instance, the following screenshots showcase multiple devices with Android, both with GMS and Non-GMS. The same app works without changing a single line of code, supporting multiple map provider implementations (Google Maps and OpenStreetMap).
 <div align="center">
 
-| Non-GMS</br>Kindle Fire HD 10 Kids | Non-GMS</br>Pixel 6 Pro | Non-GMS Device</br>Huawei P60     | GMS</br>Pixel 6 |
-| ----------------------- | --------------------- | ----------- | ------------ |
-| <img src="https://github.com/openmobilehub/omh-maps/assets/1755383/3e6a2ba5-cc02-46d1-afae-80eb2120055f">  | <img src="https://github.com/openmobilehub/omh-maps/assets/1755383/83d99377-6d80-4565-a1c1-c5a142128186"> | <img src="https://github.com/openmobilehub/omh-maps/assets/1755383/35357dc0-bde4-48d6-b8f8-979740cffca1"> |   <img src="https://github.com/openmobilehub/omh-auth/assets/32938335/7d345ac3-b7b9-49b4-8044-6c115df992ad">     |
+| Non-GMS</br>Pixel 6 | GMS</br>Pixel 6 |
+| ----------------------- | ------------ |
+| <img src="https://github.com/openmobilehub/omh-maps/assets/32938335/633fd287-e1f6-440f-9f0e-5a274f0c8227"> | <img src="https://github.com/openmobilehub/omh-auth/assets/32938335/7d345ac3-b7b9-49b4-8044-6c115df992ad"> |
 
 </div>
 
