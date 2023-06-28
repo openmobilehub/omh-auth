@@ -201,9 +201,6 @@ see [OMH Core Docs](https://github.com/openmobilehub/omh-core/tree/release/1.0).
       is `com.openmobilehub.android:auth-api-non-gms:1.0`.
    **Note:** nongms build covers only Non-GMS configurations.
 
-   In your "auth-starter-sample" module-level `build.gradle` file add the following code at the end
-   of the file.
-
 3. Save and [sync Project with Gradle Files](https://developer.android.com/studio/build#sync-files).
 4. Now you can select a build variant. To change the build variant Android Studio uses, do one of
    the following:
