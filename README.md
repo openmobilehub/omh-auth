@@ -206,7 +206,7 @@ and Non-GMS configurations.
 **Note:** nongms build covers only Non-GMS configurations.
 
 3. Save and [sync Project with Gradle Files](https://developer.android.com/studio/build#sync-files).
-4. Rebuild the project to ensure the availability of BuildConfig.AUTH_GMS_PATH and BuildConfig.AUTH_NON_GMS_PATH variables.
+4. Rebuild the project to ensure the availability of `BuildConfig.AUTH_GMS_PATH` and `BuildConfig.AUTH_NON_GMS_PATH` variables.
 5. Now you can select a build variant. To change the build variant Android Studio uses, do one of
    the following:
     - Select "Build" > "Select Build Variant..." in the menu.
@@ -261,7 +261,7 @@ If no user is found, then we should request a login intent which will redirect t
 provider's auth screen, be it the Google SignIn UI or a custom tab that redirects the user to
 Google's Auth page. This should be used to start an activity for result ( The snippet below uses the
 latest method of doing so, but it's the same as
-using `startActivityForResult(Intent intent, int code)`. In the `LoginActivity.kt`, add the following code as an instance variable.
+using `startActivityForResult(Intent intent, int code)`. In the `LoginActivity.kt`, add the following code as an instance variable:
 
 ```kotlin
 private val loginLauncher: ActivityResultLauncher<Intent> =
@@ -299,7 +299,7 @@ interface to interact with async functionalities and subscribe to the success or
 cancel a running OMH task a cancellable token is provided after the `execute()` function is called.
 This can be stored in the `CancellableCollector` class similar to the `CompositeDisposable` in
 RxJava. The sign-out action will removes any and all relevant data to the user from the application
-storage. In the `LoggedInActivity.kt`, add the following code to the the `logout` function:
+storage. In the `LoggedInActivity.kt`, add the following code to the `logout` function:
 
 ```kotlin
 val cancellable = omhAuthClient.signOut()
