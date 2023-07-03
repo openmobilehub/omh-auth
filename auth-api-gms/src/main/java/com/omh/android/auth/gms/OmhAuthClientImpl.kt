@@ -60,7 +60,6 @@ internal class OmhAuthClientImpl(
             return account.toOmhProfile()
         } catch (apiException: ApiException) {
             val isRunningOnNonGms = !OmhAuthUtils.isGmsDevice(googleSignInClient.applicationContext)
-            Log.d("Anton TAG", "isRunningOnNonGms: $isRunningOnNonGms")
             val omhException: OmhAuthException = toOmhLoginException(
                 apiException = apiException,
                 isNonGmsDevice = isRunningOnNonGms
