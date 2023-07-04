@@ -9,9 +9,6 @@ object OmhAuthUtils {
     @JvmStatic
     fun isGmsDevice(context: Context): Boolean {
         val googleApiAvailability = GoogleApiAvailability.getInstance()
-        return when (googleApiAvailability.isGooglePlayServicesAvailable(context)) {
-            ConnectionResult.SUCCESS -> true
-            else -> false
-        }
+        return googleApiAvailability.isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS
     }
 }
