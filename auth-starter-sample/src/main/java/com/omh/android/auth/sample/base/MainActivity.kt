@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun selectStartDestination(): Int {
-        return if (authClient.getUser() == null) {
+        return if (/* TODO: Validate here if there was a previous login */) {
             R.id.login_fragment
         } else {
             R.id.logged_in_fragment

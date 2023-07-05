@@ -58,11 +58,7 @@ class LoggedInFragment : Fragment() {
     }
 
     private fun revokeToken() {
-        val cancellable = omhAuthClient.revokeToken()
-            .addOnFailure(::showErrorDialog)
-            .addOnSuccess { navigateToLogin() }
-            .execute()
-        cancellableCollector.addCancellable(cancellable)
+        // TODO: Add here the revoke token function
     }
 
     private fun getToken() = lifecycleScope.launch(Dispatchers.IO) {
@@ -92,11 +88,7 @@ class LoggedInFragment : Fragment() {
     }
 
     private fun logout() {
-        val cancellable = omhAuthClient.signOut()
-            .addOnSuccess { navigateToLogin() }
-            .addOnFailure(::showErrorDialog)
-            .execute()
-        cancellableCollector.addCancellable(cancellable)
+        // TODO: add here the logout logic
     }
 
     private fun showErrorDialog(exception: Throwable) {

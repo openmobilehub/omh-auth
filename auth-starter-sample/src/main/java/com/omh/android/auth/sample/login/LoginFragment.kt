@@ -51,8 +51,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun startLogin() {
-        val loginIntent = omhAuthClient.getLoginIntent()
-        loginLauncher.launch(loginIntent)
+        // TODO: Add here the code to initiate login
     }
 
     private fun navigateToLoggedIn() {
@@ -60,12 +59,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun handleLoginResult(result: ActivityResult) {
-        try {
-            omhAuthClient.getAccountFromIntent(result.data)
-            navigateToLoggedIn()
-        } catch (exception: OmhAuthException) {
-            handleException(exception)
-        }
+        // TODO: Add here the logic to handle the login result
     }
 
     private fun handleException(exception: OmhAuthException) {

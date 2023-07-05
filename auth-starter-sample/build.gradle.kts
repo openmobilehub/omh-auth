@@ -1,7 +1,6 @@
 @file:Suppress("UnstableApiUsage")
 
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
-import org.jetbrains.kotlin.fir.declarations.builder.buildField
 
 plugins {
     `android-application`
@@ -9,33 +8,6 @@ plugins {
     id("com.google.dagger.hilt.android") version "2.44" apply true
     id("com.openmobilehub.android.omh-core")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
-}
-
-omhConfig {
-    bundle("singleBuild") {
-        auth {
-            gmsService {
-                dependency = "com.openmobilehub.android:auth-api-gms:1.0"
-            }
-            nonGmsService {
-                dependency = "com.openmobilehub.android:auth-api-non-gms:1.0"
-            }
-        }
-    }
-    bundle("gms") {
-        auth {
-            gmsService {
-                dependency = "com.openmobilehub.android:auth-api-gms:1.0"
-            }
-        }
-    }
-    bundle("nongms") {
-        auth {
-            nonGmsService {
-                dependency = "com.openmobilehub.android:auth-api-non-gms:1.0"
-            }
-        }
-    }
 }
 
 android {

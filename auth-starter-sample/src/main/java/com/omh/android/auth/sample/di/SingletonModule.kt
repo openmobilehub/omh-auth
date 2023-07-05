@@ -15,14 +15,6 @@ import dagger.hilt.components.SingletonComponent
 object SingletonModule {
     @Provides
     fun providesOmhAuthClient(@ApplicationContext context: Context): OmhAuthClient {
-        val omhAuthProvider = OmhAuthProvider.Builder()
-            .addNonGmsPath(BuildConfig.AUTH_NON_GMS_PATH)
-            .addGmsPath(BuildConfig.AUTH_GMS_PATH)
-            .build()
-        return omhAuthProvider.provideAuthClient(
-            scopes = listOf("openid", "email", "profile"),
-            clientId = BuildConfig.CLIENT_ID,
-            context = context
-        )
+        // TODO: Add the code to provide the OMH Auth Client
     }
 }
