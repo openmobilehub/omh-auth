@@ -17,7 +17,7 @@ consistent auth experience.
 
 For instance, the following screenshots showcase multiple devices with Android, both with GMS and
 Non-GMS. The same app works without changing a single line of code, supporting multiple map provider
-implementations (Google Maps and OpenStreetMap).
+implementations.
 <div align="center">
 
 | Non-GMS</br>Pixel 6 | GMS</br>Pixel 6 |
