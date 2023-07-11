@@ -331,7 +331,7 @@ functions, [Docs](https://openmobilehub.github.io/omh-auth).
 
 # Provider Implementations / Plugins
 
-OMH Maps SDK is open-source, promoting community collaboration and plugin support from other map providers to enhance capabilities and expand supported map services. More details can be found at [the wiki](https://github.com/openmobilehub/omh-auth/wiki/Creating-a-custom-implementation).
+OMH Auth SDK is open-source, promoting community collaboration and plugin support from other auth providers to enhance capabilities and expand supported auth services. More details can be found at [the wiki](https://github.com/openmobilehub/omh-auth/wiki/Creating-a-custom-implementation).
 
 # Contributing
 
