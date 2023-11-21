@@ -14,12 +14,19 @@
  * limitations under the License.
  */
 
-package com.omh.android.auth.nongms.utils.lifecycle
+package com.omh.android.auth.api.utils
 
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.LifecycleOwner
+import android.os.Looper
 
-internal fun interface LifecycleRunnable {
-    fun run(source: LifecycleOwner, event: Lifecycle.Event, observer: LifecycleEventObserver)
+object ThreadUtils {
+
+    private val isOnMainThread: Boolean
+        get() = Looper.myLooper() == Looper.getMainLooper()
+
+
+    fun checkForMainThread() {
+        if (isOnMainThread) {
+            error("Running blocking function on main thread.")
+        }
+    }
 }

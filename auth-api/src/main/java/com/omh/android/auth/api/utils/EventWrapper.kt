@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.omh.android.auth.nongms.utils
+package com.omh.android.auth.api.utils
 
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
@@ -23,7 +23,7 @@ import kotlin.contracts.contract
  * Handy event wrapper for events with Observables (like LiveData) to avoid reacting once it has been
  * handled.
  */
-internal class EventWrapper<T>(private val content: T) {
+class EventWrapper<T>(private val content: T) {
     var hasBeenHandled: Boolean = false
 
     /**
@@ -48,7 +48,7 @@ internal class EventWrapper<T>(private val content: T) {
 }
 
 @OptIn(ExperimentalContracts::class)
-internal fun EventWrapper<*>?.nullOrHandled(): Boolean {
+fun EventWrapper<*>?.nullOrHandled(): Boolean {
     contract {
         returns(false) implies (this@nullOrHandled != null)
     }

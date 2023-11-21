@@ -27,7 +27,7 @@ import com.omh.android.auth.nongms.domain.auth.AuthUseCase
 import com.omh.android.auth.nongms.domain.models.ApiResult
 import com.omh.android.auth.nongms.domain.models.OAuthTokens
 import com.omh.android.auth.nongms.domain.user.ProfileUseCase
-import com.omh.android.auth.nongms.utils.EventWrapper
+import com.omh.android.auth.api.utils.EventWrapper
 import kotlinx.coroutines.launch
 
 internal class RedirectViewModel(

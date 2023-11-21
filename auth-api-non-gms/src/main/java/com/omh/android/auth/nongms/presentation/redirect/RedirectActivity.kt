@@ -33,9 +33,9 @@ import com.omh.android.auth.nongms.domain.models.ApiResult
 import com.omh.android.auth.nongms.domain.models.OAuthTokens
 import com.omh.android.auth.nongms.factories.ViewModelFactory
 import com.omh.android.auth.nongms.utils.Constants
-import com.omh.android.auth.nongms.utils.EventWrapper
-import com.omh.android.auth.nongms.utils.lifecycle.LifecycleUtil
-import com.omh.android.auth.nongms.utils.nullOrHandled
+import com.omh.android.auth.api.utils.EventWrapper
+import com.omh.android.auth.api.utils.lifecycle.LifecycleUtil
+import com.omh.android.auth.api.utils.nullOrHandled
 
 internal class RedirectActivity : AppCompatActivity() {
 

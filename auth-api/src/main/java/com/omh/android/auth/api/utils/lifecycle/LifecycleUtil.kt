@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.omh.android.auth.nongms.utils.lifecycle
+package com.omh.android.auth.api.utils.lifecycle
 
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 
-internal object LifecycleUtil {
+object LifecycleUtil {
 
     /**
      * Allows you to run a lambda on the next step of the lifecycle of a Fragment or an Activity

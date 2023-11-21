@@ -17,9 +17,9 @@
 package com.omh.android.auth.nongms.presentation
 
 import com.omh.android.auth.api.OmhCredentials
+import com.omh.android.auth.api.utils.ThreadUtils
 import com.omh.android.auth.nongms.domain.auth.AuthUseCase
 import com.omh.android.auth.nongms.domain.models.ApiResult
-import com.omh.android.auth.nongms.utils.ThreadUtils
 import kotlinx.coroutines.runBlocking
 
 internal class OmhCredentialsImpl(
