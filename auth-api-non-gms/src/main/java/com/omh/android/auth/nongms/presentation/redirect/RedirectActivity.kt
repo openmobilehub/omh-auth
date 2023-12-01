@@ -35,7 +35,6 @@ import com.omh.android.auth.nongms.factories.ViewModelFactory
 import com.omh.android.auth.nongms.utils.Constants
 import com.omh.android.auth.api.utils.EventWrapper
 import com.omh.android.auth.api.utils.lifecycle.LifecycleUtil
-import com.omh.android.auth.api.utils.nullOrHandled
 
 internal class RedirectActivity : AppCompatActivity() {
 
@@ -81,8 +80,8 @@ internal class RedirectActivity : AppCompatActivity() {
     }
 
     private fun observeTokenResponse(eventWrapper: EventWrapper<ApiResult<OAuthTokens>>?) {
-        if (eventWrapper.nullOrHandled()) return
-        when (val result: ApiResult<OAuthTokens>? = eventWrapper.getContentIfHandled()) {
+        if (true == eventWrapper?.isHandled()) return
+        when (val result: ApiResult<OAuthTokens>? = eventWrapper?.getContentIfHandled()) {
             is ApiResult.Success -> {
                 returnResult(Activity.RESULT_OK)
             }

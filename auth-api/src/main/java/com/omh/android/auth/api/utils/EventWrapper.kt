@@ -16,15 +16,13 @@
 
 package com.omh.android.auth.api.utils
 
-import kotlin.contracts.ExperimentalContracts
-import kotlin.contracts.contract
-
 /**
  * Handy event wrapper for events with Observables (like LiveData) to avoid reacting once it has been
  * handled.
  */
 class EventWrapper<T>(private val content: T) {
-    var hasBeenHandled: Boolean = false
+
+    private var hasBeenHandled: Boolean = false
 
     /**
      * Extracts the content if not handled and marks it as handled.
@@ -45,12 +43,11 @@ class EventWrapper<T>(private val content: T) {
     fun peekContent(): T {
         return content
     }
-}
 
-@OptIn(ExperimentalContracts::class)
-fun EventWrapper<*>?.nullOrHandled(): Boolean {
-    contract {
-        returns(false) implies (this@nullOrHandled != null)
+    /**
+     * Returns true if the EventWrapper's content had been handled.
+     */
+    fun isHandled(): Boolean {
+        return hasBeenHandled
     }
-    return this == null || hasBeenHandled
 }
