@@ -14,32 +14,28 @@
  * limitations under the License.
  */
 
-package com.omh.android.auth.nongms.presentation.redirect
+package com.omh.android.auth.mobileweb.presentation.redirect
 
 import android.app.Activity
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsIntent
 import com.omh.android.auth.api.models.OmhAuthException
 import com.omh.android.auth.api.models.OmhAuthStatusCodes
-import com.omh.android.auth.nongms.databinding.ActivityRedirectBinding
-import com.omh.android.auth.nongms.factories.ViewModelFactory
-import com.omh.android.auth.nongms.utils.Constants
 import com.omh.android.auth.api.utils.EventWrapper
 import com.omh.android.auth.api.utils.lifecycle.LifecycleUtil
+import com.omh.android.auth.mobileweb.databinding.ActivityRedirectBinding
 import com.omh.android.auth.mobileweb.domain.models.ApiResult
 import com.omh.android.auth.mobileweb.domain.models.OAuthTokens
-import com.omh.android.auth.mobileweb.presentation.redirect.RedirectViewModel
+import com.omh.android.auth.mobileweb.utils.Constants
 
-internal class RedirectActivity : AppCompatActivity() {
+abstract class RedirectActivity : AppCompatActivity() {
 
-    private val viewModel: RedirectViewModel by viewModels { ViewModelFactory() }
+    protected abstract val viewModel: RedirectViewModel
 
     private val binding: ActivityRedirectBinding by lazy {
         ActivityRedirectBinding.inflate(LayoutInflater.from(this))
@@ -123,31 +119,7 @@ internal class RedirectActivity : AppCompatActivity() {
         tabsLauncher.launch(customTabsIntent.intent)
     }
 
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
-        caughtRedirect = true
-        val data: Uri? = intent?.data
-        val authCode = data?.getQueryParameter("code")
-        val error = data?.getQueryParameter("error")
-        if (authCode == null) {
-            handleLoginError(error)
-            return
-        }
-        viewModel.requestTokens(authCode, packageName, clientId)
-    }
-
-    private fun handleLoginError(error: String?) {
-        val code = when (error) {
-            ACCESS_DENIED_RESPONSE -> OmhAuthStatusCodes.ACCESS_DENIED
-            else -> OmhAuthStatusCodes.DEFAULT_ERROR
-        }
-        returnResult(
-            result = RESULT_CANCELED,
-            exception = OmhAuthException.RecoverableLoginException(code)
-        )
-    }
-
-    private fun returnResult(result: Int, exception: OmhAuthException? = null) {
+    protected open fun returnResult(result: Int, exception: OmhAuthException? = null) {
         val intent = Intent()
         if (result == Activity.RESULT_CANCELED) {
             intent.putExtra(Constants.CAUSE_KEY, exception)
@@ -159,6 +131,5 @@ internal class RedirectActivity : AppCompatActivity() {
     companion object {
         const val SCOPES = "scopes"
         const val CLIENT_ID = "client_id"
-        const val ACCESS_DENIED_RESPONSE = "access_denied"
     }
 }

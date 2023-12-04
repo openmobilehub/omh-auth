@@ -18,5 +18,6 @@ dependencyResolutionManagement {
 rootProject.name = "OMH Auth"
 include(":auth-api")
 include(":auth-sample")
+include(":auth-api-mobileweb")
 include(":auth-api-non-gms")
 include(":auth-api-gms")

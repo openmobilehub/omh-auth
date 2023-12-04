@@ -20,11 +20,11 @@ import android.content.SharedPreferences
 import android.net.Uri
 import androidx.core.content.edit
 import androidx.core.net.toUri
+import com.omh.android.auth.mobileweb.data.login.datasource.AuthDataSource
+import com.omh.android.auth.mobileweb.data.login.models.AuthTokenResponse
+import com.omh.android.auth.mobileweb.domain.models.ApiResult
 import com.omh.android.auth.nongms.data.login.GoogleAuthREST
-import com.omh.android.auth.nongms.data.login.models.AuthTokenResponse
-import com.omh.android.auth.nongms.domain.models.ApiResult
 import com.omh.android.auth.nongms.utils.Constants
-import retrofit2.Response
 
 internal class GoogleAuthDataSource(
     private val authService: GoogleAuthREST,
@@ -92,7 +92,7 @@ internal class GoogleAuthDataSource(
         return authService.refreshToken(clientId, refreshToken)
     }
 
-    override suspend fun revokeToken(token: String): ApiResult<Unit> {
+    override suspend fun revokeToken(clientId: String?, token: String): ApiResult<Unit> {
         return (authService.revokeToken(token))
     }
 

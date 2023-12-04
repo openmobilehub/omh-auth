@@ -17,12 +17,12 @@
 package com.omh.android.auth.nongms.repositories
 
 import android.net.Uri
+import com.omh.android.auth.mobileweb.data.login.datasource.AuthDataSource
+import com.omh.android.auth.mobileweb.data.login.models.AuthTokenResponse
+import com.omh.android.auth.mobileweb.domain.auth.AuthRepository
+import com.omh.android.auth.mobileweb.domain.models.ApiResult
+import com.omh.android.auth.mobileweb.domain.models.OAuthTokens
 import com.omh.android.auth.nongms.data.login.AuthRepositoryImpl
-import com.omh.android.auth.nongms.data.login.datasource.AuthDataSource
-import com.omh.android.auth.nongms.data.login.models.AuthTokenResponse
-import com.omh.android.auth.nongms.domain.auth.AuthRepository
-import com.omh.android.auth.nongms.domain.models.ApiResult
-import com.omh.android.auth.nongms.domain.models.OAuthTokens
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -154,7 +154,7 @@ internal class AuthRepositoryTest {
         val accessToken = "access token"
 
         every { googleAuthDataSource.getToken(any()) } returns accessToken
-        coEvery { googleAuthDataSource.revokeToken(any()) } returns ApiResult.Success(Unit)
+        coEvery { googleAuthDataSource.revokeToken(any(), any()) } returns ApiResult.Success(Unit)
 
         val result: ApiResult<Unit> = authRepository.revokeToken()
         assert(result is ApiResult.Success<*>)

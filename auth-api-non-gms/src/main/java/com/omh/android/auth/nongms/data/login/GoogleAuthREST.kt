@@ -16,10 +16,8 @@
 
 package com.omh.android.auth.nongms.data.login
 
-import com.omh.android.auth.nongms.data.login.models.AuthTokenResponse
-import com.omh.android.auth.nongms.data.utils.retrofit.ApiResultCall
-import com.omh.android.auth.nongms.domain.models.ApiResult
-import retrofit2.Response
+import com.omh.android.auth.mobileweb.data.login.models.AuthTokenResponse
+import com.omh.android.auth.mobileweb.domain.models.ApiResult
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST

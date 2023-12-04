@@ -18,19 +18,18 @@ package com.omh.android.auth.nongms.presentation
 
 import android.content.Context
 import android.content.Intent
-import com.omh.android.auth.nongms.data.user.UserRepositoryImpl
-import com.omh.android.auth.nongms.domain.user.ProfileUseCase
-import com.omh.android.auth.nongms.presentation.redirect.RedirectActivity
 import com.omh.android.auth.api.OmhAuthClient
 import com.omh.android.auth.api.async.OmhTask
 import com.omh.android.auth.api.models.OmhAuthException
-import com.omh.android.auth.api.models.OmhAuthStatusCodes
 import com.omh.android.auth.api.models.OmhUserProfile
+import com.omh.android.auth.mobileweb.domain.auth.AuthUseCase
+import com.omh.android.auth.mobileweb.domain.models.ApiResult
+import com.omh.android.auth.mobileweb.domain.user.ProfileUseCase
+import com.omh.android.auth.mobileweb.presentation.OmhNonGmsTask
 import com.omh.android.auth.nongms.data.login.AuthRepositoryImpl
-import com.omh.android.auth.nongms.domain.auth.AuthUseCase
-import com.omh.android.auth.nongms.domain.models.ApiResult
+import com.omh.android.auth.nongms.data.user.UserRepositoryImpl
+import com.omh.android.auth.nongms.presentation.redirect.RedirectActivity
 import com.omh.android.auth.nongms.utils.Constants
-import kotlin.jvm.Throws
 
 /**
  * Non GMS implementation of the OmhAuthClient abstraction. Required a clientId and defined scopes as
@@ -39,7 +38,7 @@ import kotlin.jvm.Throws
 internal class OmhAuthClientImpl(
     private val clientId: String,
     private val scopes: String,
-    context: Context
+    context: Context,
 ) : OmhAuthClient {
 
     private val applicationContext: Context
@@ -94,7 +93,7 @@ internal class OmhAuthClientImpl(
             throw exception
         }
         return getUser() ?: throw OmhAuthException.UnrecoverableLoginException(
-            cause = Throwable(message = "No user profile stored")
+            cause = Throwable(message = "No user profile stored"),
         )
     }
 

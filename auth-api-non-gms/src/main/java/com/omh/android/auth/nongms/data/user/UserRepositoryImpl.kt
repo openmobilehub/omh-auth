@@ -18,11 +18,11 @@ package com.omh.android.auth.nongms.data.user
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.omh.android.auth.nongms.data.user.datasource.GoogleUserDataSource
-import com.omh.android.auth.nongms.data.user.datasource.UserDataSource
-import com.omh.android.auth.nongms.data.utils.getEncryptedSharedPrefs
-import com.omh.android.auth.nongms.domain.user.UserRepository
 import com.omh.android.auth.api.models.OmhUserProfile
+import com.omh.android.auth.mobileweb.data.user.datasource.UserDataSource
+import com.omh.android.auth.mobileweb.domain.user.UserRepository
+import com.omh.android.auth.nongms.data.user.datasource.GoogleUserDataSource
+import com.omh.android.auth.nongms.data.utils.getEncryptedSharedPrefs
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

@@ -18,15 +18,17 @@ package com.omh.android.auth.nongms.data.user.datasource
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import com.omh.android.auth.nongms.utils.Constants
-import com.omh.android.auth.api.models.OmhUserProfile
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier
 import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.client.json.gson.GsonFactory
+import com.omh.android.auth.api.models.OmhUserProfile
+import com.omh.android.auth.mobileweb.data.user.datasource.UserDataSource
+import com.omh.android.auth.nongms.utils.Constants
 import java.util.Collections
 
-internal class GoogleUserDataSource(private val sharedPreferences: SharedPreferences) : UserDataSource {
+internal class GoogleUserDataSource(private val sharedPreferences: SharedPreferences) :
+    UserDataSource {
 
     /**
      * Handles the ID token returned from the Google Auth Provider. This uses the googleapis lib
@@ -40,7 +42,7 @@ internal class GoogleUserDataSource(private val sharedPreferences: SharedPrefere
     override suspend fun handleIdToken(idToken: String, clientId: String) {
         val verifier = GoogleIdTokenVerifier.Builder(
             NetHttpTransport.Builder().build(),
-            GsonFactory.getDefaultInstance()
+            GsonFactory.getDefaultInstance(),
         )
             // Specify the CLIENT_ID of the app that accesses the backend:
             .setAudience(Collections.singletonList(clientId))
@@ -82,7 +84,7 @@ internal class GoogleUserDataSource(private val sharedPreferences: SharedPrefere
             name = name,
             surname = surname,
             email = email,
-            profileImage = picture
+            profileImage = picture,
         )
     }
 }

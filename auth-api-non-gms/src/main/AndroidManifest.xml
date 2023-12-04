@@ -31,8 +31,9 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:path="/oauth2redirect"
-                    android:scheme="${applicationId}" />
+                    android:pathPrefix="/redirect"
+                    android:host="auth.oauth2.openmobilehub.org"
+                    android:scheme="https" />
             </intent-filter>
         </activity>
     </application>

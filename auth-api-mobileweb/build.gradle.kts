@@ -3,24 +3,15 @@ plugins {
 }
 
 android {
-    namespace = "com.omh.android.auth.nongms"
+    namespace = "com.omh.android.auth.mobileweb"
 
     viewBinding {
         enable = true
-    }
-
-    defaultConfig {
-        buildConfigField(
-            type = "String",
-            name = "G_AUTH_URL",
-            value = getPropertyOrFail("googleAuthUrl")
-        )
     }
 }
 
 dependencies {
     api(project(":auth-api"))
-    implementation(project(":auth-api-mobileweb"))
 
     // KTX
     implementation(Libs.coreKtx)
@@ -41,12 +32,6 @@ dependencies {
 
     // Custom tabs
     implementation(Libs.customTabs)
-
-    // Encrypted Shared Prefs and ID token resolution
-    implementation(Libs.androidSecurity)
-    implementation(Libs.googleApiClient) {
-        exclude("org.apache.httpcomponents")
-    }
 
     implementation(Libs.androidAppCompat)
     implementation(Libs.material)
