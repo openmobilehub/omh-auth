@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.omh.android.auth.nongms.domain.utils
+package com.omh.android.auth.api.domain.utils
 
-internal interface Pkce {
+interface Pkce {
     val codeVerifier: String
 
     fun generateCodeChallenge(): String

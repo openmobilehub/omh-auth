@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.omh.android.auth.nongms.domain.utils
+package com.omh.android.auth.api.domain.utils
 
 import android.util.Base64
 import java.security.MessageDigest
 import java.security.SecureRandom
 
-internal class PkceImpl : Pkce {
+class PkceImpl : Pkce {
 
     override val codeVerifier: String = generateCodeVerifier()
 
