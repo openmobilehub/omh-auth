@@ -16,6 +16,10 @@ android {
             value = getPropertyOrFail("googleAuthUrl")
         )
     }
+
+    sourceSets {
+        getByName("test").java.srcDir("../testShared/src/test/java")
+    }
 }
 
 dependencies {
@@ -42,8 +46,7 @@ dependencies {
     // Custom tabs
     implementation(Libs.customTabs)
 
-    // Encrypted Shared Prefs and ID token resolution
-    implementation(Libs.androidSecurity)
+    // ID token resolution
     implementation(Libs.googleApiClient) {
         exclude("org.apache.httpcomponents")
     }
@@ -53,7 +56,9 @@ dependencies {
 
     // Test dependencies
     testImplementation(Libs.junit)
-    androidTestImplementation(Libs.androidJunit)
+    testImplementation(Libs.androidJunit)
     testImplementation(Libs.mockk)
     testImplementation(Libs.coroutineTesting)
+    testImplementation(Libs.robolectric)
+    testImplementation(Libs.androidSecurity)
 }

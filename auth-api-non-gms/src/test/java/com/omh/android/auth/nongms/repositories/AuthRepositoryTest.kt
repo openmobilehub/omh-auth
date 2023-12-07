@@ -18,11 +18,11 @@ package com.omh.android.auth.nongms.repositories
 
 import android.net.Uri
 import com.omh.android.auth.mobileweb.data.login.datasource.AuthDataSource
-import com.omh.android.auth.mobileweb.data.login.models.AuthTokenResponse
 import com.omh.android.auth.mobileweb.domain.auth.AuthRepository
 import com.omh.android.auth.mobileweb.domain.models.ApiResult
 import com.omh.android.auth.mobileweb.domain.models.OAuthTokens
 import com.omh.android.auth.nongms.data.login.AuthRepositoryImpl
+import com.omh.android.auth.nongms.data.login.models.AuthTokenResponse
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -38,7 +38,7 @@ import org.junit.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class AuthRepositoryTest {
 
-    private val googleAuthDataSource = mockk<AuthDataSource>() {
+    private val googleAuthDataSource = mockk<AuthDataSource<AuthTokenResponse>>() {
         every { storeToken(any(), any()) } returns Unit
     }
 
@@ -63,7 +63,7 @@ internal class AuthRepositoryTest {
             val expectedResult = OAuthTokens(
                 accessToken = authTokenResponse.accessToken,
                 refreshToken = authTokenResponse.refreshToken!!,
-                idToken = authTokenResponse.idToken
+                idToken = authTokenResponse.idToken,
             )
 
             coEvery {
@@ -71,7 +71,7 @@ internal class AuthRepositoryTest {
                     clientId = any(),
                     authCode = any(),
                     redirectUri = any(),
-                    codeVerifier = any()
+                    codeVerifier = any(),
                 )
             } returns expectedResponse
 
@@ -79,16 +79,16 @@ internal class AuthRepositoryTest {
                 clientId = clientId,
                 authCode = authCode,
                 redirectUri = redirectUri,
-                codeVerifier = codeVerifier
+                codeVerifier = codeVerifier,
             )
             coVerify {
                 googleAuthDataSource.storeToken(
                     tokenType = AuthDataSource.ACCESS_TOKEN,
-                    token = mAccessToken
+                    token = mAccessToken,
                 )
                 googleAuthDataSource.storeToken(
                     tokenType = AuthDataSource.REFRESH_TOKEN,
-                    token = mRefreshToken
+                    token = mRefreshToken,
                 )
             }
             assertEquals(result.extractResult(), expectedResult)
@@ -152,21 +152,23 @@ internal class AuthRepositoryTest {
     fun `GIVEN access token WHEN token revoke requested, THEN token revoked`() = runTest {
         val authRepository = createAuthRepository()
         val accessToken = "access token"
+        val clientId = "12345"
 
         every { googleAuthDataSource.getToken(any()) } returns accessToken
         coEvery { googleAuthDataSource.revokeToken(any(), any()) } returns ApiResult.Success(Unit)
 
-        val result: ApiResult<Unit> = authRepository.revokeToken()
+        val result: ApiResult<Unit> = authRepository.revokeToken(clientId)
         assert(result is ApiResult.Success<*>)
     }
 
     @Test
     fun `GIVEN no access token WHEN token revoke requested, THEN exception thrown`() = runTest {
         val authRepository = createAuthRepository()
+        val clientId = "12345"
 
         every { googleAuthDataSource.getToken(any()) } returns null
 
-        val result: ApiResult<Unit> = authRepository.revokeToken()
+        val result: ApiResult<Unit> = authRepository.revokeToken(clientId)
         assert(result is ApiResult.Error.RuntimeError)
     }
 

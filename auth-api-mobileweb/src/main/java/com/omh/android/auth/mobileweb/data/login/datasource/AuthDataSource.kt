@@ -17,11 +17,10 @@
 package com.omh.android.auth.mobileweb.data.login.datasource
 
 import android.net.Uri
-import com.omh.android.auth.mobileweb.data.login.models.AuthTokenResponse
 import com.omh.android.auth.mobileweb.domain.models.ApiResult
 import retrofit2.Response
 
-interface AuthDataSource {
+interface AuthDataSource<AuthTokenResponseType> {
 
     /**
      * Requests the token from the auth provider REST services. This can return HTTP errors.
@@ -36,7 +35,7 @@ interface AuthDataSource {
         authCode: String,
         redirectUri: String,
         codeVerifier: String
-    ): ApiResult<AuthTokenResponse>
+    ): ApiResult<AuthTokenResponseType>
 
     /**
      * Builds the login URL for the Custom Tabs screen. If the login is successful, an auth code
@@ -78,7 +77,7 @@ interface AuthDataSource {
      *
      * @return a [Response] with the [AuthTokenResponse]
      */
-    suspend fun refreshAccessToken(clientId: String): ApiResult<AuthTokenResponse>
+    suspend fun refreshAccessToken(clientId: String): ApiResult<AuthTokenResponseType>
 
     /**
      * Indicates the auth provider that the token should be revoked. When logging out, this step is
@@ -86,7 +85,7 @@ interface AuthDataSource {
      *
      * @param token -> token to revoke.
      */
-    suspend fun revokeToken(clientId: String? = null, token: String): ApiResult<Unit>
+    suspend fun revokeToken(clientId: String, token: String): ApiResult<Unit>
 
     /**
      * Clears all local data of the user, including any stored tokens.

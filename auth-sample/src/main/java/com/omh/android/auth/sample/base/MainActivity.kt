@@ -25,6 +25,10 @@ import androidx.navigation.ui.setupWithNavController
 import com.omh.android.auth.api.OmhAuthClient
 import com.omh.android.auth.sample.R
 import com.omh.android.auth.sample.databinding.ActivityMainBinding
+import com.omh.android.auth.sample.di.BoxAuthClient
+import com.omh.android.auth.sample.di.DropboxAuthClient
+import com.omh.android.auth.sample.di.GoogleAuthClient
+import com.omh.android.auth.sample.di.MsLiveAuthClient
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -37,7 +41,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     @Inject
-    lateinit var authClient: OmhAuthClient
+    @GoogleAuthClient
+    lateinit var googleAuthClient: OmhAuthClient
+
+    @Inject
+    @BoxAuthClient
+    lateinit var boxAuthClient: OmhAuthClient
+
+    @Inject
+    @MsLiveAuthClient
+    lateinit var msLiveAuthClient: OmhAuthClient
+
+    @Inject
+    @DropboxAuthClient
+    lateinit var dropboxAuthClient: OmhAuthClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,13 +80,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupToolbar() {
         val appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.logged_in_fragment, R.id.login_fragment)
+            setOf(R.id.logged_in_fragment, R.id.login_fragment),
         )
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
     }
 
     private fun selectStartDestination(): Int {
-        return if (authClient.getUser() == null) {
+        return if (boxAuthClient.getUser() == null ||
+            msLiveAuthClient.getUser() == null ||
+            dropboxAuthClient.getUser() == null ||
+            googleAuthClient.getUser() == null
+        ) {
             R.id.login_fragment
         } else {
             R.id.logged_in_fragment

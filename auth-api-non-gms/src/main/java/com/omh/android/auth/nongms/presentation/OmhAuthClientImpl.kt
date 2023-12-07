@@ -26,10 +26,10 @@ import com.omh.android.auth.mobileweb.domain.auth.AuthUseCase
 import com.omh.android.auth.mobileweb.domain.models.ApiResult
 import com.omh.android.auth.mobileweb.domain.user.ProfileUseCase
 import com.omh.android.auth.mobileweb.presentation.OmhNonGmsTask
+import com.omh.android.auth.mobileweb.presentation.redirect.RedirectActivity
+import com.omh.android.auth.mobileweb.utils.Constants
 import com.omh.android.auth.nongms.data.login.AuthRepositoryImpl
 import com.omh.android.auth.nongms.data.user.UserRepositoryImpl
-import com.omh.android.auth.nongms.presentation.redirect.RedirectActivity
-import com.omh.android.auth.nongms.utils.Constants
 
 /**
  * Non GMS implementation of the OmhAuthClient abstraction. Required a clientId and defined scopes as
@@ -48,7 +48,10 @@ internal class OmhAuthClientImpl(
     }
 
     override fun getLoginIntent(): Intent {
-        return Intent(applicationContext, RedirectActivity::class.java)
+        return Intent(
+            applicationContext,
+            com.omh.android.auth.nongms.presentation.redirect.RedirectActivity::class.java
+        )
             .putExtra(RedirectActivity.CLIENT_ID, clientId)
             .putExtra(RedirectActivity.SCOPES, scopes)
     }
@@ -101,7 +104,7 @@ internal class OmhAuthClientImpl(
         val authRepository = AuthRepositoryImpl.getAuthRepository(applicationContext)
         val authUseCase = AuthUseCase.createAuthUseCase(authRepository)
         return OmhNonGmsTask {
-            val apiResult: ApiResult<Unit> = authUseCase.revokeToken()
+            val apiResult: ApiResult<Unit> = authUseCase.revokeToken(clientId)
             return@OmhNonGmsTask apiResult.extractResult()
         }
     }

@@ -31,7 +31,7 @@ class AuthUseCase(
             scopes = scopes,
             clientId = clientId,
             codeChallenge = pkce.generateCodeChallenge(),
-            redirectUri = REDIRECT_FORMAT.format(packageName)
+            redirectUri = authRepository.formatRedirectUriFrom(packageName)
         )
     }
 
@@ -43,7 +43,7 @@ class AuthUseCase(
         return authRepository.requestTokens(
             clientId = clientId,
             authCode = authCode,
-            redirectUri = REDIRECT_FORMAT.format(packageName),
+            redirectUri = authRepository.formatRedirectUriFrom(packageName),
             codeVerifier = pkce.codeVerifier
         )
     }
@@ -56,8 +56,8 @@ class AuthUseCase(
 
     fun logout() = authRepository.clearData()
 
-    suspend fun revokeToken(): ApiResult<Unit> {
-        val result = authRepository.revokeToken()
+    suspend fun revokeToken(clientId: String): ApiResult<Unit> {
+        val result = authRepository.revokeToken(clientId)
         if (result is ApiResult.Success<*>) {
             authRepository.clearData()
         }
@@ -65,8 +65,6 @@ class AuthUseCase(
     }
 
     companion object {
-        const val REDIRECT_FORMAT = "%s:/oauth2redirect"
-
         fun createAuthUseCase(authRepository: AuthRepository): AuthUseCase {
             return AuthUseCase(authRepository, PkceImpl())
         }

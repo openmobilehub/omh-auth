@@ -18,4 +18,6 @@ package com.omh.android.auth.mobileweb.utils
 
 object Constants {
     const val CAUSE_KEY = "cause"
+    const val SHARED_PREFS_TOKEN_FORMAT = "token_storage_%s"
+    const val NONCE_BYTE_LENGTH = 32
 }

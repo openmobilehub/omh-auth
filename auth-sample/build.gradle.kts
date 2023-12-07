@@ -14,24 +14,24 @@ omhConfig {
     bundle("singleBuild") {
         auth {
             gmsService {
-                dependency = "com.openmobilehub.android:auth-api-gms:1.0.1-beta"
+                dependency = "com.openmobilehub.android:auth-api-gms:1.0.2-beta"
             }
             nonGmsService {
-                dependency = "com.openmobilehub.android:auth-api-non-gms:1.0.1-beta"
+                dependency = "com.openmobilehub.android:auth-api-non-gms:1.0.2-beta"
             }
         }
     }
     bundle("gms") {
         auth {
             gmsService {
-                dependency = "com.openmobilehub.android:auth-api-gms:1.0.1-beta"
+                dependency = "com.openmobilehub.android:auth-api-gms:1.0.2-beta"
             }
         }
     }
     bundle("nongms") {
         auth {
             nonGmsService {
-                dependency = "com.openmobilehub.android:auth-api-non-gms:1.0.1-beta"
+                dependency = "com.openmobilehub.android:auth-api-non-gms:1.0.2-beta"
             }
         }
     }
@@ -50,6 +50,14 @@ android {
     namespace = "com.omh.android.auth.sample"
 
     buildTypes {
+        debug {
+            isMinifyEnabled = false
+            isShrinkResources = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
         release {
             signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = true
@@ -73,6 +81,9 @@ android {
     }
 }
 dependencies {
+    implementation("com.openmobilehub.android:auth-api-box:1.0.2-beta")
+    implementation("com.openmobilehub.android:auth-api-mslive:1.0.2-beta")
+    implementation("com.openmobilehub.android:auth-api-dropbox:1.0.2-beta")
     implementation(Libs.googleApiClientAndroid)
 
     implementation(Libs.coreKtx)

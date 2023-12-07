@@ -33,12 +33,15 @@ dependencies {
     // Custom tabs
     implementation(Libs.customTabs)
 
+    // Encrypted Shared Prefs
+    implementation(Libs.androidSecurity)
+
     implementation(Libs.androidAppCompat)
     implementation(Libs.material)
 
     // Test dependencies
     testImplementation(Libs.junit)
-    androidTestImplementation(Libs.androidJunit)
+    testImplementation(Libs.androidJunit)
     testImplementation(Libs.mockk)
     testImplementation(Libs.coroutineTesting)
 }

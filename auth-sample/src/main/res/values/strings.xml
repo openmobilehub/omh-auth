@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">OMH Auth demo</string>
     <string name="login">Login</string>
+    <string name="google_login">Google Login</string>
+    <string name="box_login">Box Login</string>
+    <string name="dropbox_login">Dropbox Login</string>
+    <string name="mslive_login">Microsoft Live Login</string>
     <string name="revoke_token">Revoke token</string>
     <string name="logout">Logout</string>
     <string name="refresh">Refresh</string>
@@ -9,4 +13,5 @@
     <string name="email_placeholder"><b>Email:</b> %s</string>
     <string name="token_placeholder"><b>Token:</b> %s</string>
     <string name="home">Home</string>
+    <string name="com.omh.android.auth.box.oauth2.redirect" translatable="false">https://auth.oauth2.openmobilehub.org/redirect</string>
 </resources>

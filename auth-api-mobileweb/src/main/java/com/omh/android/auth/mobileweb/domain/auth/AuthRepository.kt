@@ -21,6 +21,10 @@ import com.omh.android.auth.mobileweb.domain.models.OAuthTokens
 
 interface AuthRepository {
 
+    companion object {
+        const val REDIRECT_FORMAT = "%s:/oauth2redirect"
+    }
+
     /**
      * Requests OAuth tokens from the auth provider.
      *
@@ -71,10 +75,24 @@ interface AuthRepository {
     /**
      * Revokes the access token of the user from the auth provider.
      */
-    suspend fun revokeToken(clientId: String? = null): ApiResult<Unit>
+    suspend fun revokeToken(clientId: String): ApiResult<Unit>
 
     /**
      * Clears all local data of the user, including stored tokens.
      */
     fun clearData()
+
+    /**
+     * Formats redirect URI from given packageName. Implementation may override this for customized
+     * behaviour.
+     *
+     * @param packageName app package name
+     *
+     * @return redirect URI. Default is ${packageName}:/oauth2redirect
+     *
+     * @see [REDIRECT_FORMAT]
+     */
+    fun formatRedirectUriFrom(packageName: String): String {
+        return REDIRECT_FORMAT.format(packageName)
+    }
 }

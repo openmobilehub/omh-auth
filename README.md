@@ -87,8 +87,17 @@ see [Gradle properties](https://developer.android.com/studio/build#properties-fi
 [files](https://developer.android.com/studio/build#properties-files).
 
 1. Open the `local.properties` in your project level directory, and then add the following code.
-   Replace `YOUR_CLIENT_ID` with your API key.
-   `CLIENT_ID=YOUR_CLIENT_ID`
+   Replace `YOUR_GOOGLE_CLIENT_ID` with your Google API key, `YOUR_BOX_CLIENT_ID` and `YOUR_BOX_CLIENT_SECRET`
+   with your Box API key and secret, `YOUR_DROPBOX_CLIENT_ID` with your Dropbox API key, and
+   `YOUR_MSLIVE_CLIENT_ID` with your Microsoft API key.
+```properties
+GOOGLE_CLIENT_ID=YOUR_GOOGLE_CLIENT_ID
+BOX_CLIENT_ID=YOUR_BOX_CLIENT_ID
+BOX_CLIENT_SECRET=YOUR_BOX_CLIENT_SECRET
+MSLIVE_CLIENT_ID=YOUR_MSLIVE_CLIENT_ID
+```
+   If you don't have the corresponding API key/secret, you still need to put `DISABLED` for the
+   value for the project to compile. The app will disable the buttons having API keys with value `DISABLED`.
 2. Save the
    fileand [sync your project with Gradle](https://developer.android.com/studio/build#sync-files).
 

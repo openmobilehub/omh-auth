@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
+    <string name="com.omh.android.auth.mslive.oauth2.redirect.scheme" translatable="false">omh</string>
+    <string name="com.omh.android.auth.mslive.oauth2.redirect.host" translatable="false">auth.oauth2.mslive</string>
+    <string name="com.omh.android.auth.mslive.oauth2.redirect.pathPrefix" translatable="false">/redirect</string>
+</resources>

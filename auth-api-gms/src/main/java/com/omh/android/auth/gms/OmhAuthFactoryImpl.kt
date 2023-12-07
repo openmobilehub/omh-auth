@@ -39,5 +39,4 @@ internal object OmhAuthFactoryImpl : OmhAuthFactory {
         val client: GoogleSignInClient = GoogleSignIn.getClient(context, gsoBuilder.build())
         return OmhAuthClientImpl(client)
     }
-
 }

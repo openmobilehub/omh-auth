@@ -31,9 +31,9 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:pathPrefix="/redirect"
-                    android:host="auth.oauth2.openmobilehub.org"
-                    android:scheme="https" />
+                    android:pathPrefix="@string/com.omh.android.auth.nongms.oauth2.redirect.pathPrefix"
+                    android:host="@string/com.omh.android.auth.nongms.oauth2.redirect.host"
+                    android:scheme="@string/com.omh.android.auth.nongms.oauth2.redirect.scheme" />
             </intent-filter>
         </activity>
     </application>

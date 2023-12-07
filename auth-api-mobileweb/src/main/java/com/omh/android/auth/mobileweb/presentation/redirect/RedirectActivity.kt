@@ -37,19 +37,19 @@ abstract class RedirectActivity : AppCompatActivity() {
 
     protected abstract val viewModel: RedirectViewModel
 
-    private val binding: ActivityRedirectBinding by lazy {
+    protected val binding: ActivityRedirectBinding by lazy {
         ActivityRedirectBinding.inflate(LayoutInflater.from(this))
     }
 
-    private var caughtRedirect = false
-    private var clientId: String = ""
+    protected var caughtRedirect = false
+    protected var clientId: String = ""
 
-    private val tabsLauncher: ActivityResultLauncher<Intent> =
+    protected val tabsLauncher: ActivityResultLauncher<Intent> =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             handleCustomTabsClosed()
         }
 
-    private fun handleCustomTabsClosed() {
+    protected open fun handleCustomTabsClosed() {
         LifecycleUtil.runOnResume(lifecycle = lifecycle, owner = this) {
             if (!caughtRedirect) {
                 returnResult(
@@ -76,7 +76,7 @@ abstract class RedirectActivity : AppCompatActivity() {
         viewModel.tokenResponseEvent.observe(this, this::observeTokenResponse)
     }
 
-    private fun observeTokenResponse(eventWrapper: EventWrapper<ApiResult<OAuthTokens>>?) {
+    protected open fun observeTokenResponse(eventWrapper: EventWrapper<ApiResult<OAuthTokens>>?) {
         if (true == eventWrapper?.isHandled()) return
         when (val result: ApiResult<OAuthTokens>? = eventWrapper?.getContentIfHandled()) {
             is ApiResult.Success -> {
@@ -102,7 +102,7 @@ abstract class RedirectActivity : AppCompatActivity() {
         }
     }
 
-    private fun openCustomTabLogin() {
+    protected open fun openCustomTabLogin() {
         val scopes = intent.getStringExtra(SCOPES)
         if (scopes.isNullOrEmpty() || packageName.isNullOrEmpty()) {
             returnResult(
@@ -120,7 +120,7 @@ abstract class RedirectActivity : AppCompatActivity() {
     }
 
     protected open fun returnResult(result: Int, exception: OmhAuthException? = null) {
-        val intent = Intent()
+        val intent = Intent().putExtra("provider", providerShortName)
         if (result == Activity.RESULT_CANCELED) {
             intent.putExtra(Constants.CAUSE_KEY, exception)
         }
@@ -128,8 +128,23 @@ abstract class RedirectActivity : AppCompatActivity() {
         finish()
     }
 
+    protected open fun handleLoginError(error: String?) {
+        val code = when (error) {
+            ACCESS_DENIED_RESPONSE -> OmhAuthStatusCodes.ACCESS_DENIED
+            else -> OmhAuthStatusCodes.DEFAULT_ERROR
+        }
+        returnResult(
+            result = RESULT_CANCELED,
+            exception = OmhAuthException.RecoverableLoginException(code),
+        )
+    }
+
+
+    protected abstract val providerShortName: String
+
     companion object {
         const val SCOPES = "scopes"
         const val CLIENT_ID = "client_id"
+        const val ACCESS_DENIED_RESPONSE = "access_denied"
     }
 }
