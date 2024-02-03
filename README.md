@@ -337,6 +337,10 @@ Please contribute! We will gladly review any pull requests. Make sure to read
 the [CONTRIBUTING](https://github.com/openmobilehub/omh-auth/blob/main/CONTRIBUTING.md) page first
 though.
 
+## Governance
+
+For details on our project's governance model and how decisions are made, please see our [Governance Policy](https://github.com/openmobilehub/admin/blob/main/GOVERNANCE.md).
+
 # License
 
 ```
