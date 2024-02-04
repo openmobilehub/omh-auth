@@ -31,17 +31,35 @@ import com.omh.android.auth.api.OmhCredentials
 import com.omh.android.auth.api.async.CancellableCollector
 import com.omh.android.auth.sample.R
 import com.omh.android.auth.sample.databinding.FragmentLoggedInBinding
+import com.omh.android.auth.sample.di.BoxAuthClient
+import com.omh.android.auth.sample.di.DropboxAuthClient
+import com.omh.android.auth.sample.di.GoogleAuthClient
+import com.omh.android.auth.sample.di.MsLiveAuthClient
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.lang.IllegalArgumentException
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LoggedInFragment : Fragment() {
 
     @Inject
-    lateinit var omhAuthClient: OmhAuthClient
+    @GoogleAuthClient
+    lateinit var googleAuthClient: OmhAuthClient
+
+    @Inject
+    @BoxAuthClient
+    lateinit var boxAuthClient: OmhAuthClient
+
+    @Inject
+    @MsLiveAuthClient
+    lateinit var msLiveAuthClient: OmhAuthClient
+
+    @Inject
+    @DropboxAuthClient
+    lateinit var dropboxAuthClient: OmhAuthClient
 
     private var binding: FragmentLoggedInBinding? = null
 
@@ -50,7 +68,7 @@ class LoggedInFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentLoggedInBinding.inflate(inflater, container, false)
         return binding!!.root
@@ -62,7 +80,7 @@ class LoggedInFragment : Fragment() {
     }
 
     private fun setupUI() {
-        val profile = requireNotNull(omhAuthClient.getUser())
+        val profile = requireNotNull(selectOmhAuthClient().getUser())
         binding?.run {
             btnLogout.setOnClickListener { logout() }
             btnRefresh.setOnClickListener { refreshToken() }
@@ -74,7 +92,7 @@ class LoggedInFragment : Fragment() {
     }
 
     private fun revokeToken() {
-        val cancellable = omhAuthClient.revokeToken()
+        val cancellable = selectOmhAuthClient().revokeToken()
             .addOnFailure(::showErrorDialog)
             .addOnSuccess { navigateToLogin() }
             .execute()
@@ -82,7 +100,7 @@ class LoggedInFragment : Fragment() {
     }
 
     private fun getToken() = lifecycleScope.launch(Dispatchers.IO) {
-        val token = when (val credentials = omhAuthClient.getCredentials()) {
+        val token = when (val credentials = selectOmhAuthClient().getCredentials()) {
             is OmhCredentials -> credentials.accessToken
             is GoogleAccountCredential -> {
                 requestGoogleToken(credentials)
@@ -108,7 +126,7 @@ class LoggedInFragment : Fragment() {
     }
 
     private fun logout() {
-        val cancellable = omhAuthClient.signOut()
+        val cancellable = selectOmhAuthClient().signOut()
             .addOnSuccess { navigateToLogin() }
             .addOnFailure(::showErrorDialog)
             .execute()
@@ -127,7 +145,7 @@ class LoggedInFragment : Fragment() {
     }
 
     private fun refreshToken() = lifecycleScope.launch(Dispatchers.IO) {
-        val newToken = when (val credentials = omhAuthClient.getCredentials()) {
+        val newToken = when (val credentials = selectOmhAuthClient().getCredentials()) {
             is OmhCredentials -> credentials.blockingRefreshToken()
             is GoogleAccountCredential -> requestGoogleToken(credentials)
             else -> error("Unsupported credential type")
@@ -140,6 +158,16 @@ class LoggedInFragment : Fragment() {
 
     private fun navigateToLogin() {
         findNavController().navigate(R.id.action_logged_in_fragment_to_login_fragment)
+    }
+
+    private fun selectOmhAuthClient(): OmhAuthClient {
+        return when (arguments?.getString("provider")) {
+            "mslive" -> msLiveAuthClient
+            "dropbox" -> dropboxAuthClient
+            "box" -> boxAuthClient
+            "google" -> googleAuthClient
+            else -> throw IllegalArgumentException("Unsupported provider")
+        }
     }
 
     override fun onDestroy() {

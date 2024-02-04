@@ -17,18 +17,18 @@
 package com.omh.android.auth.nongms.repositories
 
 import com.omh.android.auth.api.models.OmhUserProfile
+import com.omh.android.auth.mobileweb.data.user.datasource.UserDataSource
+import com.omh.android.auth.mobileweb.domain.user.UserRepository
 import com.omh.android.auth.nongms.data.user.UserRepositoryImpl
-import com.omh.android.auth.nongms.data.user.datasource.UserDataSource
-import com.omh.android.auth.nongms.domain.user.UserRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
-import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)

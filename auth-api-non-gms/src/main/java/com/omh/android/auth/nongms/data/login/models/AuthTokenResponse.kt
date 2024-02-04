@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 @Keep
 @JsonIgnoreProperties(ignoreUnknown = true)
-internal class AuthTokenResponse(
+class AuthTokenResponse(
     @JsonProperty("access_token")
     val accessToken: String,
     @JsonProperty("token_type")

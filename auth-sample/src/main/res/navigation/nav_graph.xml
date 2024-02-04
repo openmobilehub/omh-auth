@@ -38,6 +38,7 @@
         android:label="@string/home"
         android:name="com.omh.android.auth.sample.loggedin.LoggedInFragment"
         tools:layout="@layout/fragment_logged_in">
+        <argument app:argType="string" android:name="provider" app:nullable="false" />
         <action
             android:id="@+id/action_logged_in_fragment_to_login_fragment"
             app:destination="@id/login_fragment"

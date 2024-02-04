@@ -18,20 +18,21 @@ package com.omh.android.auth.nongms.data.login
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.omh.android.auth.nongms.data.utils.GoogleRetrofitImpl
-import com.omh.android.auth.nongms.data.login.datasource.AuthDataSource
+import com.omh.android.auth.mobileweb.data.login.datasource.AuthDataSource
+import com.omh.android.auth.mobileweb.data.utils.getEncryptedSharedPrefs
+import com.omh.android.auth.mobileweb.domain.auth.AuthRepository
+import com.omh.android.auth.mobileweb.domain.models.ApiResult
+import com.omh.android.auth.mobileweb.domain.models.OAuthTokens
 import com.omh.android.auth.nongms.data.login.datasource.GoogleAuthDataSource
 import com.omh.android.auth.nongms.data.login.models.AuthTokenResponse
-import com.omh.android.auth.nongms.data.utils.getEncryptedSharedPrefs
-import com.omh.android.auth.nongms.domain.auth.AuthRepository
-import com.omh.android.auth.nongms.domain.models.ApiResult
-import com.omh.android.auth.nongms.domain.models.OAuthTokens
+import com.omh.android.auth.nongms.data.utils.GoogleRetrofitImpl
+import com.omh.android.auth.nongms.utils.Constants
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 internal class AuthRepositoryImpl(
-    private val googleAuthDataSource: AuthDataSource,
+    private val googleAuthDataSource: AuthDataSource<AuthTokenResponse>,
     private val ioDispatcher: CoroutineDispatcher,
 ) : AuthRepository {
 
@@ -39,28 +40,28 @@ internal class AuthRepositoryImpl(
         clientId: String,
         authCode: String,
         redirectUri: String,
-        codeVerifier: String
+        codeVerifier: String,
     ): ApiResult<OAuthTokens> = withContext(ioDispatcher) {
         val result: ApiResult<AuthTokenResponse> = googleAuthDataSource.getToken(
             clientId = clientId,
             authCode = authCode,
             redirectUri = redirectUri,
-            codeVerifier = codeVerifier
+            codeVerifier = codeVerifier,
         )
 
         result.map { data: AuthTokenResponse ->
             googleAuthDataSource.storeToken(
                 tokenType = AuthDataSource.ACCESS_TOKEN,
-                token = data.accessToken
+                token = data.accessToken,
             )
             googleAuthDataSource.storeToken(
                 tokenType = AuthDataSource.REFRESH_TOKEN,
-                token = checkNotNull(data.refreshToken)
+                token = checkNotNull(data.refreshToken),
             )
             OAuthTokens(
                 accessToken = data.accessToken,
                 refreshToken = checkNotNull(data.refreshToken),
-                idToken = data.idToken
+                idToken = data.idToken,
             )
         }
     }
@@ -69,13 +70,13 @@ internal class AuthRepositoryImpl(
         scopes: String,
         clientId: String,
         codeChallenge: String,
-        redirectUri: String
+        redirectUri: String,
     ): String {
         return googleAuthDataSource.buildLoginUrl(
             scopes = scopes,
             clientId = clientId,
             codeChallenge = codeChallenge,
-            redirectUri = redirectUri
+            redirectUri = redirectUri,
         ).toString()
     }
 
@@ -84,7 +85,7 @@ internal class AuthRepositoryImpl(
     }
 
     override suspend fun refreshAccessToken(
-        clientId: String
+        clientId: String,
     ): ApiResult<String> = withContext(ioDispatcher) {
         googleAuthDataSource.refreshAccessToken(clientId).map { data: AuthTokenResponse ->
             googleAuthDataSource.storeToken(AuthDataSource.ACCESS_TOKEN, data.accessToken)
@@ -92,14 +93,14 @@ internal class AuthRepositoryImpl(
         }
     }
 
-    override suspend fun revokeToken(): ApiResult<Unit> = withContext(ioDispatcher) {
+    override suspend fun revokeToken(clientId: String): ApiResult<Unit> = withContext(ioDispatcher) {
         val accessToken = googleAuthDataSource.getToken(AuthDataSource.ACCESS_TOKEN)
         if (accessToken == null) {
             val noTokenException = IllegalStateException("No token stored")
             return@withContext ApiResult.Error.RuntimeError(noTokenException)
         }
 
-        return@withContext googleAuthDataSource.revokeToken(accessToken)
+        return@withContext googleAuthDataSource.revokeToken(clientId, accessToken)
     }
 
     override fun clearData() {
@@ -116,10 +117,10 @@ internal class AuthRepositoryImpl(
         ): AuthRepository {
             if (authRepository == null) {
                 val authService: GoogleAuthREST = GoogleRetrofitImpl.instance.googleAuthREST
-                val sharedPreferences: SharedPreferences = getEncryptedSharedPrefs(context)
-                val googleAuthDataSource: AuthDataSource = GoogleAuthDataSource(
+                val sharedPreferences: SharedPreferences = getEncryptedSharedPrefs(context, Constants.PROVIDER_GOOGLE)
+                val googleAuthDataSource: AuthDataSource<AuthTokenResponse> = GoogleAuthDataSource(
                     authService = authService,
-                    sharedPreferences = sharedPreferences
+                    sharedPreferences = sharedPreferences,
                 )
                 authRepository = AuthRepositoryImpl(googleAuthDataSource, ioDispatcher)
             }

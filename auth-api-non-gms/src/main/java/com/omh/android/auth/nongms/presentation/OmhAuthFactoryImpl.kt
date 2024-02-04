@@ -21,9 +21,10 @@ import androidx.annotation.Keep
 import com.omh.android.auth.api.OmhAuthClient
 import com.omh.android.auth.api.OmhAuthFactory
 import com.omh.android.auth.api.OmhCredentials
+import com.omh.android.auth.mobileweb.domain.auth.AuthRepository
+import com.omh.android.auth.mobileweb.domain.auth.AuthUseCase
+import com.omh.android.auth.mobileweb.presentation.OmhCredentialsImpl
 import com.omh.android.auth.nongms.data.login.AuthRepositoryImpl
-import com.omh.android.auth.nongms.domain.auth.AuthRepository
-import com.omh.android.auth.nongms.domain.auth.AuthUseCase
 
 @Keep
 internal object OmhAuthFactoryImpl : OmhAuthFactory {
