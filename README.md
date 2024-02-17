@@ -1,6 +1,12 @@
 [![GitHub license](https://img.shields.io/github/license/openmobilehub/omh-auth)](https://github.com/openmobilehub/omh-auth/blob/main/LICENSE)
+[![Discord](https://img.shields.io/discord/1115727214827278446)](https://discord.gg/X8QB9DJXX6)
 ![GitHub contributors](https://img.shields.io/github/contributors/openmobilehub/omh-auth)
 [![API](https://img.shields.io/badge/API-23%2B-green.svg?style=flat)](https://developer.android.com/studio/releases/platforms#6.0)
+
+[![Publish Auth API](https://github.com/openmobilehub/omh-auth/actions/workflows/publish_auth_api.yml/badge.svg)](https://github.com/openmobilehub/omh-auth/actions/workflows/publish_auth_api.yml)
+[![Publish Auth API Google Maps Implementation](https://github.com/openmobilehub/omh-auth/actions/workflows/publish_auth_api_gms.yml/badge.svg)](https://github.com/openmobilehub/omh-auth/actions/workflows/publish_auth_api_gms.yml)
+[![Publish Auth API OpenStreetMap Implementation](https://github.com/openmobilehub/omh-auth/actions/workflows/publish_auth_api_ngms.yml/badge.svg)](https://github.com/openmobilehub/omh-auth/actions/workflows/publish_auth_api_ngms.yml)
+
 
 # OMH Auth Client Library
 
