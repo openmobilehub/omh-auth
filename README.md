@@ -3,7 +3,7 @@
 ![GitHub contributors](https://img.shields.io/github/contributors/openmobilehub/omh-auth)
 [![API](https://img.shields.io/badge/API-23%2B-green.svg?style=flat)](https://developer.android.com/studio/releases/platforms#6.0)
 
-[![Publish Auth API](https://github.com/openmobilehub/omh-auth/actions/workflows/publish_auth_api.yml/badge.svg)](https://github.com/openmobilehub/omh-auth/actions/workflows/publish_auth_api.yml)
+[![Publish Auth API](https://github.com/openmobilehub/omh-auth/actions/workflows/publish_auth_api.yml/badge.svg?event=release)](https://github.com/openmobilehub/omh-auth/actions/workflows/publish_auth_api.yml)
 [![Publish Auth API Google Maps Implementation](https://github.com/openmobilehub/omh-auth/actions/workflows/publish_auth_api_gms.yml/badge.svg)](https://github.com/openmobilehub/omh-auth/actions/workflows/publish_auth_api_gms.yml)
 [![Publish Auth API OpenStreetMap Implementation](https://github.com/openmobilehub/omh-auth/actions/workflows/publish_auth_api_ngms.yml/badge.svg)](https://github.com/openmobilehub/omh-auth/actions/workflows/publish_auth_api_ngms.yml)
 
