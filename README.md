@@ -2,7 +2,11 @@
 ![GitHub contributors](https://img.shields.io/github/contributors/openmobilehub/omh-auth)
 [![API](https://img.shields.io/badge/API-23%2B-green.svg?style=flat)](https://developer.android.com/studio/releases/platforms#6.0)
 
-# OMH Auth Client Library
+# OMH Auth 1.0 Client Library
+
+> **Note:** This repository will be deprecated in August 2024. Developers should use the following repositories:
+> - [OMH 2.0 Auth Android Native repo](https://github.com/openmobilehub/android-omh-auth)
+> - [OMH 2.0 Auth React Native repo](https://github.com/openmobilehub/react-native-omh-auth)
 
 ## Overview
 
